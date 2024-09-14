@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+header{
+    text-align: center;
+    background-color: #fea614;
+    padding: 40px;
+    box-shadow: 10px 10px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+main div{
+    display: flex;
+    justify-content: space-around;
+}
+
+main div button{
+    background-color: #fdd384;
+    border-radius: 20px;
+    width: 200px;
+    height: 70px;
+}
