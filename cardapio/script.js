@@ -8,13 +8,23 @@ async function formarProduto(){
         headers:headers,
     })
 
+
     const ItensCardapio = await cardapio.json()
-    const main = document.querySelector("main")
+    const items = document.querySelector("#items")
     console.log(ItensCardapio,"response await")
     console.log(ItensCardapio)
-    ItensCardapio.results.forEach(async(item,index)=>{
-        main.insertAdjacentHTML("beforeend",`
-            <li >
+    ItensCardapio.forEach(async(item,index)=>{
+        items.insertAdjacentHTML("beforeend",`
+            <li>
+             <ul class="menu">
+            <li>
+                <p class="item-name">${item.titulo}</p>
+                <p class="item-desc">${item.descricao}</p>
+                <p class="item-price">R$${item.preco}</p>
+                <button class="add-item">+</button>
+            </li>
+           
+        </ul>
             `)}
         )
 

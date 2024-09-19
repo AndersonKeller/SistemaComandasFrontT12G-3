@@ -1,0 +1,111 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    list-style: none;
+}
+
+body {
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+button.add {
+    background-color: #ff9900;
+    color: #fff;
+}
+
+button.edit {
+    background-color: #666;
+    color: #fff;
+}
+
+button.back {
+    background-color: #ffcc00;
+    color: #fff;
+}
+
+ul.menu {
+    list-style-type: none;
+}
+
+ul.menu li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f5a623;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #fff;
+}
+
+ul.menu li p {
+    display: block;
+}
+
+.item-name {
+    text-align:right;
+    font-weight: bold;
+}
+
+.item-desc {
+    text-align: center;
+    font-size: 12px;
+    font-style: italic;
+    color: #fff;
+}
+
+.item-price {
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+}
+
+button.add-item {
+    border-radius: 50%;
+    /* background-color: #fff;
+    color: #f5a623;
+    border-radius: 50%;
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #f5a623;
+    cursor: pointer */}
