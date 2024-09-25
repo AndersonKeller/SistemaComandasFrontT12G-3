@@ -13,10 +13,11 @@ async function formarProduto(){
     const items = document.querySelector("#items")
     console.log(ItensCardapio,"response await")
     console.log(ItensCardapio)
+
     ItensCardapio.forEach(async(item,index)=>{
         items.insertAdjacentHTML("beforeend",`
-            <li>
-             <ul class="menu">
+         
+           
             <li>
                 <p class="item-name">${item.titulo}</p>
                 <p class="item-desc">${item.descricao}</p>
@@ -24,10 +25,8 @@ async function formarProduto(){
                 <button class="add-item">+</button>
             </li>
            
-        </ul>
+        
             `)}
         )
-
-
     }
 formarProduto()

@@ -12,7 +12,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+
 }
 
 .container {
@@ -47,6 +47,9 @@ button {
     cursor: pointer;
 }
 
+.add:hover,.edit:hover,.back:hover{
+    transform: scale(1.2);
+}
 button.add {
     background-color: #ff9900;
     color: #fff;
@@ -64,36 +67,39 @@ button.back {
 
 ul.menu {
     list-style-type: none;
+        padding: 12px
 }
 
 ul.menu li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 12px;
     background-color: #f5a623;
     border-radius: 5px;
     margin-bottom: 10px;
-    padding: 10px;
     color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start
 }
 
-ul.menu li p {
-    display: block;
-}
+
 
 .item-name {
-    text-align:right;
+   
+    text-align:left;
     font-weight: bold;
 }
 
 .item-desc {
+  
     text-align: center;
-    font-size: 12px;
+    font-size: 13px;
     font-style: italic;
-    color: #fff;
+    color: #000000;
 }
 
 .item-price {
+ 
     text-align: center;
     font-weight: bold;
     color: #fff;
