@@ -51,6 +51,7 @@ button {
     transform: scale(1.2);
 }
 button.add {
+    
     background-color: #ff9900;
     color: #fff;
 }
@@ -92,7 +93,7 @@ ul.menu li {
 
 .item-desc {
   
-    text-align: center;
+    text-align: left;
     font-size: 13px;
     font-style: italic;
     color: #000000;
@@ -107,11 +108,5 @@ ul.menu li {
 
 button.add-item {
     border-radius: 50%;
-    /* background-color: #fff;
-    color: #f5a623;
-    border-radius: 50%;
-    font-size: 20px;
-    width: 30px;
-    height: 30px;
-    border: 2px solid #f5a623;
-    cursor: pointer */}
+    align-self: end;
+}
