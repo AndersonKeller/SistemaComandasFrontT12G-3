@@ -1,24 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./style.css">
+    <title>Bar do Chinês</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Boteco do China</h1>
-    </header>
+    <header class="main-header">
 
-    <main>
-        <div>
-            <button onclick="">Cardápio</button>
-            <button onclick="">Comanda</button>
-            <button onclick="">Pedido Cozinha</button>
-            <button onclick="">Usuários</button>
-        </div>
-    </main>
+    </header>
+    
+    <div class="container">
+        <header>
+            <div class="user-icon">
+                <span>🥡</span>
+                <h1>Bar do Chinês</h1>
+            </div>
+            
+        </header>
+
+        <main>
+            <div class="menu-buttons">
+                <button class="menu-button" id="comandas">Comandas</button>
+                <button class="menu-button" id="usuarios">Usuários</button>
+                <button class="menu-button" id="pedidoCozinha">Pedido Cozinha</button>
+                <button class="menu-button" id="cardapio">Cardápio</button>
+            </div>
+        </main>
+
+        <footer>
+            <p>© Desenvolvido pelos Gurí</p>
+        </footer>
+    </div>
 
     <script src="./script.js"></script>
 </body>
