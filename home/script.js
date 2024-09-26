@@ -4,7 +4,7 @@ const pedidoCozinha = document.getElementById("pedidoCozinha")
 const cardapio = document.getElementById("cardapio")
 
 comandas.addEventListener("click", () => {
-    window.location.href =""
+    window.location.href ="/TELA_Comandas/index.html"
 })
 
 usuarios.addEventListener("click", () => {

@@ -4,7 +4,7 @@ const headers = {
 }
 
 async function formarComanda(){
-    const comanda = await fetch("https://localhost:7125/api/Comandas",{
+    const comanda = await fetch("https://localhost:7168/api/Comandas",{
         headers:headers,
     })
 
