@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
+    background-color: #101010;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,7 +48,7 @@ body {
 
 .action-btn {
     background-color: #FFD700;
-    border: 2px dashed #ff9a3f;
+    border: 2px dashed #a04c00;
     padding: 10px;
     border-radius: 10px;
     font-size: 16px;
@@ -60,6 +60,17 @@ body {
     align-items: center;
 }
 
+p{
+display: flex;
+gap: 48px;
+}
+
+.buttons :hover {
+    transition: 0.3s ease;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
 .orders {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -68,7 +79,7 @@ body {
 
 .order {
     background-color: #FFE4B5;
-    padding: 10px;
+    padding: 0px 12px 0px 12px;
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
