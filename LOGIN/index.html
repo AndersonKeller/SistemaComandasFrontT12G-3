@@ -1,40 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    
-    
+    <title>Login</title>
 </head>
 <body>
-    <main>
-        <div>
-            <h1>LOGIN</h1>
-        </div>
-
-        <div id="Usuario">
-
-            <a>Usuário:</a>
-            <input type="text">
-
-            <a>Senha:</a>
-            <input type="password">
-
-
-             <div id="quadradinho">
-                 <input type="checkbox">
-                 <a>Ocultar</a>
+    <div class="login-container">
+        <h2>LOGIN</h2>
+        <form>
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <div class="show-password">
+                <input type="checkbox" id="show-password">
+                <label for="show-password">Ocultar/Mostrar</label>
+                <a href="#">Esqueceu a senha?</a>
             </div>
-    
+            
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
 
-        </div>
-
-       
-    
-    
-    
-    </main>
+    <script src="./script.js"></script>
 </body>
 </html>
