@@ -1,49 +1,73 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap');
-
-
-*{
-    padding: 0;
-    font-family: "Arimo", sans-serif;
-}
-
-
-main{
+body {
     display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-content: space-around;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+    font-family: Arial, sans-serif;
 }
 
-h1{
-    background-color: rgb(196, 196, 196);
-    margin: 0%;
+.login-container {
+    width: 300px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h2 {
     text-align: center;
-    padding: 40px
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
-#Usuario{
-    background-color: rgb(196, 196, 196);
+form {
     display: flex;
-    flex-wrap: wrap;
     flex-direction: column;
-    align-content: space-around;  
-    width: 55vh;
-    height: 55vh;
-    
-    
 }
 
-input{
-    text-align: center;
-
+label {
+    margin-bottom: 5px;
+    font-size: 14px;
 }
 
-a{
-    padding-top: 50px ;
-    text-align: left;
+input[type="text"],
+input[type="password"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f0f0f0;
 }
 
-#quadradinho{
-    text-align: left ;
+.show-password {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.show-password input {
+    margin-right: 5px;
+}
+
+.show-password a {
+    margin-left: auto;
+    font-size: 12px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
 }
