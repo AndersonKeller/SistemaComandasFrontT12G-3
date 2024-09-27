@@ -8,7 +8,8 @@ async function formarProduto(){
         headers:headers,
     })
 
-
+    
+    const botaoVoltar = document.querySelector("back")
     const ItensCardapio = await cardapio.json()
     const items = document.querySelector("#items")
     console.log(ItensCardapio,"response await")
@@ -27,6 +28,18 @@ async function formarProduto(){
            
         
             `)}
-        )
+        )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+       
     }
+    
+    const botaoVoltar = document.querySelector(".back")
+    
+    botaoVoltar.addEventListener("click", ()=> {
+        window.location.href = "/home/index.html"
+    })
+
+
+
+
 formarProduto()
