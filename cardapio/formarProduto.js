@@ -4,9 +4,10 @@ const headers = {
 }
 
 export async function formarProduto(seletor){
-    const cardapio = await fetch("https://localhost:7125/api/CardapioItems",{
+    const cardapio = await fetch("https://localhost:7204/api/CardapioItems",{
         headers:headers
     })
+
 
 
     const ItensCardapio = await cardapio.json()
@@ -29,3 +30,15 @@ export async function formarProduto(seletor){
             `)}
         )
     }
+
+
+         const botaoVoltar = document.querySelector(".back")
+        
+        botaoVoltar.addEventListener("click", ()=> {
+        window.location.href ="/home/index.html"}
+    
+    )
+
+   
+
+
