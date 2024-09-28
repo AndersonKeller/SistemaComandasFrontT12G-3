@@ -26,6 +26,18 @@ form.addEventListener("submit",(e)=>{
     login()
 })
 
+const checkbox = document.getElementById("show-password");
+const senhaInput = document.getElementById("password");
+
+checkbox.addEventListener("change", function() {
+  if (this.checked) {
+    senhaInput.type = "text"; // Mostrar senha
+  } else {
+    senhaInput.type = "password"; // Ocultar senha
+  }
+});
+
+
 
 
 
