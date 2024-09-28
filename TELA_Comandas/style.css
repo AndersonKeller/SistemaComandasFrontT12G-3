@@ -20,20 +20,33 @@ body {
 }
 
 #novaComanda{
-    background-color: #FFD700;
+    background-color: #e38412;
     display: flex;
     text-align: left;
+
+}
+
+
+#novaComanda label{
+    color: rgb(120, 0, 0);
 }
 
 
 .modal{
-    background-color: white;
+    background-color: #e38412;
     align-items: center;
     justify-content: center;
-    padding: 5px;
-    border-radius: 3px;
-    
+    padding: 8px;
+    border-radius: 8px;
 }
+
+
+    
+
+
+
+
+
 
 #cardapio{
     height: 30vh;
@@ -78,6 +91,14 @@ body {
 #engrenagem{
     font-size: xx-small;
     margin: 5px 0px -10px -10px;
+    
+}
+
+
+.emogi :hover{
+    
+    transform: none;
+
 }
 
 .action-btn {
@@ -104,6 +125,8 @@ gap: 48px;
     transform: scale(1.1);
     cursor: pointer;
 }
+
+
 
 .orders {
     display: grid;

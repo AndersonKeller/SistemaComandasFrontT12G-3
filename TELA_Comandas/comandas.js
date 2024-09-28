@@ -44,8 +44,12 @@ async function criarComanda(){
                     <label>Mesa</label>
                     <input type="number">
                 </form>
+                
+                
             <ul id="cardapio" class="menu">
-            </ul>    
+            </ul>    <button class="action-btn">Finalizar comanda 
+                <span style="transform: none;">📌</span>
+                </button> 
             </div>
         </div>`)
 
