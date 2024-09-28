@@ -10,7 +10,7 @@ async function login(){
         senha: pass.value
     }
     // const user = {email:"teste@emaild.com",password:"1234"}
-    const res = await fetch("https://localhost:7168/api/Usuarios",{
+    const res = await fetch("https://localhost:7204/api/Usuarios",{
         method:"POST",
         body: JSON.stringify(user),
         headers: headers
@@ -25,6 +25,18 @@ form.addEventListener("submit",(e)=>{
     e.preventDefault()
     login()
 })
+
+const checkbox = document.getElementById("show-password");
+const senhaInput = document.getElementById("password");
+
+checkbox.addEventListener("change", function() {
+  if (this.checked) {
+    senhaInput.type = "text"; // Mostrar senha
+  } else {
+    senhaInput.type = "password"; // Ocultar senha
+  }
+});
+
 
 
 
