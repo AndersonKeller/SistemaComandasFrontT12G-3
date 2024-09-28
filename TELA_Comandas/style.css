@@ -8,7 +8,53 @@ body {
     margin: 0;
 }
 
-.container {
+
+.wapper{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(32 32 32 / 51%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#novaComanda{
+    background-color: #e38412;
+    display: flex;
+    text-align: left;
+
+}
+
+
+#novaComanda label{
+    color: rgb(120, 0, 0);
+}
+
+
+.modal{
+    background-color: #e38412;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+
+    
+
+
+
+
+
+
+#cardapio{
+    height: 30vh;
+    overflow-y: auto;
+}
+
+
+.containerComanda {
     background-color: #FFA500;
     padding: 20px;
     border-radius: 10px;
@@ -26,6 +72,7 @@ body {
 
 .header h1 {
     margin: 0;
+    color: violet
 }
 
 .close-btn {
@@ -44,6 +91,14 @@ body {
 #engrenagem{
     font-size: xx-small;
     margin: 5px 0px -10px -10px;
+    
+}
+
+
+.emogi :hover{
+    
+    transform: none;
+
 }
 
 .action-btn {
@@ -71,6 +126,8 @@ gap: 48px;
     cursor: pointer;
 }
 
+
+
 .orders {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -79,7 +136,7 @@ gap: 48px;
 
 .order {
     background-color: #FFE4B5;
-    padding: 0px 12px 0px 12px;
+    padding: 12px;
     border-radius: 5px;
     display: flex;
     justify-content: space-between;

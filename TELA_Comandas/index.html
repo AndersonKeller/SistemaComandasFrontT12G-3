@@ -5,23 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comandas</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../cardapio/style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="containerComanda">
         <div class="header">
             <h1>Comandas</h1>
-            <button class="close-btn">×</button>
+            <button class="close-btn">x</button>
         </div>
         <div class="buttons">
-            <button class="action-btn">Criar nova comanda <span>➕</span></button>
-            <button class="action-btn">Editar comanda <span>⚙️</span><span id="engrenagem">⚙️</span></button>
-            <button class="action-btn">Finalizar comanda <span>📌</span></button>
+            <button id="criar" class="action-btn">Criar nova comanda 
+                <span style="transform: none;">➕</span>
+            </button>
+            
+            <button class="action-btn">Editar comanda 
+                <span style="transform: none;">⚙️</span>
+                <span style="transform: none;" id="engrenagem">⚙️</span>
+            </button>
+            
+            <button class="action-btn">Finalizar comanda 
+                <span style="transform: none;">📌</span>
+            </button>
         </div>
         <div class="orders">
-            
+
+        
         </div>
     </div>
 
-    <script src="comandas.js"></script>
+    <script type="module" src="comandas.js"></script>
 </body>
 </html>
