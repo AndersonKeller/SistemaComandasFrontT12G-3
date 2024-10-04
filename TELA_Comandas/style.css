@@ -8,6 +8,11 @@ body {
     margin: 0;
 }
 
+#titulo_telas{
+    padding: 40px;
+    color: aqua;
+}
+
 
 .wapper{
     position: fixed;
@@ -19,10 +24,16 @@ body {
     justify-content: center;
 }
 
+#input_criar_comanda{
+    height: 15px
+}
+
 #novaComanda{
     background-color: #e38412;
     display: flex;
     text-align: left;
+    flex-direction: row-reverse;
+    position: relative;
 
 }
 
@@ -36,17 +47,10 @@ body {
     background-color: #e38412;
     align-items: center;
     justify-content: center;
-    padding: 8px;
+    padding: 40px;    
     border-radius: 8px;
+
 }
-
-
-    
-
-
-
-
-
 
 #cardapio{
     height: 30vh;
@@ -80,6 +84,23 @@ body {
     border: none;
     font-size: 24px;
     cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: -44px -36px 7px -1px;
+    
+}
+
+.close-btn_tela_comanda {
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 144px 242px -27px -46px;
+    
 }
 
 .buttons {
