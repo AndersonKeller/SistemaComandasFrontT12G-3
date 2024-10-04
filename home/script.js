@@ -13,7 +13,7 @@ usuarios.addEventListener("click", () => {
 })
 
 pedidoCozinha.addEventListener("click", () => {
-    window.location.href =""
+    window.location.href ="/pedidoCozinha/index.html"
 })
 
 cardapio.addEventListener("click", () => {

@@ -4,12 +4,12 @@ const headers = {
 }
 
 export async function formarProduto(seletor){
-    const cardapio = await fetch("https://localhost:7204/api/CardapioItems",{
+    const cardapio = await fetch("https://localhost:7168/api/CardapioItems",{
         headers:headers
     })
 
 
-
+    console.log(cardapio)
     const ItensCardapio = await cardapio.json()
     const items = document.querySelector(seletor)
     console.log(ItensCardapio,"response await")
