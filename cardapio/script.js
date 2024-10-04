@@ -1,4 +1,4 @@
-import {formarProduto} from "./formarProduto.js"
+import {formarProduto,criarProduto} from "./formarProduto.js"
 
 
 
@@ -6,3 +6,8 @@ import {formarProduto} from "./formarProduto.js"
 
 
 formarProduto("#items")
+
+
+const btnAdicionar =  document.querySelector(".add")
+
+btnAdicionar.addEventListener("click",criarProduto)
