@@ -1,5 +1,5 @@
 import {formarProduto} from "../cardapio/formarProduto.js"
-import {baseUrl} from "../portasApi.js"
+import {baseUrl} from "../configApi.js"
 
 
 const headers = {
