@@ -72,6 +72,7 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    position: relative;
 }
 
 .header h1 {
@@ -97,10 +98,9 @@ body {
     font-size: 24px;
     cursor: pointer;
     position: absolute;
-    right: 0;
-    top: 0;
-    margin: 144px 242px -27px -46px;
-    color:aqua;
+    right: 0px;
+    top: -10px;
+    color: #333;
     
 }
 
