@@ -39,28 +39,70 @@ export async function formarProduto(seletor){
     )
 
         }
+        
      
 export function criarProduto(){
-        const body = document.querySelector("body")
+    const nameInput = document.getElementById('addItemInput');
+    const priceInput = document.getElementById('addItemPrice');
+    const descriptionInput = document.getElementById('addItemDescription');
+
+    const name = nameInput.value.trim();
+    const price = parseFloat(priceInput.value);
+    const description = descriptionInput.value.trim();
+
+    if (name && !isNaN(price) && description) {
+        const newItem = { titulo: name, preco: price, descricao: description, possuiPreparo:false }
+        items.push(newItem);
+    
+
+    addCardapioItemApi(newItem)
+    nameInput.value = '';
+    priceInput.value = '';
+    descriptionInput.value = '';
+   
+    //loadItems();
+} 
+    else {
+        alert('Por favor, insira um nome, um preço e uma descrição válidos.');
+    }
+    
+}
+async function addCardapioItemApi(item){
+    const res = await fetch(`${baseUrl}/CardapioItems`,{
+        method:"POST",
+        headers:headers,
+        body:JSON.stringify(item)
+    })
+    console.log(res)
+    const resJson = await res.json()
+    console.log(resJson)
+}
+
+
+    const body = document.querySelector("body")
 
         body.insertAdjacentHTML("beforeend", `
             <div class="wapper">
-                <div class="modal">
+                <div class="modalNovoCardapio">
                     <form id="formItemCardapio">
                        <button class="sairDoCriarItem">X</button>
                         <label>Nome</label>
-                        <input type="text">
+                        <input type="text" class="nameInput">
                         <label>Preço</label>
-                        <input type="number">
+                        <input type="number" class="nameInput">
                         <label>Descrição</label>
-                        <input type="text" id="descricaoProduto">
+                        <input type="text" class="descriptionInput">
                     </form>
                 </div>
                     `
         )    
-
-
-    }
+    
+    const btnmodal=document.querySelector(".sairDoCriarItem")
+btnmodal.addEventListener("click",()=>{
+    const modal = document.querySelector(".wapper")
+    modal.remove()
+})
+    
 
    
 
