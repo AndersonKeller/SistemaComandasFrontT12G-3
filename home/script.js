@@ -3,6 +3,7 @@ const usuarios = document.getElementById("usuarios")
 const pedidoCozinha = document.getElementById("pedidoCozinha")
 const cardapio = document.getElementById("cardapio")
 const perfil = document.getElementById("perfil")
+const botaoSair = document.getElementById("botao-sair")
 
 comandas.addEventListener("click", () => {
     window.location.href ="/TELA_Comandas/index.html"
@@ -21,6 +22,10 @@ cardapio.addEventListener("click", () => {
 })
 
 perfil.addEventListener("click", () => {
-    window.location.href = "/"
+    botaoSair.classList.toggle("botao-sair")
+})
+
+botaoSair.addEventListener("click", () => {
+    window.location.href = "/LOGIN/index.html"
 })
 
