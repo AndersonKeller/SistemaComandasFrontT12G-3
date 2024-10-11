@@ -1,5 +1,5 @@
 import {formarProduto} from "../cardapio/formarProduto.js"
-import {baseUrl} from "../portasApi.js"
+import {baseUrl} from "../configApi.js"
 
 
 const headers = {
@@ -21,10 +21,11 @@ async function formarComanda(){
 
     Comandas.forEach(async(item,index)=>{
         Ordem.insertAdjacentHTML("beforeend",`
-            
+
         <div class="order"><p><span>${item.id}
         </span><span>MESA ${item.numeroMesa}
         </span></p><span>${item.nomeCliente}</span></div>`)
+        
         
     });
 }
@@ -39,13 +40,13 @@ async function criarComanda(){
     criar.insertAdjacentHTML("beforeend", `
         <div class="wapper">
             <div class="modal">
-                <form id="novaComanda">
-                    <label>Nome</label>
-                    <input type="text">
+                <form id="novaComanda"> 
+                    <button class="close-btn">x</button>
+                    <input id="input_criar_comanda" type="number">
                     <label>Mesa</label>
-                    <input type="number">
+                    <input id="input_criar_comanda" type="text">
+                    <label>Nome</label>
                 </form>
-                
                 
             <ul id="cardapio" class="menu">
             </ul>    <button class="action-btn">Finalizar comanda 
@@ -55,6 +56,22 @@ async function criarComanda(){
         </div>`)
 
         formarProduto("#cardapio")
+}
+
+
+const botaoVoltar = document.querySelector(".close-btn")
+if(botaoVoltar){
+        botaoVoltar.addEventListener("click", ()=> {
+         window.location.href ="/home/index.html"}
+)}
+
+const botaoVoltarTelaComanda = document.querySelector(".close-btn_tela_comanda")
+if(botaoVoltarTelaComanda){
+    botaoVoltarTelaComanda.addEventListener("click", ()=> {
+         window.location.href ="/home/index.html"}
+
+)
+
 }
 
 
