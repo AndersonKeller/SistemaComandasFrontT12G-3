@@ -1,4 +1,4 @@
-import {baseUrl} from "../portasApi.js"
+import {baseUrl} from "../configApi.js"
 
 
 const headers = {
@@ -25,6 +25,8 @@ export async function formarProduto(seletor){
                 <p class="item-desc">${item.descricao}</p>
                 <p class="item-price">R$${item.preco}</p>
                 <button class="editar-item" id=${item.id}>Editar</button>
+                <button class="editar-item" id=${item.id}>Editar</button>
+
             </li>
            
         

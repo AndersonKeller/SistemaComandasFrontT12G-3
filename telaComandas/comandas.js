@@ -1,5 +1,5 @@
 import {formarProduto} from "../cardapio/formarProduto.js"
-import {baseUrl} from "../portasApi.js"
+import {baseUrl} from "../configApi.js"
 
 
 const headers = {
@@ -33,6 +33,7 @@ async function formarComanda(){
 formarComanda()
 
 
+
 async function criarComanda(){
         const criar = document.querySelector("body")
     console.log("criarComanda")
@@ -40,23 +41,64 @@ async function criarComanda(){
     criar.insertAdjacentHTML("beforeend", `
         <div class="wapper">
             <div class="modal">
+            <button class="abrirCardapio" type="">Abrir cardápio</button>
                 <form id="novaComanda"> 
                     <button class="close-btn">x</button>
                     <input id="input_criar_comanda" type="number">
                     <label>Mesa</label>
                     <input id="input_criar_comanda" type="text">
                     <label>Nome</label>
+                    <button>Salvar comanda</button>
+
                 </form>
-                
-            <ul id="cardapio" class="menu">
-            </ul>    <button class="action-btn">Finalizar comanda 
-                <span style="transform: none;">📌</span>
-                </button> 
+                <div class="items_comanda"></div><div>  
+            <button class="action-btn">Finalizar comanda 
+                <span style="transform: none;">✔️</span>
+            </button>
+        </div>
             </div>
         </div>`)
-
-        formarProduto("#cardapio")
+        const BtnAbrirCardapio = document.querySelector(".abrirCardapio")
+        if(BtnAbrirCardapio){
+            BtnAbrirCardapio.addEventListener("click", ()=> {
+            criarCardapio()
+        }
+        )}
 }
+
+async function criarCardapio(){
+    const modal = document.querySelector(".items_comanda")
+    console.log("criarComanda vai")
+    modal.insertAdjacentHTML("beforeend",`
+
+        <div class="items"></div>
+        `)
+        await formarProduto(".items")
+       const btnsAdd = document.querySelectorAll(".add-item")
+       console.log(btnsAdd)
+
+       btnsAdd.forEach((btn)=>{
+        btn.addEventListener("click",()=>{
+            inserirItemComanda(btn.id)
+        })
+       })
+    }
+async function inserirItemComanda(id){
+    const res = await fetch(`https://localhost:7125/api/CardapioItems/${id}`,{
+        headers: headers
+    })
+    const resJson = await res.json()
+    console.log(resJson)
+    const items_comanda = document.querySelector(".items_comanda")
+    items_comanda.insertAdjacentHTML(`beforeend`,`
+        <div>
+        <li>${resJson.titulo}${resJson.preco}</li>
+        </div>
+        `)
+}
+
+
+
 
 
 const botaoVoltar = document.querySelector(".close-btn")
