@@ -10,7 +10,7 @@ async function login(){
         senha: pass.value
     }
     // const user = {email:"teste@emaild.com",password:"1234"}
-    const res = await fetch("https://localhost:7125/api/Usuarios",{
+    const res = await fetch("https://localhost:5163/api/Usuarios",{
         method:"POST",
         body: JSON.stringify(user),
         headers: headers

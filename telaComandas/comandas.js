@@ -1,4 +1,5 @@
 import {formarProduto} from "../cardapio/formarProduto.js"
+import {baseUrl} from "../configApi.js"
 
 
 const headers = {
@@ -7,7 +8,7 @@ const headers = {
 }
 
 async function formarComanda(){
-    const comanda = await fetch("https://localhost:7125/api/Comandas",{
+    const comanda = await fetch(`${baseUrl}/Comandas`,{
         headers:headers,
     })
 
