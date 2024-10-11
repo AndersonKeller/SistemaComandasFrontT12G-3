@@ -5,7 +5,7 @@ const cardapio = document.getElementById("cardapio")
 const perfil = document.getElementById("perfil")
 
 comandas.addEventListener("click", () => {
-    window.location.href ="/TELA_Comandas/index.html"
+    window.location.href ="/telaComandas/index.html"
 })
 
 usuarios.addEventListener("click", () => {
