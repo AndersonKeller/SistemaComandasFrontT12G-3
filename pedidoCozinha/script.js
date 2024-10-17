@@ -22,7 +22,14 @@ async function formarFilaPedidos(element,statusId){
             </li>
             `)}
         )
+
 }
+
+const botaoVoltar = document.getElementById("botao-voltar")
+botaoVoltar.addEventListener("click", () => {
+    window.location.href ="/home/index.html"
+})
+
 
 formarFilaPedidos(".div-pendentes",1)
 formarFilaPedidos(".div-emAndamento",2)
