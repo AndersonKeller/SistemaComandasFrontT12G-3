@@ -42,6 +42,16 @@ body {
     color: rgb(120, 0, 0);
 }
 
+.items{
+    max-height: 220px;
+    max-width: 198px;
+    overflow: auto;
+    background-color: #ffa12e;
+    border-radius: 10px;
+    padding: 23px;
+}
+
+
 
 .modal{
     background-color: #e38412;
@@ -72,6 +82,7 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    position: relative;
 }
 
 .header h1 {
@@ -97,10 +108,9 @@ body {
     font-size: 24px;
     cursor: pointer;
     position: absolute;
-    right: 0;
-    top: 0;
-    margin: 144px 242px -27px -46px;
-    color:aqua;
+    right: 0px;
+    top: -10px;
+    color: #333;
     
 }
 
@@ -148,7 +158,9 @@ gap: 48px;
     cursor: pointer;
 }
 
-
+.items_comanda{
+    display: flex;
+}
 
 .orders {
     display: grid;

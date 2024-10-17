@@ -6,7 +6,7 @@ const perfil = document.getElementById("perfil")
 const botaoSair = document.getElementById("botao-sair")
 
 comandas.addEventListener("click", () => {
-    window.location.href ="/TELA_Comandas/index.html"
+    window.location.href ="/telaComandas/index.html"
 })
 
 usuarios.addEventListener("click", () => {
