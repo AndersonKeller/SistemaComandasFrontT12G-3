@@ -1,6 +1,5 @@
-
-
-body {
+/* Estilizando o body da tela */
+.body {
     font-family: 'Courier New', Courier, monospace;
     display: flex;
     align-items: center;
@@ -11,26 +10,7 @@ body {
     box-sizing: border-box;
 }
 
-
-.main-header{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px;
-    background-color: green;
-    
-}
-
-.container {
-    background-color: orange;
-    width: 80%;
-    max-width: 600px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    text-align: center;
-}
-
+/* Estilizando o header da tela */
 .header {
     background-color: orange;
     margin-bottom: 100px;
@@ -40,8 +20,13 @@ body {
     align-items: center;
 }
 
-.div-header{
-    margin-bottom: 30px;
+/* Daqui pra baixo, estilizando todos os elementos presentes dentro do header */
+.icone-botao{
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: flex-start; /* Alinha à esquerda */
+    background-color: #FFA500; /* Ajuste a cor de fundo se necessário */
+    padding: 10px;
 }
 
 .logo-icon {
@@ -53,10 +38,11 @@ body {
     font-size: 20px;
     display: flex;
     margin-left: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .icon-profile:hover{
-    cursor: pointer;
     transform: scale(1.4);
 }
 
@@ -64,18 +50,36 @@ body {
     display: none;
 }
 
-h1 {
-    font-size: 32px;
-    color: #000;
-    font-weight: bold;
+.btn-sair-click{
+    background-color: #FFF;
+    color: #333;
+    border: 2px solid #FFA500;
+    border-radius: 12px;
+    padding: 5px 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 10px; 
 }
 
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.btn-sair-click:hover{
+    background-color: #FFA500;
+    color: #FFF;
+    border-color: #FFF;
 }
 
+/* Agora, estilizando o container da tela */
+.container {
+    background-color: orange;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+/* Estilizando a DIV que contem todos os botões */
 .menu-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -98,6 +102,7 @@ main {
     background-color: #c74209;
 }
 
+/* Estilizando as letras miúdas abaixo dos botões de ação */
 footer {
     margin-top: 30px;
     font-size: 12px;

@@ -1,3 +1,4 @@
+// criação das constantes que recebem os elementos do HTML através de um ID
 const comandas = document.getElementById("comandas")
 const usuarios = document.getElementById("usuarios")
 const pedidoCozinha = document.getElementById("pedidoCozinha")
@@ -5,6 +6,7 @@ const cardapio = document.getElementById("cardapio")
 const perfil = document.getElementById("perfil")
 const botaoSair = document.getElementById("botao-sair")
 
+// comandos para adicionar eventos de click, aonde ao clicar, uma ação acontecerá
 comandas.addEventListener("click", () => {
     window.location.href ="/TELA_Comandas/index.html"
 })

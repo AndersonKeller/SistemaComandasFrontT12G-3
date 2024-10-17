@@ -6,23 +6,23 @@
     <title>Bar do Chinês</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    
-    <header class="header">
-        <h1 class="icon-profile" id="perfil">👤</h1>
-        <button class="botao-sair" id="botao-sair">Sair</button>
+<body class="body">
+    <!-- Criação do cabeçalho na tela, junto com elementos botões -->
+    <header class="header"> 
+        <div class="icone-botao">
+            <h1 class="icon-profile" id="perfil">👤</h1>
+            <button class="botao-sair btn-sair-click" id="botao-sair">Sair</button>     
+        </div>
     </header>
 
-    <div class="container">
-        <header>
-
-        </header>
-        
+    <!-- Criação do container, onde fica a logo e nome do restaurante -->
+    <div class="container">        
         <div class="div-header">
             <span class="logo-icon">🥡</span>
             <h1>Bar do Chinês</h1>
         </div>
         
+    <!-- Criação da main, aonde localiza-se os botões de ações principais da página home -->
         <main>
             <div class="menu-buttons">
                 <button class="menu-button" id="comandas">Comandas</button>
@@ -31,12 +31,14 @@
                 <button class="menu-button" id="cardapio">Cardápio</button>
             </div>
         </main>
-
+    
+    <!-- Criação do footer, aonde informa a empresa que programou o site -->
         <footer>
             <p>© Desenvolvido pelos Gurí Ltda.</p>
         </footer>
     </div>
 
+    <!-- Importando o script para a tela home -->
     <script src="./script.js"></script>
 </body>
 </html>
