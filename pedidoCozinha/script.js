@@ -3,6 +3,7 @@ const headers = {
     'Content-Type': 'application/json'
 }
 
+// função onde forma a fila de pedidos, fazendo requisão das informações pela API
 async function formarFilaPedidos(element,statusId){
     const comanda = await fetch(`https://localhost:7168/api/PedidoCozinhas?situacaoId=${statusId}`,{
         headers:headers,
@@ -25,12 +26,15 @@ async function formarFilaPedidos(element,statusId){
 
 }
 
+// criação da constante botão voltar, onde busca o ID do HTML
 const botaoVoltar = document.getElementById("botao-voltar")
+
+// criação do evento de clique, onde ao clicar volta para a tela home
 botaoVoltar.addEventListener("click", () => {
     window.location.href ="/home/index.html"
 })
 
-
+// chamando a função
 formarFilaPedidos(".div-pendentes",1)
 formarFilaPedidos(".div-emAndamento",2)
 formarFilaPedidos(".div-concluido",3)   
