@@ -4,4 +4,22 @@
     box-sizing: border-box;
     font-family: Arial, sans-serif;
     list-style: none;
+
+}
+
+::-webkit-scrollbar{
+    width: 10px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background: rgb(255, 153, 0);
+    border-radius: 10px;
+    
+    
+}
+
+::-webkit-scrollbar-track{
+    background-color: rgb(247, 210, 0);
+    border-radius: 17px;
 }

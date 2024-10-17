@@ -1,3 +1,5 @@
+import {baseUrl} from "../portasApi.js"
+
 const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
@@ -5,7 +7,7 @@ const headers = {
 
 // função onde forma a fila de pedidos, fazendo requisão das informações pela API
 async function formarFilaPedidos(element,statusId){
-    const comanda = await fetch(`https://localhost:7168/api/PedidoCozinhas?situacaoId=${statusId}`,{
+    const comanda = await fetch(`${baseUrl}/PedidoCozinhas?situacaoId=${statusId}`,{
         headers:headers,
     })
     console.log(comanda)

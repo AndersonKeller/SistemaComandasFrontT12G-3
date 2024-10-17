@@ -8,7 +8,7 @@ const botaoSair = document.getElementById("botao-sair")
 
 // comandos para adicionar eventos de click, aonde ao clicar, uma ação acontecerá
 comandas.addEventListener("click", () => {
-    window.location.href ="/TELA_Comandas/index.html"
+    window.location.href ="/telaComandas/index.html"
 })
 
 usuarios.addEventListener("click", () => {
