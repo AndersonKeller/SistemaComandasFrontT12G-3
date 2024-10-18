@@ -34,10 +34,11 @@ body {
 #formItemCardapio{
     width: 100%;
     display: flex;
-    padding: 32px;
+    padding: 12px;
     position: relative;
     justify-content: flex-start;
     flex-direction: column;
+    gap: 6px;
 }
 
 .wapper{
@@ -46,7 +47,7 @@ body {
     height: 100vh;
     background-color: rgb(32 32 32 / 51%);
     display: flex;
-
+    align-items: center;
     justify-content: center;
     top: 0;
     left: 0;
@@ -124,21 +125,20 @@ ul.menu li {
 
 
 .item-name {
-   
+    font-size: 23px;
     text-align:left;
     font-weight: bold;
 }
 
 .item-desc {
-  
+    font-size: 20px;
     text-align: left;
-    font-size: 13px;
     font-style: italic;
     color: #000000;
 }
 
 .item-price {
- 
+    font-size: 20px;
     text-align: center;
     font-weight: bold;
     color: #fff;
@@ -172,29 +172,41 @@ button.editar-item {
 
 .modalNovoCardapio label {
     display: block;
-    margin-top: 10px;
     font-weight: bold;
     color: #0f0f0f; /* Laranja escuro */
 }
 
-.modalNovoCardapio input {
-    padding: 10px;
-    margin-top: 5px;
+
+
+.modalNovoCardapio input{
+    padding: 6px;
+    margin-top: 4px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #ff4d0a;
     background-color: #F5F5F5; /* Cinza claro para os inputs */
 }
+
+
+.modalNovoCardapio input[type="checkbox"]{
+margin: 0;
+}
+
 
 .modalNovoCardapio input:focus {
     outline: none;
     border-color: #FF8C00; /* Cor laranja ao focar no campo */
 }
 
+.possuiPreparoDiv{
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
 .modalNovoCardapio button[type="submit"] {
     background-color: #a76413; /* Laranja forte para o botão */
     color: white;
     padding: 10px 15px;
-    margin-top: 20px;
+    margin-top: 5px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -221,9 +233,41 @@ button.editar-item {
 
 .sairDoCriarItem:hover {
     background-color: #FF6347; /* Tom mais claro ao passar o mouse */
+    
 }
 
 
+.removerItem_nao{
+    color: black;
+    background-color: #e24507;
+    width: 50%;
+}
+.removerItem_sim{
+color: black;
+background-color: #39c439;
+width: 50%;
+
+}
+
+
+.modalRemoverItem{
+    background-color: #e38412;
+    border: 2px solid #FF8C00;
+    width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    position: relative;
+    padding: 32px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+
+}
 
 
 
