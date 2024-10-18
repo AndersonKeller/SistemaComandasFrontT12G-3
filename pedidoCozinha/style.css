@@ -1,27 +1,61 @@
-body{
-    background-color: orange;
+/* Estilos Globais */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: white;
 }
 
-.div-principal{
+/* Estilizando o Header */
+header {
     display: flex;
     justify-content: center;
-    margin-top: 50px;
+    align-items: center;
+    background-color: orange;
+    padding: 20px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding-right: 80px;
 }
 
+header h1 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}
 
-.container{
+button.voltar {
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button.voltar:hover {
+    background-color: #e65c00;
+}
+
+/* Container Principal */
+.container {
     display: flex;
     justify-content: space-around;
+    margin: 20px;
 }
 
-.div-pendentes{
-    background-color: white;
+/* Seções dos Pedidos */
+.section {
+    background-color: orange;
+    border-radius: 10px;
+    padding: 20px;
+    width: 30%;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.div-emAndamento{
-    background-color: white;
-}
-
-.div-concluido{
-    background-color: white;
+.section h2 {
+    margin: 0;
+    color: #333;
 }
