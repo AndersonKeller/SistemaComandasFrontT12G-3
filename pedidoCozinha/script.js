@@ -1,4 +1,4 @@
-import {baseUrl} from "../portasApi.js"
+import {baseUrl} from "../configApi.js"
 
 const headers = {
     'Accept': 'application/json',

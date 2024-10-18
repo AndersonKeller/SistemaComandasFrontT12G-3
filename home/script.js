@@ -28,6 +28,6 @@ perfil.addEventListener("click", () => {
 })
 
 botaoSair.addEventListener("click", () => {
-    window.location.href = "/LOGIN/index.html"
+    window.location.href = "/telaLogin/index.html"
 })
 
