@@ -24,7 +24,7 @@ export async function formarProduto(seletor){
                 <p class="item-desc">${item.descricao}</p>
                 <p class="item-price">R$${item.preco}</p>
                 <button class="editar-item" id=${item.id}>Editar</button>
-                <button class="editar-item">Editar</button>
+                <button class="add-item" id=${item.id}>Adicionar</button>
 
             </li>
            
@@ -47,7 +47,7 @@ export function criarProduto(){
 
         body.insertAdjacentHTML("beforeend", `
             <div class="wapper">
-                <div class="modal">
+                <div class="modal_cardapio">
                     <form id="formItemCardapio">
                        <button class="sairDoCriarItem">X</button>
                         <label>Nome</label>

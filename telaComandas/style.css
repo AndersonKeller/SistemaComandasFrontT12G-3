@@ -24,7 +24,7 @@ body {
     justify-content: center;
 }
 
-#input_criar_comanda{
+#input_mesa_comanda, #input_nome_comanda{
     height: 15px
 }
 
@@ -42,16 +42,6 @@ body {
     color: rgb(120, 0, 0);
 }
 
-.items{
-    max-height: 220px;
-    max-width: 198px;
-    overflow: auto;
-    background-color: #ffa12e;
-    border-radius: 10px;
-    padding: 23px;
-}
-
-
 
 .modal{
     background-color: #e38412;
@@ -59,7 +49,14 @@ body {
     justify-content: center;
     padding: 40px;    
     border-radius: 8px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex-direction: column;
 
+}
+
+.items_comanda button{
+    background-color: #ffd37d;
 }
 
 #cardapio{
@@ -114,11 +111,6 @@ body {
     
 }
 
-.buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
 
 #engrenagem{
     font-size: xx-small;
@@ -130,7 +122,7 @@ body {
 .emogi :hover{
     
     transform: none;
-
+    
 }
 
 .action-btn {
@@ -148,9 +140,16 @@ body {
 }
 
 p{
-display: flex;
-gap: 48px;
+    display: flex;
+    gap: 48px;
 }
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
 
 .buttons :hover {
     transition: 0.3s ease;
@@ -158,8 +157,28 @@ gap: 48px;
     cursor: pointer;
 }
 
+
+.items{
+    max-height: 220px;
+    overflow: auto;
+    background-color: #ffa12e;
+    border-radius: 10px;
+    padding: 23px;
+}
+
+
 .items_comanda{
-    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.items_comanda .item {
+    margin: 10px 0; /* Adiciona espaçamento entre os itens */
+    display: block; /* Garante que cada item ocupe uma linha */
+}
+
+.items_comanda .item li {
+    display: list-item; /* Exibe os itens de forma semelhante a uma lista */
 }
 
 .orders {
