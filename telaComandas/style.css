@@ -84,7 +84,7 @@ body {
 
 .header h1 {
     margin: 0;
-    color: violet
+    color: #3a0d00
 }
 
 .close-btn {
@@ -112,6 +112,31 @@ body {
 }
 
 
+.item-name {
+    font-size: 23px;
+    text-align:left;
+    font-weight: bold;
+}
+
+.item-desc {
+    font-size: 20px;
+    text-align: left;
+    font-style: italic;
+    color: #000000;
+}
+
+.item-price {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+}
+
+button.editar-item {
+    
+    align-self: end;
+}
+
 #engrenagem{
     font-size: xx-small;
     margin: 5px 0px -10px -10px;
@@ -125,7 +150,7 @@ body {
     
 }
 
-.action-btn {
+.buttons button.action-btn {
     background-color: #FFD700;
     border: 2px dashed #a04c00;
     padding: 10px;
@@ -137,6 +162,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: black;
+
 }
 
 p{

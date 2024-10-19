@@ -28,7 +28,7 @@ export async function formarProduto(seletor) {
                 <p class="item-desc">${item.descricao}</p>
                 <p class="item-price">R$${item.preco}</p>
                 <button class="editar-item" id=${item.id}>Editar</button>
-                <button class="add-item" id=${item.id}>Adicionar</button>
+                <button class="add-item" id="${item.id}edit">Adicionar</button>
 
             </li>
            

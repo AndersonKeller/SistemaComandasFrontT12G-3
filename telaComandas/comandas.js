@@ -42,11 +42,11 @@ async function criarComanda() {
             <div class="modal">
                 <button class="abrirCardapio" type="">Abrir cardápio</button>
                 <form id="novaComanda"> 
-                    <button class="close-btn">x</button>
-                    <input id="input_mesa_comanda" type="number" required>
+                    <button type="button" class="close-btn">x</button>
+                    <input id="input_mesa_comanda" type="number">
                     <label>Mesa</label>
                     
-                    <input id="input_nome_comanda" type="text" required>
+                    <input id="input_nome_comanda" type="text">
                     <label>Nome</label>
                 </form>
                 <div class="items_comanda"></div>
@@ -57,6 +57,14 @@ async function criarComanda() {
         </div>
     `
   );
+  const botaoVoltar = document.querySelector(".close-btn");
+if (botaoVoltar) {
+  botaoVoltar.addEventListener("click", () => {
+    const modal = document.querySelector(".wapper")
+    modal.remove()
+    // window.location.href = "/telaComandas/index.html";
+  });
+}
 
   const BtnAbrirCardapio = document.querySelector(".abrirCardapio");
   if (BtnAbrirCardapio) {
