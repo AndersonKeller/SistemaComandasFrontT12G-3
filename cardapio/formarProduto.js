@@ -27,8 +27,8 @@ export async function formarProduto(seletor) {
                 <p class="item-name">${item.titulo}</p>
                 <p class="item-desc">${item.descricao}</p>
                 <p class="item-price">R$${item.preco}</p>
-                <button class="editar-item" id=${item.id}>Editar</button>
-                <button class="add-item" id=${item.id}>Adicionar</button>
+                <button class="editar-item" id=${item.id}>Excluir</button>
+                <button class="editar-item" id='${item.id}edit'>Editar</button>
 
             </li>
            
@@ -146,25 +146,109 @@ btnCriarProduto.addEventListener("click", () => {
 export function criarProduto() {
     const body = document.querySelector("body")
 
-        body.insertAdjacentHTML("beforeend", `
-            <div class="wapper">
-                <div class="modal_cardapio">
-                    <form id="formItemCardapio">
-                       <button class="sairDoCriarItem">X</button>
-                        <label>Nome</label>
-                        <input type="text">
-                        <label>Preço</label>
-                        <input type="number">
-                        <label>Descrição</label>
-                        <input type="text" id="descricaoProduto">
-                    </form>
-                </div>
-                    `
-        )    
+    body.insertAdjacentHTML("beforeend", `
+        <div class="wapper">
+            <div class="modalNovoCardapio">
+                <form id="formItemCardapio">
+                <h1>Adicionar Novo Item</h1>
+                   <button type="button" class="sairDoCriarItem">X</button>
+                    <label>Nome</label>
+                    <input type="text" id="addItemInput"/>
+                    <label>Preço</label>
+                    <input type="number" step=".01" id="addItemPrice"/>
+                    <label>Descrição</label>
+                    <input type="text" id="descriptionInput"/>
+                    <label>Possui Preparo</label>
+                    <div class="possuiPreparoDiv">
+                    <input type="checkbox" value="true" id="PossuiPreparo">
+                    <label>Sim</label> 
+                    </div>
+                    <button type="submit">Salvar</button>
+                </form>
+            </div>
+                `
+    )
+    const formNovoProduto = document.querySelector("#formItemCardapio") //form do ADICIONAR (ele que tem o click do botao salvar item)
+    formNovoProduto.addEventListener("submit", (e) => {
+        console.log("submit")
+        e.preventDefault()
+        verificarNovoProduto() //esta funcao chama a funcao que faz o POST
 
+
+    })
+
+
+    const btnmodal = document.querySelector(".sairDoCriarItem") //btn sair do ADICIONAR item
+    btnmodal.addEventListener("click", () => {
+        console.log("click")
+        const modal = document.querySelector(".wapper")
+        modal.remove()
+    })
+}
+
+function verificarNovoProduto() { //funcao que verifica se os campos estao validos para adicionar novo item
+    const nameInput = document.getElementById('addItemInput');
+    const priceInput = document.getElementById('addItemPrice');
+    const descriptionInput = document.getElementById('descriptionInput');
+    const possuiPreparoInput = document.getElementById('PossuiPreparo');
+    
+    const name = nameInput.value.trim(); //trim retira os espacos no inicio e final do input
+    const price = parseFloat(priceInput.value);
+    const description = descriptionInput.value.trim(); //trim retira os espacos no inicio e final do input
+
+    
+
+    if (name && !isNaN(price) && description) {
+        const newItem = { titulo: name, preco: price, descricao: description, possuiPreparo: possuiPreparoInput.checked }
+
+        addCardapioItemApi(newItem)
+        nameInput.value = '';
+        priceInput.value = '';
+        descriptionInput.value = '';
 
     }
+    else {
+        alert('Por favor, insira um nome, um preço e uma descrição válidos.');
+    }
+}
 
-   
+async function addCardapioItemApi(item) { //funcao que add o novo item no cardapio (POST)
+    const res = await fetch(`${baseUrl}/CardapioItems`, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(item)
+    })
+    console.log(res)
+    const resJson = await res.json()
+    console.log(resJson)
+    const modal = document.querySelector(".wapper")
+    modal.remove()
+    formarProduto("#items")
+}
+
+async function excluirCardapioItemApi(id) { //funcao que exclui item do cardapio (DELETE)
+    const res = await fetch(`${baseUrl}/CardapioItems/${id}`, {
+        method: "DELETE",
+        headers: headers
+
+    })
+    console.log(res)
+    formarProduto("#items")
+
+}
 
 
+
+
+async function EditarProdutoCardapio(item) { // funcao que edita item (PUT)
+    const res = await fetch(`${baseUrl}/CardapioItems/${item.id}`, {
+        method: "PUT",
+        headers: headers,
+        body: JSON.stringify(item)
+    })
+    console.log(res)
+    // const resJson = await res.json()
+    const modal = document.querySelector(".wapper")
+    modal.remove()
+    formarProduto("#items")
+}
