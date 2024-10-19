@@ -4,29 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedidos</title>
-    <link rel="stylesheet" href="/pedidoCozinha/style.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
-
 <body>
-    <!-- Cabeçalho onde consta botão voltar e o título -->
     <header>
-        <button class="voltar" id="botao-voltar">Voltar</button>
+        <button class="voltar">Voltar</button>
         <h1>Pedidos</h1>
     </header>
-
-    <!-- DIV onde contém seções (Pendentes, Em Andamento, Concluídos) -->
     <div class="container">
-        <div class="section">
+        <div class="section pendentes" id="pendentes" ondrop="drop(event)" ondragover="allowDrop(event)">
             <h2>Pendentes</h2>
+            <div class="pedido" draggable="true" ondragstart="drag(event)" id="pedido1">Mesa 1 - João Silva</div>
+            <div class="pedido" draggable="true" ondragstart="drag(event)" id="pedido2">Mesa 2 - Maria Souza</div>
         </div>
-        <div class="section">
+        <div class="section andamento" id="andamento" ondrop="drop(event)" ondragover="allowDrop(event)">
             <h2>Em Andamento</h2>
         </div>
-        <div class="section">
+        <div class="section concluidos" id="concluidos" ondrop="drop(event)" ondragover="allowDrop(event)">
             <h2>Concluídos</h2>
         </div>
     </div>
 
-    <script type="module" src="./script.js "></script>
+    <script src="./script.js"></script>
 </body>
 </html>

@@ -8,20 +8,17 @@ body {
 /* Estilizando o Header */
 header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    background-color: orange;
-    padding: 20px 20px;
+    background-color: #ffcc00;
+    padding: 10px 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding-right: 80px;
 }
 
 header h1 {
     margin: 0;
-    font-size: 25px;
+    font-size: 24px;
     font-weight: bold;
-    width: 100%;
-    text-align: center;
 }
 
 button.voltar {
@@ -47,7 +44,7 @@ button.voltar:hover {
 
 /* Seções dos Pedidos */
 .section {
-    background-color: orange;
+    background-color: #ffcc66;
     border-radius: 10px;
     padding: 20px;
     width: 30%;
@@ -56,6 +53,26 @@ button.voltar:hover {
 }
 
 .section h2 {
-    margin: 0;
+    margin: 0 0 10px 0;
     color: #333;
+}
+
+/* Pedidos */
+.pedido {
+    background-color: #ff9933;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    cursor: grab;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: white;
+    font-weight: bold;
+}
+
+.pedido:hover {
+    background-color: #ff6600;
+}
+
+.pedido:active {
+    cursor: grabbing;
 }
