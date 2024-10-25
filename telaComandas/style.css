@@ -24,7 +24,7 @@ body {
     justify-content: center;
 }
 
-#input_criar_comanda{
+#input_mesa_comanda, #input_nome_comanda{
     height: 15px
 }
 
@@ -42,16 +42,6 @@ body {
     color: rgb(120, 0, 0);
 }
 
-.items{
-    max-height: 220px;
-    max-width: 198px;
-    overflow: auto;
-    background-color: #ffa12e;
-    border-radius: 10px;
-    padding: 23px;
-}
-
-
 
 .modal{
     background-color: #e38412;
@@ -59,7 +49,14 @@ body {
     justify-content: center;
     padding: 40px;    
     border-radius: 8px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex-direction: column;
 
+}
+
+.items_comanda button{
+    background-color: #ffd37d;
 }
 
 #cardapio{
@@ -87,7 +84,7 @@ body {
 
 .header h1 {
     margin: 0;
-    color: violet
+    color: #3a0d00
 }
 
 .close-btn {
@@ -114,10 +111,30 @@ body {
     
 }
 
-.buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+
+.item-name {
+    font-size: 23px;
+    text-align:left;
+    font-weight: bold;
+}
+
+.item-desc {
+    font-size: 20px;
+    text-align: left;
+    font-style: italic;
+    color: #000000;
+}
+
+.item-price {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+}
+
+button.editar-item {
+    
+    align-self: end;
 }
 
 #engrenagem{
@@ -130,10 +147,10 @@ body {
 .emogi :hover{
     
     transform: none;
-
+    
 }
 
-.action-btn {
+.buttons button.action-btn {
     background-color: #FFD700;
     border: 2px dashed #a04c00;
     padding: 10px;
@@ -145,12 +162,21 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: black;
+
 }
 
 p{
-display: flex;
-gap: 48px;
+    display: flex;
+    gap: 48px;
 }
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
 
 .buttons :hover {
     transition: 0.3s ease;
@@ -158,8 +184,28 @@ gap: 48px;
     cursor: pointer;
 }
 
+
+.items{
+    max-height: 220px;
+    overflow: auto;
+    background-color: #ffa12e;
+    border-radius: 10px;
+    padding: 23px;
+}
+
+
 .items_comanda{
-    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.items_comanda .item {
+    margin: 10px 0; /* Adiciona espaçamento entre os itens */
+    display: block; /* Garante que cada item ocupe uma linha */
+}
+
+.items_comanda .item li {
+    display: list-item; /* Exibe os itens de forma semelhante a uma lista */
 }
 
 .orders {

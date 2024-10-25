@@ -52,7 +52,7 @@ body {
     top: 0;
     left: 0;
 }
-.modalNovoCardapio{
+.modalNovoCardapio, .modal_cardapio{
     background-color: #e38412;
     padding: 8px;
     border-radius: 8px;
