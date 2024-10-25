@@ -9,7 +9,7 @@ const headers = {
  * parametro é um seletor html para montar os itens
  * @params {seleter html}
  */
-export async function formarProduto(seletor) {
+export async function formarProduto(seletor,isclick) {
     const cardapio = await fetch(`${baseUrl}/CardapioItems`, {
         headers: headers
     })
@@ -36,52 +36,55 @@ export async function formarProduto(seletor) {
             `)
 
         const btnEditar = document.getElementById(`${item.id}edit`) //btn editar item
-        btnEditar.addEventListener("click", () => {
-            console.log(item, "item")
-            const body = document.querySelector("body")
-            body.insertAdjacentHTML("beforeend", `
-        <div class="wapper">
-            <div class="modalNovoCardapio">
-                <form id="formItemCardapio">
-                <h1>Editar Item</h1>
-                   <button type="button" class="sairDoCriarItem">X</button>
-                    <label>Nome</label>
-                    <input type="text" value='${item.titulo}' id="addItemInput"/>
-                    <label>Preço</label>
-                    <input type="number" value='${item.preco}' id="addItemPrice"/>
-                    <label>Descrição</label>
-                    <input type="text" value='${item.descricao}' id="descriptionInput"/>
-                    <button type="submit">Salvar</button>
-                </form>
-            </div>
-                `)
+       if(!isclick){
 
-            const btnSairModalEditar = document.querySelector(".sairDoCriarItem")
-            btnSairModalEditar.addEventListener("click", () => {
-                const modal = document.querySelector(".wapper")
-                modal.remove()
-            })
-         
-            const form = document.querySelector("form")
-            form.addEventListener("submit", (e) => {
-                e.preventDefault()
-
-                const tituloProduto = document.getElementById("#addItemInput")
-
-                const precoProduto = document.getElementById("#addItemPrice")
-
-                const descricaoProduto = document.getElementById("#descriptionInput")
-
-
-
-                const obj = { id: item.id, titulo: tituloProduto.value, preco: precoProduto.value, descricao: descricaoProduto.value }
-                EditarProdutoCardapio(obj)
-            })
-
-            // EditarProdutoCardapio(item.id)
-
-
-        })
+           btnEditar.addEventListener("click", () => {
+               console.log(item, "item")
+               const body = document.querySelector("body")
+               body.insertAdjacentHTML("beforeend", `
+           <div class="wapper">
+               <div class="modalNovoCardapio">
+                   <form id="formItemCardapio">
+                   <h1>Editar Item</h1>
+                      <button type="button" class="sairDoCriarItem">X</button>
+                       <label>Nome</label>
+                       <input type="text" value='${item.titulo}' id="addItemInput"/>
+                       <label>Preço</label>
+                       <input type="number" value='${item.preco}' id="addItemPrice"/>
+                       <label>Descrição</label>
+                       <input type="text" value='${item.descricao}' id="descriptionInput"/>
+                       <button type="submit">Salvar</button>
+                   </form>
+               </div>
+                   `)
+   
+               const btnSairModalEditar = document.querySelector(".sairDoCriarItem")
+               btnSairModalEditar.addEventListener("click", () => {
+                   const modal = document.querySelector(".wapper")
+                   modal.remove()
+               })
+            
+               const form = document.querySelector("form")
+               form.addEventListener("submit", (e) => {
+                   e.preventDefault()
+   
+                   const tituloProduto = document.getElementById("#addItemInput")
+   
+                   const precoProduto = document.getElementById("#addItemPrice")
+   
+                   const descricaoProduto = document.getElementById("#descriptionInput")
+   
+   
+   
+                   const obj = { id: item.id, titulo: tituloProduto.value, preco: precoProduto.value, descricao: descricaoProduto.value }
+                   EditarProdutoCardapio(obj)
+               })
+   
+               // EditarProdutoCardapio(item.id)
+   
+   
+           })
+       }
 
 
 

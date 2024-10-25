@@ -32,16 +32,51 @@ body {
     background-color: #e38412;
     display: flex;
     text-align: left;
-    flex-direction: row-reverse;
+    flex-direction: column-reverse;
     position: relative;
-
 }
+
+
 
 
 #novaComanda label{
     color: rgb(120, 0, 0);
 }
 
+.botoes_comanda{
+    display: flex;
+}
+
+.abrirCardapio{
+    margin-left: 40px;
+    margin-top: 5px;
+    border: 1.5px solid green;
+    background-color: #a9ffa6;
+    padding: 3px;
+    border-radius: 3px;
+
+}
+
+.salvar-btn{
+    margin-top: 5px;
+    border: 1.5px solid green;
+    background-color: #a9ffa6;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.abrirCardapio:hover{
+    cursor: pointer;
+    background-color: #cbfcc9;
+    
+}
+
+
+.salvar-btn:hover{
+    cursor: pointer;
+    background-color: #cbfcc9;
+
+}
 
 .modal{
     background-color: #e38412;
@@ -111,6 +146,11 @@ body {
     
 }
 
+#input_mesa_comanda, #input_nome_comanda{
+    border-radius: 5px;
+    border: transparent;
+    background-color: #ffd37d;
+}
 
 .item-name {
     font-size: 23px;
