@@ -66,11 +66,11 @@ export async function formarProduto(seletor) {
             form.addEventListener("submit", (e) => {
                 e.preventDefault()
 
-                const tituloProduto = document.getElementById("#addItemInput")
+                const tituloProduto = document.getElementById("addItemInput")
 
-                const precoProduto = document.getElementById("#addItemPrice")
+                const precoProduto = document.getElementById("addItemPrice")
 
-                const descricaoProduto = document.getElementById("#descriptionInput")
+                const descricaoProduto = document.getElementById("descriptionInput")
 
 
 
@@ -160,7 +160,14 @@ export function criarProduto() {
                     <input type="text" id="descriptionInput"/>
                     <label>Possui Preparo</label>
                     <div class="possuiPreparoDiv">
+                    <label class="switch">
                     <input type="checkbox" value="true" id="PossuiPreparo">
+                     <div class="slider"></div>
+  <div class="slider-card">
+    <div class="slider-card-face slider-card-front"></div>
+    <div class="slider-card-face slider-card-back"></div>
+  </div>
+</label>
                     <label>Sim</label> 
                     </div>
                     <button type="submit">Salvar</button>
