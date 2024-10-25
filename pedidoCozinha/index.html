@@ -8,23 +8,21 @@
 </head>
 <body>
     <header>
-        <button class="voltar">Voltar</button>
+        <button class="voltar" id="voltar">Voltar</button>
         <h1>Pedidos</h1>
     </header>
     <div class="container">
-        <div class="section pendentes" id="pendentes" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <div class="section pendentes" id="pendentes">
             <h2>Pendentes</h2>
-            <div class="pedido" draggable="true" ondragstart="drag(event)" id="pedido1">Mesa 1 - João Silva</div>
-            <div class="pedido" draggable="true" ondragstart="drag(event)" id="pedido2">Mesa 2 - Maria Souza</div>
         </div>
-        <div class="section andamento" id="andamento" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <div class="section andamento" id="andamento">
             <h2>Em Andamento</h2>
         </div>
-        <div class="section concluidos" id="concluidos" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <div class="section concluidos" id="concluidos">
             <h2>Concluídos</h2>
         </div>
     </div>
 
-    <script src="./script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

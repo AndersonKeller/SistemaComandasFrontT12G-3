@@ -50,6 +50,7 @@ button.voltar:hover {
     width: 30%;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    list-style: none;
 }
 
 .section h2 {
@@ -76,3 +77,34 @@ button.voltar:hover {
 .pedido:active {
     cursor: grabbing;
 }
+
+#formItemCardapio{
+    width: 100%;
+    display: flex;
+    padding: 12px;
+    position: relative;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.wapper{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(32 32 32 / 51%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+}
+
+.modalNovoCardapio{
+    background-color: #e38412;
+    padding: 8px;
+    border-radius: 8px;
+    display: flex;
+    height: 45vh;
+}
+
