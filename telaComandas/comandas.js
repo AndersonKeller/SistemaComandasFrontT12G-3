@@ -40,7 +40,6 @@ async function criarComanda() {
     `
         <div class="wapper">
             <div class="modal">
-                <button class="abrirCardapio" type="">Abrir cardápio</button>
                 <form id="novaComanda"> 
                     <button type="button" class="close-btn">x</button>
                     <input id="input_mesa_comanda" type="number">
@@ -50,9 +49,13 @@ async function criarComanda() {
                     <label>Nome</label>
                 </form>
                 <div class="items_comanda"></div>
-                <button class="salvar-btn">Finalizar comanda 
-                    <span style="transform: none;">✔️</span>
-                </button>
+                <div class="botoes_comanda">
+                  <button class="salvar-btn">Finalizar comanda 
+                      <span style="transform: none;">✔️</span>
+                  </button>
+
+                  <button class="abrirCardapio" type="button">Abrir cardápio</button>
+                </div>
             </div>
         </div>
     `
@@ -77,15 +80,16 @@ if (botaoVoltar) {
 }
 
 async function criarCardapio() {
-  const modal = document.querySelector(".items_comanda");
+  const modal = document.querySelector(".wapper");
   console.log("criarCardapio");
-  modal.insertAdjacentHTML("beforeend", `<div class="items"></div>`);
-  await formarProduto(".items");
+  modal.insertAdjacentHTML("afterbegin", `<div class="items"></div>`);
+  await formarProduto(".items",true);
 
   const btnsAdd = document.querySelectorAll(".add-item");
   console.log(btnsAdd);
 
   btnsAdd.forEach((btn) => {
+   
     btn.addEventListener("click", () => {
       console.log("Adicionar item");
       inserirItemComanda(btn.id);
