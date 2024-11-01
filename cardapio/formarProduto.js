@@ -12,10 +12,13 @@ const headers = {
 export async function formarProduto(seletor,isclick) {
     const cardapio = await fetch(`${baseUrl}/CardapioItems`, {
         headers: headers
+        
     })
+    console.log(cardapio)
     const ItensCardapio = await cardapio.json()
     const items = document.querySelector(seletor)
     items.innerHTML = ""
+    
     console.log(ItensCardapio, "response await")
     console.log(ItensCardapio)
 

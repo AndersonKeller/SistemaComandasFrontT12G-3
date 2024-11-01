@@ -35,9 +35,33 @@ body {
     flex-direction: column-reverse;
     position: relative;
 }
+    
 
+.items button, .items_comanda button{
+    background-color: #ffd080;
+    border-radius: 4px;
+    padding: 2px;
+}
 
+.items_comanda button:hover{
+    cursor: pointer;
+    background-color: #FFE4B5;
+}
 
+.items button:hover{
+    cursor: pointer;
+    background-color: #FFE4B5;
+}
+
+.items_comanda{
+    background-color: #fad594;
+    margin-top: 4px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    flex-direction: column;
+}
 
 #novaComanda label{
     color: rgb(120, 0, 0);
@@ -45,6 +69,8 @@ body {
 
 .botoes_comanda{
     display: flex;
+    flex-direction: row-reverse;
+
 }
 
 .abrirCardapio{
@@ -87,12 +113,11 @@ body {
     align-items: flex-start;
     flex-wrap: wrap;
     flex-direction: column;
+    min-height: 220px;
 
 }
 
-.items_comanda button{
-    background-color: #ffd37d;
-}
+
 
 #cardapio{
     height: 30vh;
@@ -227,6 +252,7 @@ p{
 
 .items{
     max-height: 220px;
+    max-width: 365px;
     overflow: auto;
     background-color: #ffa12e;
     border-radius: 10px;
@@ -234,10 +260,7 @@ p{
 }
 
 
-.items_comanda{
-    list-style: none;
-    padding: 0;
-}
+
 
 .items_comanda .item {
     margin: 10px 0; /* Adiciona espaçamento entre os itens */
