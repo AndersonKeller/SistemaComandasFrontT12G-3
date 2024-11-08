@@ -11,10 +11,6 @@ comandas.addEventListener("click", () => {
     window.location.href ="/telaComandas/index.html"
 })
 
-usuarios.addEventListener("click", () => {
-    window.location.href =""
-})
-
 pedidoCozinha.addEventListener("click", () => {
     window.location.href ="/pedidoCozinha/index.html"
 })
@@ -31,3 +27,6 @@ botaoSair.addEventListener("click", () => {
     window.location.href = "/telaLogin/index.html"
 })
 
+usuarios.addEventListener("click", () => {
+    window.location.href = "/usuarios/index.html"
+})

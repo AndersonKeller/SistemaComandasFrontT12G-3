@@ -20,6 +20,13 @@
     align-items: center;
 }
 
+.textologo{
+    font-family: "Chicle", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
 /* Daqui pra baixo, estilizando todos os elementos presentes dentro do header */
 .icone-botao{
     display: flex;

@@ -73,11 +73,13 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    padding-left: 12px;
 }
 
 .header h1 {
-    font-size: 24px;
-    color: #333;
+    font-family: "Chicle", serif;
+    font-size: 38px;
+    color: #1f1e1e;
 }
 
 .buttons {
@@ -169,16 +171,16 @@ ul.menu li {
 }
 
 
-
-
 .item-name {
+    font-family: "Chicle", serif;
     font-size: 23px;
     text-align:left;
-    font-weight: bold;
+    color: #1f1e1e;
+   
 }
 
 .item-desc {
-    font-size: 20px;
+    font-size: 18px;
     text-align: left;
     font-style: italic;
     color: #000000;
@@ -198,7 +200,7 @@ button.editar-item { /* BOTAO de EDITAR ITEM */
     border-radius: 16px;
     font-size: 12px;
     font-weight: 600;
-    padding: 1em 2em;
+    padding: 0.8em 1.2em;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     border: 1px solid black;
@@ -292,13 +294,13 @@ margin: 0;
     background-color: #FF4500; /* Vermelho alaranjado para o botão de fechar */
     color: white;
     border: none;
-    padding: 5px 10px;
+    padding: 2px 6px;
     cursor: pointer;
     font-size: 16px;
     border-radius: 5px;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 1px;
+    right: 1px;
 }
 
 .sairDoCriarItem:hover {
@@ -448,3 +450,22 @@ margin: 0;
   input:checked ~ .slider {
     background-color: #9ed99c;
   }
+
+
+  .inputPesquisa {
+    margin-left: 12px;
+    font-family: "SF Pro";
+    max-width: 190px;
+    padding: 0.875rem;
+    font-size: 1rem;
+    border: 1.5px solid #000;
+    border-radius: 0.5rem;
+    box-shadow: 2.5px 3px 0 #000;
+    outline: none;
+    transition: ease 0.25s;
+  }
+  
+  .inputPesquisa:focus {
+    box-shadow: 5.5px 7px 0 black;
+  }
+  
