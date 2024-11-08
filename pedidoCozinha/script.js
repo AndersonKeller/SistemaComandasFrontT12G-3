@@ -1,54 +1,295 @@
-// importando meu ID pessoal da api
-import { baseUrl } from "../configApi.js"
+import { baseUrl } from "../configApi.js";
 
 const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
-}
-const botaoVoltar = document.getElementById("voltar")
+};
+
+
+const botaoVoltar = document.getElementById("voltar");
 botaoVoltar.addEventListener("click", () => {
-    window.location.href ="/home/index.html"
-})
+    window.location.href = "/home/index.html";
+});
 
+// Requisição para buscar os pedidos que vão para a cozinha (Pendentes)
+export async function formarPendentes() {
 
-// Função para formar os pedidos que vão para a cozinha
-export async function formarPedidos() 
-{
-        
-        // Requisição para buscar os pedidos que vão para cozinha
-        const resposta = await fetch(`${baseUrl}/PedidoCozinhas`, {
-            headers: headers
-        })
-        // Convertendo a resposta para JSON
-        const PedidoCozinhas = await resposta.json()
-        const items = document.getElementById("pendentes")
-        console.log(PedidoCozinhas)
-        PedidoCozinhas.forEach(async (item, index) => {
-            items.insertAdjacentHTML("beforeend", `
-                <li id="modalPedido">
-                    <p class="pedido">Mesa: ${item.numeroMesa} <br> Cliente: ${item.nomeCliente}</p>
-                </li>
-                `)
-        })
+    const resposta = await fetch(`${baseUrl}/PedidoCozinhas?situacaoId=1`, {
+        headers: headers
+    });
 
-        const modalPedido = document.getElementById("modalPedido")
-        modalPedido.addEventListener("click", () => {
-            console.log(items, "item")
-            const body = document.querySelector("body")
+    // Convertendo a resposta para JSON
+    const PedidoCozinhas = await resposta.json();
+    const items = document.getElementById("pendentes");
+    console.log(PedidoCozinhas, "pedidos cozinha");
 
+    
+    let aux = [];
+    PedidoCozinhas.forEach((pedido) => {
+        const findAux = aux.findIndex((item) => item.mesa === pedido.numeroMesa);
+        if (findAux == -1) {
+            aux.push({
+                id: pedido.id,
+                nomeCliente: pedido.nomeCliente,
+                mesa: pedido.numeroMesa,
+                pedidos: [pedido]
+            });
+        } else {
+            aux[findAux].pedidos.push(pedido);
+        }
+    });
+    console.log(aux, "ordem", PedidoCozinhas);
+
+    aux.forEach((item) => {
+        items.insertAdjacentHTML("beforeend", `
+            <li class="modalPedido pedido" id="${item.id}">
+                <p>Mesa: ${item.mesa} <br> Cliente: ${item.nomeCliente}</p>
+            </li>
+        `);
+    });
+
+    // Adicionar evento a cada item criado dinamicamente
+    document.querySelectorAll(".modalPedido").forEach((modalPedidoElement, index) => {
+        modalPedidoElement.addEventListener("click", () => {
+            const body = document.querySelector("body");
             body.insertAdjacentHTML("beforeend", `
+                <div class="wapper">
+                    <div class="modalNovoCardapio">
+                        <form id="formItemCardapio" class="formItemCardapio">
+                            <button type="button" class="sairDoPedido">X</button>
+                            <h1 class="tituloModal">Detalhes do Pedido</h1>
+                            <p>Mesa: ${PedidoCozinhas[index].numeroMesa}</p>
+                            <p>Cliente: ${PedidoCozinhas[index].nomeCliente}</p>
+                            
+                            <!-- Contêiner para itens do pedido -->
+                            <div id="pedidoItensContainer"></div>
+
+                            <button type="button" id="btnAvancar" class="btnAvancar">Avançar Pedido</button>
+                        </form>
+                    </div>
+                </div>
+            `);
+
+            // Seleciona o contêiner onde os itens do pedido serão adicionados
+            const pedidoItensContainer = document.getElementById("pedidoItensContainer");
+
+            // Adiciona cada item do pedido ao contêiner
+            aux[index].pedidos.forEach((pedido) => {
+                pedidoItensContainer.insertAdjacentHTML("beforeend", `
+                    <p>Item: ${pedido.titulo}</p>
+                `);
+            });
+
+            // Botão para fechar o modal
+            const btnSairModalEditar = document.querySelector(".sairDoPedido");
+            btnSairModalEditar.addEventListener("click", () => {
+                const modal = document.querySelector(".wapper");
+                modal.remove();
+            });
+
+            // Botão para avançar o pedidoc
+            console.log(modalPedidoElement.id,"id aki")
+            const btnAvancar = document.getElementById("btnAvancar");
+            btnAvancar.addEventListener("click", async () => {
+                const res = await fetch(`${baseUrl}/PedidoCozinhas/${modalPedidoElement.id}`, {
+                    headers: headers,
+                    method: "PUT",
+                    body: JSON.stringify({
+                        novoStatusId: 2
+                    })
+                });
+                if (res.ok) {
+                    const modal = document.querySelector(".wapper");
+                    modal.remove();
+                } else {
+                    alert("Erro ao avançar o pedido.");
+                }
+                formarPendentes();
+                formarAndamento();
+                formarConcluido();
+            });
+        });
+    });
+    
+}
+
+// Função para formar os pedidos que vão para a cozinha (Em andamento)
+export async function formarAndamento(params) {
+    const resposta = await fetch(`${baseUrl}/PedidoCozinhas?situacaoId=2`, {
+        headers: headers
+    });
+    const PedidoCozinhas = await resposta.json();
+    const items = document.getElementById("andamento");
+    console.log(PedidoCozinhas, "pedidos cozinha");
+
+    let aux = [];
+    PedidoCozinhas.forEach((pedido) => {
+        const findAux = aux.findIndex((item) => item.mesa === pedido.numeroMesa);
+        if (findAux == -1) {
+            aux.push({
+                id: pedido.id,
+                nomeCliente: pedido.nomeCliente,
+                mesa: pedido.numeroMesa,
+                pedidos: [pedido]
+            });
+        } else {
+            aux[findAux].pedidos.push(pedido);
+        }
+    });
+    console.log(aux, "ordem", PedidoCozinhas);
+
+    aux.forEach((item) => {
+        items.insertAdjacentHTML("beforeend", `
+            <li class="modalPedido pedido" id="${item.id}">
+                <p>Mesa: ${item.mesa} <br> Cliente: ${item.nomeCliente}</p>
+            </li>
+        `);
+    });
+
+        // Adicionar evento a cada item criado dinamicamente
+        document.querySelectorAll(".modalPedido").forEach((modalPedidoElement, index) => {
+            modalPedidoElement.addEventListener("click", () => {
+                const body = document.querySelector("body");
+                body.insertAdjacentHTML("beforeend", `
                     <div class="wapper">
-                        <div modal="modalNovoCardapio">
-                            <form id="formItemCardapio">
-                                <h1>teste</h1>
+                        <div class="modalNovoCardapio">
+                            <form id="formItemCardapio" class="formItemCardapio">
+                                <button type="button" class="sairDoPedido">X</button>
+                                <h1 class="tituloModal">Detalhes do Pedido</h1>
+                                <p>Mesa: ${PedidoCozinhas[index].numeroMesa}</p>
+                                <p>Cliente: ${PedidoCozinhas[index].nomeCliente}</p>
+                                
+                                <!-- Contêiner para itens do pedido -->
+                                <div id="pedidoItensContainer"></div>
+    
+                                <button type="button" id="btnAvancar" class="btnAvancar">Avançar Pedido</button>
                             </form>
                         </div>
                     </div>
-                
-                `)
-        })
-
+                `);
+    
+                // Seleciona o contêiner onde os itens do pedido serão adicionados
+                const pedidoItensContainer = document.getElementById("pedidoItensContainer");
+    
+                // Adiciona cada item do pedido ao contêiner
+                aux[index].pedidos.forEach((pedido) => {
+                    pedidoItensContainer.insertAdjacentHTML("beforeend", `
+                        <p>Item: ${pedido.titulo}</p>
+                    `);
+                });
+    
+                // Botão para fechar o modal
+                const btnSairModalEditar = document.querySelector(".sairDoPedido");
+                btnSairModalEditar.addEventListener("click", () => {
+                    const modal = document.querySelector(".wapper");
+                    modal.remove();
+                });
+    
+                // Botão para avançar o pedido
+                console.log(modalPedidoElement.id,"id aki")
+                const btnAvancar = document.getElementById("btnAvancar");
+                btnAvancar.addEventListener("click", async () => {
+                    const res = await fetch(`${baseUrl}/PedidoCozinhas/${modalPedidoElement.id}`, {
+                        headers: headers,
+                        method: "PUT",
+                        body: JSON.stringify({
+                            novoStatusId: 3
+                        })
+                    });
+                    if (res.ok) {
+                        const modal = document.querySelector(".wapper");
+                        modal.remove();
+                    } else {
+                        alert("Erro ao avançar o pedido.");
+                    }
+                    formarPendentes();
+                    formarAndamento();
+                    formarConcluido();
+                });
+            });
+        });
 }
 
-// Chama a função 
-formarPedidos()
+// Requisição para buscar os pedidos que vão para a cozinha (Concluidos)
+export async function formarConcluido() {
+
+    const resposta = await fetch(`${baseUrl}/PedidoCozinhas?situacaoId=3`, {
+        headers: headers
+    });
+
+    // Convertendo a resposta para JSON
+    const PedidoCozinhas = await resposta.json();
+    const items = document.getElementById("concluidos");
+    console.log(PedidoCozinhas, "pedidos cozinha");
+
+    let aux = [];
+    PedidoCozinhas.forEach((pedido) => {
+        const findAux = aux.findIndex((item) => item.mesa === pedido.numeroMesa);
+        if (findAux == -1) {
+            aux.push({
+                id: pedido.id,
+                nomeCliente: pedido.nomeCliente,
+                mesa: pedido.numeroMesa,
+                pedidos: [pedido]
+            });
+        } else {
+            aux[findAux].pedidos.push(pedido);
+        }
+    });
+    console.log(aux, "ordem", PedidoCozinhas);
+
+    aux.forEach((item) => {
+        items.insertAdjacentHTML("beforeend", `
+            <li class="modalPedido pedido" id="${item.id}">
+                <p>Mesa: ${item.mesa} <br> Cliente: ${item.nomeCliente}</p>
+            </li>
+        `);
+    });
+
+    // Adicionar evento a cada item criado dinamicamente
+    document.querySelectorAll(".modalPedido").forEach((modalPedidoElement, index) => {
+        modalPedidoElement.addEventListener("click", () => {
+            const body = document.querySelector("body");
+            body.insertAdjacentHTML("beforeend", `
+                <div class="wapper">
+                    <div class="modalNovoCardapio">
+                        <form id="formItemCardapio" class="formItemCardapio">
+                            <button type="button" class="sairDoPedido">X</button>
+                            <h1 class="tituloModal">Detalhes do Pedido</h1>
+                            <p>Mesa: ${PedidoCozinhas[index].numeroMesa}</p>
+                            <p>Cliente: ${PedidoCozinhas[index].nomeCliente}</p>
+                            
+                            <!-- Contêiner para itens do pedido -->
+                            <div id="pedidoItensContainer"></div>
+
+                            <button type="button" id="btnAvancar" class="btnAvancar">Avançar Pedido</button>
+                        </form>
+                    </div>
+                </div>
+            `);
+
+            // Seleciona o contêiner onde os itens do pedido serão adicionados
+            const pedidoItensContainer = document.getElementById("pedidoItensContainer");
+
+            // Adiciona cada item do pedido ao contêiner
+            aux[index].pedidos.forEach((pedido) => {
+                pedidoItensContainer.insertAdjacentHTML("beforeend", `
+                    <p>Item: ${pedido.titulo}</p>
+                `);
+            });
+
+            // Botão para fechar o modal
+            const btnSairModalEditar = document.querySelector(".sairDoPedido");
+            btnSairModalEditar.addEventListener("click", () => {
+                const modal = document.querySelector(".wapper");
+                modal.remove();
+            });
+    
+        })
+    })
+
+}
+// Chama as funções
+formarPendentes();
+formarAndamento();
+formarConcluido(); 
