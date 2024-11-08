@@ -216,7 +216,7 @@ async function criarComanda() {
   btnSalvar.addEventListener("click", salvarComanda);
 }
 
-async function toggleCardapio() {
+async function toggleCardapio(isckick) {
   const BtnAbrirCardapio = document.querySelector(".abrirCardapio");
   const modal = document.querySelector(".wapper");
   const existingCardapio = modal.querySelector(".items");
@@ -229,7 +229,8 @@ async function toggleCardapio() {
     // Abre o cardápio se ainda não estiver aberto
     console.log("criarCardapio");
     modal.insertAdjacentHTML("afterbegin", `<div class="items"></div>`);
-    await formarProduto(".items", true);
+    await formarProduto(".items", true, isckick);
+    
 
     // Atualiza o texto do botão
     BtnAbrirCardapio.textContent = "Fechar Cardápio";

@@ -22,9 +22,10 @@ export async function formarProduto(seletor,isclick) {
     console.log(ItensCardapio, "response await")
     console.log(ItensCardapio)
     const input = document.querySelector(".inputPesquisa")
-    input.addEventListener("input",(e)=>{
+    if(input){
+        input.addEventListener("input",(e)=>{
         pesquisaItens(e.target.value)
-    })
+    })}
    
     renderizaLista(seletor,ItensCardapio,isclick)
 }
@@ -108,38 +109,40 @@ function renderizaLista(seletor,lista=[],isclick=false){ // funcao que renderiza
            })
        }
         const btnExcluir = document.getElementById(item.id) //abr o modal que exclui item do cardapio
-        btnExcluir.addEventListener("click", () => {
-            const body = document.querySelector("body")
-
-            body.insertAdjacentHTML("beforeend", `
-                <div class="wapper">
-                    <div class="modalRemoverItem">
-                        <button type="button" class="sairDoCriarItem">X</button>
-                        <p>deseja remover este item?</p>
-                        <button class="removerItem_sim">sim</button>
-                        <button class="removerItem_nao">não</button>
-                </div>`)
-
-            const btnSairModalEditar = document.querySelector(".sairDoCriarItem") //sair do modal editar item
-            btnSairModalEditar.addEventListener("click", () => {
-                const modal = document.querySelector(".wapper")
-                modal.remove()
+        if(btnExcluir){
+            btnExcluir.addEventListener("click", () => {
+                const body = document.querySelector("body")
+    
+                body.insertAdjacentHTML("beforeend", `
+                    <div class="wapper">
+                        <div class="modalRemoverItem">
+                            <button type="button" class="sairDoCriarItem">X</button>
+                            <p>deseja remover este item?</p>
+                            <button class="removerItem_sim">sim</button>
+                            <button class="removerItem_nao">não</button>
+                    </div>`)
+    
+                const btnSairModalEditar = document.querySelector(".sairDoCriarItem") //sair do modal editar item
+                btnSairModalEditar.addEventListener("click", () => {
+                    const modal = document.querySelector(".wapper")
+                    modal.remove()
+                })
+    
+                const btnNaoDesejoExcluir = document.querySelector(".removerItem_nao") //btn nao desejo excluir item
+                btnNaoDesejoExcluir.addEventListener("click", () => {
+                    const modal = document.querySelector(".wapper")
+                    modal.remove()
+                })
+    
+                const botaoRemover = document.querySelector(".removerItem_sim") //botao remover item do cardapio
+                botaoRemover.addEventListener("click", () => {
+                    excluirCardapioItemApi(item.id)
+                    const modal = document.querySelector(".wapper")
+                    modal.remove()
+    
+                })
             })
-
-            const btnNaoDesejoExcluir = document.querySelector(".removerItem_nao") //btn nao desejo excluir item
-            btnNaoDesejoExcluir.addEventListener("click", () => {
-                const modal = document.querySelector(".wapper")
-                modal.remove()
-            })
-
-            const botaoRemover = document.querySelector(".removerItem_sim") //botao remover item do cardapio
-            botaoRemover.addEventListener("click", () => {
-                excluirCardapioItemApi(item.id)
-                const modal = document.querySelector(".wapper")
-                modal.remove()
-
-            })
-        })
+        }
     }
     )
 }
