@@ -8,6 +8,7 @@ const headers = {
 
 let listitems = []; // Armazena IDs dos itens selecionados
 
+// Primeiro, vamos adicionar o evento de clique nas comandas
 async function formarComanda() {
   const comanda = await fetch(`${baseUrl}/Comandas`, {
     headers: headers,
@@ -20,19 +21,151 @@ async function formarComanda() {
   const btnCriar = document.querySelector("#criar");
   btnCriar.addEventListener("click", criarComanda);
 
+  Ordem.innerHTML = ''; // Limpa as comandas existentes
+  
   Comandas.forEach(async (item) => {
-    Ordem.insertAdjacentHTML(
-      "beforeend",
-      `
-        <div class="order">
-          <p>
-            <span>${item.id}</span>
-            <span>MESA ${item.numeroMesa}</span>
-          </p>
-            <span>${item.nomeCliente}</span>
-        </div>`
-    );
+    const orderDiv = document.createElement('div');
+    orderDiv.className = 'order';
+    orderDiv.innerHTML = `
+      <p>
+        <span>${item.id}</span>
+        <span>MESA ${item.numeroMesa}</span>
+      </p>
+      <span>${item.nomeCliente}</span>
+    `;
+    
+    // Adiciona evento de clique para editar
+    orderDiv.addEventListener('click', () => editarComanda(item));
+    
+    Ordem.appendChild(orderDiv);
   });
+}
+
+async function editarComanda(comanda) {
+  const criar = document.querySelector("body");
+  listitems = []; // Limpa a lista atual de items
+
+  criar.insertAdjacentHTML(
+    "beforeend",
+    `
+        <div class="wapper">
+            <div class="modal">
+                <form id="editarComanda"> 
+                    <button type="button" class="close-btn">x</button>
+                    <input id="input_mesa_comanda" type="number" value="${comanda.numeroMesa}">
+                    <label>Mesa:</label>
+                    
+                    <input id="input_nome_comanda" type="text" value="${comanda.nomeCliente}">
+                    <label>Nome:</label>
+                    <input type="hidden" id="comanda_id" value="${comanda.id}">
+                </form>
+                <div class="items_comanda"></div>
+                <div class="botoes_comanda">
+                  <button class="abrirCardapio" type="button">Abrir Cardápio</button>
+                  <button class="salvar-btn">Atualizar comanda 
+                      <span style="transform: none;">✔️</span>
+                  </button>
+                </div>
+            </div>
+        </div>
+    `
+  );
+
+  // Carrega os itens da comanda
+  const items_comanda = document.querySelector(".items_comanda");
+  for (let itemId of comanda.cardapioItems) {
+    const res = await fetch(`${baseUrl}/CardapioItems/${itemId}`, {
+      headers: headers,
+    });
+    const item = await res.json();
+    
+    listitems.push(`${itemId}e`); // Mantém o formato original dos IDs
+    
+    items_comanda.insertAdjacentHTML(
+      'beforeend',
+      `
+        <div class="item item-${itemId}e">
+            <li>${item.titulo} - R$${item.preco} 
+            <span class="quantidade">1</span>x
+            <button class="remover-item" data-id="${itemId}e">❌</button></li>
+        </div>
+      `
+    );
+  }
+
+  // Adiciona os event listeners
+  const botaoVoltar = document.querySelector(".close-btn");
+  if (botaoVoltar) {
+    botaoVoltar.addEventListener("click", () => {
+      const modal = document.querySelector(".wapper");
+      modal.remove();
+    });
+  }
+
+  const BtnAbrirCardapio = document.querySelector(".abrirCardapio");
+  if (BtnAbrirCardapio) {
+    BtnAbrirCardapio.addEventListener("click", toggleCardapio);
+  }
+
+  // Adiciona event listener para remover itens
+  document.querySelectorAll('.remover-item').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const id = e.target.dataset.id;
+      removerUnidadeItemComanda(id);
+    });
+  });
+
+  const btnSalvar = document.querySelector(".salvar-btn");
+  btnSalvar.addEventListener("click", atualizarComanda);
+}
+
+async function atualizarComanda() {
+  const inputNomeCliente = document.getElementById("input_nome_comanda");
+  const inputNumeroMesa = document.getElementById("input_mesa_comanda");
+  const comandaId = document.getElementById("comanda_id");
+
+  const nome = inputNomeCliente.value;
+  const mesa = parseFloat(inputNumeroMesa.value);
+  const id = comandaId.value;
+
+  if (!nome || isNaN(mesa)) {
+    alert("Preencha o nome do cliente e o número da mesa corretamente.");
+    return;
+  }
+
+  const body = {
+    numeroMesa: mesa,
+    nomeCliente: nome,
+    cardapioItems: listitems.map((item) => parseInt(item.split("e")[0])),
+  };
+
+  console.log("Atualizando comanda:", body);
+
+  try {
+    const atualizarRes = await fetch(`${baseUrl}/Comandas/${id}`, {
+      headers: headers,
+      body: JSON.stringify(body),
+      method: "PUT",
+    });
+
+    if (!atualizarRes.ok) {
+      throw new Error("Erro ao atualizar a comanda no banco.");
+    }
+
+    const atualizarJson = await atualizarRes.json();
+    console.log("Resposta do servidor:", atualizarJson);
+    
+    const modal = document.querySelector(".wapper");
+    modal.remove();
+    
+    // Atualiza a lista de comandas
+    formarComanda();
+    
+    alert("Comanda atualizada com sucesso!");
+  } catch (error) {
+    console.error("Erro ao atualizar comanda:", error);
+    alert("Erro ao atualizar a comanda");
+  }
 }
 
 formarComanda();
@@ -130,12 +263,12 @@ async function inserirItemComanda(id) {
   listitems.push(id);
 
   if (itemExistente) {
-    let quantidadeSpan = itemExistente.querySelector(".quantidade");
+    let quantidadeSpan = itemExistente.querySelector(".quantidade");  
     let quantidadeAtual = parseInt(quantidadeSpan.textContent);
     quantidadeSpan.textContent = quantidadeAtual + 1;
 
     // Atualizar quantidade no banco (PUT)
-    await atualizarQuantidadeItemComanda(id, quantidadeAtual + 1);
+    // await atualizarQuantidadeItemComanda(id, quantidadeAtual + 1);
   } else {
     // Caso o item não exista, adiciona no DOM e na API (POST)
     items_comanda.insertAdjacentHTML(
@@ -154,7 +287,7 @@ async function inserirItemComanda(id) {
     });
 
     // Envia o item ao banco como nova entrada (POST)
-    await adicionarItemComanda(id, 1);
+    // await adicionarItemComanda(id, 1);
   }
 }
 
@@ -226,10 +359,7 @@ async function salvarComanda() {
   const body = {
     numeroMesa: mesa,
     nomeCliente: nome,
-    cardapioItems: listitems.map((id) => ({
-      idProduto: id.split("e")[0], // Converte para o formato esperado pelo backend
-      quantidade: 1, // Assumindo que cada item está com quantidade 1; ajuste conforme necessário
-    })),
+    cardapioItems: listitems.map((item) => parseInt(item.split("e")[0])),
   };
 
   console.log("Salvando comanda:", body);
@@ -247,21 +377,23 @@ async function salvarComanda() {
 
     const salvarJson = await salvarRes.json();
     console.log("Resposta do servidor:", salvarJson);
+    const modal = document.querySelector(".wapper");
+    modal.remove();
+    formarComanda()
+    // // Exibir a nova comanda na lista de comandas
+    // const Ordem = document.querySelector(".orders");
+    // Ordem.insertAdjacentHTML(
+    //   "beforeend",
+    //   `
+    //     <div class="order"><p><span>${salvarJson.id}</span><span>MESA ${mesa}</span></p><span>${nome}</span></div>
+    //   `
+    // );
 
-    // Exibir a nova comanda na lista de comandas
-    const Ordem = document.querySelector(".orders");
-    Ordem.insertAdjacentHTML(
-      "beforeend",
-      `
-        <div class="order"><p><span>${salvarJson.id}</span><span>MESA ${mesa}</span></p><span>${nome}</span></div>
-      `
-    );
-
-    // Após salvar, você pode redirecionar ou limpar o formulário
-    alert("Comanda salva com sucesso!");
-    inputNomeCliente.value = '';
-    inputNumeroMesa.value = '';
-    listitems = []; // Limpa a lista de itens
+    // // Após salvar, você pode redirecionar ou limpar o formulário
+    // alert("Comanda salva com sucesso!");
+    // inputNomeCliente.value = '';
+    // inputNumeroMesa.value = '';
+    // listitems = []; // Limpa a lista de itens
   } catch (error) {
     console.error("Erro ao salvar comanda:", error);
     alert("Erro ao salvar a comanda");
