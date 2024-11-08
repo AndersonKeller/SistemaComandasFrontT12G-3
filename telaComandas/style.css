@@ -35,9 +35,33 @@ body {
     flex-direction: column-reverse;
     position: relative;
 }
+    
 
+.items button, .items_comanda button{
+    background-color: #ffd080;
+    border-radius: 4px;
+    padding: 2px;
+}
 
+.items_comanda button:hover{
+    cursor: pointer;
+    background-color: #FFE4B5;
+}
 
+.items button:hover{
+    cursor: pointer;
+    background-color: #FFE4B5;
+}
+
+.items_comanda{
+    background-color: #fad594;
+    margin-top: 4px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    flex-direction: column;
+}
 
 #novaComanda label{
     color: rgb(120, 0, 0);
@@ -45,6 +69,8 @@ body {
 
 .botoes_comanda{
     display: flex;
+    flex-direction: row-reverse;
+
 }
 
 .abrirCardapio{
@@ -57,6 +83,19 @@ body {
 
 }
 
+.abrirCardapio:hover{
+    cursor: pointer;
+    transform: translateY(-1px) translateX(-1px);
+    box-shadow: 2px 4px 0 0 #694604;
+    transition: 0.4s;
+    
+}
+
+.abrirCardapio:active {
+    transform: translateY(2px) translateX(1px);
+    box-shadow: 0 0 0 0 black;
+}
+
 .salvar-btn{
     margin-top: 5px;
     border: 1.5px solid green;
@@ -65,18 +104,22 @@ body {
     border-radius: 3px;
 }
 
-.abrirCardapio:hover{
-    cursor: pointer;
-    background-color: #cbfcc9;
-    
-}
-
-
 .salvar-btn:hover{
     cursor: pointer;
-    background-color: #cbfcc9;
-
+    transform: translateY(-1px) translateX(-1px);
+    box-shadow: 2px 4px 0 0 #694604;
+    transition: 0.4s;
 }
+
+.salvar-btn:active {
+    transform: translateY(2px) translateX(1px);
+    box-shadow: 0 0 0 0 black;
+}
+
+
+
+
+
 
 .modal{
     background-color: #e38412;
@@ -84,15 +127,15 @@ body {
     justify-content: center;
     padding: 40px;    
     border-radius: 8px;
+    border: 1px dashed #a04c00;
     align-items: flex-start;
     flex-wrap: wrap;
     flex-direction: column;
+    min-height: 220px;
 
 }
 
-.items_comanda button{
-    background-color: #ffd37d;
-}
+
 
 #cardapio{
     height: 30vh;
@@ -105,8 +148,10 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
+    max-width: 70%;
     width: 100%;
+    max-height: 90%;
+    height: 92%;
 }
 
 .header {
@@ -193,9 +238,9 @@ button.editar-item {
 .buttons button.action-btn {
     background-color: #FFD700;
     border: 2px dashed #a04c00;
-    padding: 10px;
+    /* padding: 10px; */
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 25px;
     cursor: pointer;
     flex: 1;
     margin: 0 5px;
@@ -203,8 +248,27 @@ button.editar-item {
     justify-content: space-between;
     align-items: center;
     color: black;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+    padding: 1em 2em;    
+    box-shadow: 0 0 0 0 black;
 
 }
+
+
+  
+  button.action-btn:hover {
+    transform: translateY(-4px) translateX(-2px);
+    box-shadow: 2px 5px 0 0 #694604;
+  };
+  
+  button.action-btn:active {
+    transform: translateY(2px) translateX(1px);
+    box-shadow: 0 0 0 0 black;
+  };
+
+
+
 
 p{
     display: flex;
@@ -218,15 +282,16 @@ p{
 }
 
 
-.buttons :hover {
+/* .buttons :hover {
     transition: 0.3s ease;
-    transform: scale(1.1);
+    transform: scale(1.05);
     cursor: pointer;
-}
+} */
 
 
 .items{
     max-height: 220px;
+    max-width: 365px;
     overflow: auto;
     background-color: #ffa12e;
     border-radius: 10px;
@@ -234,10 +299,7 @@ p{
 }
 
 
-.items_comanda{
-    list-style: none;
-    padding: 0;
-}
+
 
 .items_comanda .item {
     margin: 10px 0; /* Adiciona espaçamento entre os itens */
