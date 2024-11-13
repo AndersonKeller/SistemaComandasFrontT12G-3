@@ -40,9 +40,12 @@ export async function formarPendentes() {
         }
     });
     console.log(aux, "ordem", PedidoCozinhas);
-
+    items.insertAdjacentHTML("beforeend",`
+           <h2>Pendentes</h2>
+        `)
     aux.forEach((item) => {
         items.insertAdjacentHTML("beforeend", `
+          
             <li class="modalPedido pedido" id="${item.id}">
                 <p>Mesa: ${item.mesa} <br> Cliente: ${item.nomeCliente}</p>
             </li>
@@ -140,6 +143,9 @@ export async function formarAndamento(params) {
         }
     });
     console.log(aux, "ordem", PedidoCozinhas);
+    items.insertAdjacentHTML("beforeend",`
+        <h2>Em Andamento</h2>
+     `)
 
     aux.forEach((item) => {
         items.insertAdjacentHTML("beforeend", `
@@ -250,6 +256,9 @@ export async function formarConcluido() {
         }
     });
     console.log(aux, "ordem", PedidoCozinhas);
+    items.insertAdjacentHTML("beforeend",`
+        <h2>Concluídos</h2>
+     `)
 
     aux.forEach((item) => {
         items.insertAdjacentHTML("beforeend", `
