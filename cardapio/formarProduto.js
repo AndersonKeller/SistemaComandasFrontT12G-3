@@ -46,7 +46,7 @@ function pesquisaItens(text){ //funcao que faz o  filtro de pesquisa
 }
 function renderizaLista(seletor,lista=[],isclick=false){ // funcao que renderiza os itens
     // lista.forEach(())
-     const items = document.querySelector(seletor)
+    const items = document.querySelector(seletor)
     items.innerHTML = ""
     lista.forEach(async (item, index) => {
         items.insertAdjacentHTML("beforeend", `
