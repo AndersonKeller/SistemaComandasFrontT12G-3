@@ -2,7 +2,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: white;
+    background-color: black;
 }
 
 /* Estilizando o Header */
@@ -52,7 +52,6 @@ button.voltar:hover {
     margin: 20px;
 }
 
-
 /* Seções dos Pedidos */
 .section {
     background-color: orange;
@@ -89,7 +88,7 @@ button.voltar:hover {
     cursor: grabbing;
 }
 
-.formItemCardapio{
+.formItemCardapio {
     width: 100%;
     display: flex;
     padding: 12px;
@@ -98,17 +97,22 @@ button.voltar:hover {
     flex-direction: column;
     align-items: center;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: #ffa64d;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.tituloModal{
-    font-size: 30px;
+.tituloModal {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
-.wapper{
+.wapper {
     position: fixed;
     width: 100%;
     height: 100vh;
-    background-color: rgb(32 32 32 / 51%);
+    background-color: rgba(32, 32, 32, 0.51);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -116,20 +120,38 @@ button.voltar:hover {
     left: 0;
 }
 
-.modalNovoCardapio{
-    background-color: #e38412;
-    padding: 8px;
-    border-radius: 8px;
+.modalNovoCardapio {
+    background-color: #ffa64d;
+    padding: 20px;
+    border-radius: 12px;
     display: flex;
-    height: auto;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 1 20px 9px rgba(0, 0, 0, 0.1);
 }
 
-.btnAvancar{
+.btnAvancar {
+    background-color: #ff7f00;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
     border-radius: 20px;
+    margin-top: 16px;
+    transition: all 0.3s ease;
+}
+
+.btnAvancar:hover {
+    background-color: #ff8c00;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .sairDoPedido {
-    background-color: #FF4500; /* Vermelho alaranjado para o botão de fechar */
+    background-color: #FF4500;
     color: white;
     border: none;
     cursor: pointer;
@@ -138,10 +160,11 @@ button.voltar:hover {
     position: absolute;
     top: 10px;
     right: 10px;
-    
+    transition: all 0.3s ease;
 }
 
 .sairDoPedido:hover {
-    background-color: #FF6347; /* Tom mais claro ao passar o mouse */
-    
+    background-color: #FF6347;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }

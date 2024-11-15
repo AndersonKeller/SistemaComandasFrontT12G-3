@@ -27,7 +27,7 @@ export async function formarPendentes() {
     
     let aux = [];
     PedidoCozinhas.forEach((pedido) => {
-        const findAux = aux.findIndex((item) => item.mesa === pedido.numeroMesa);
+    const findAux = aux.findIndex((item) => item.mesa === pedido.numeroMesa);
         if (findAux == -1) {
             aux.push({
                 id: pedido.id,
