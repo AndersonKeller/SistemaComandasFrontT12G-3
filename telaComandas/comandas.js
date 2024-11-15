@@ -83,55 +83,70 @@ async function editarComanda(comanda) {
     // Verificar estrutura de comandaItens
     console.log("Itens da comanda:", comanda.comandaItens);
 
+        // Processa os IDs para calcular a quantidade
+    const comandaItensQuantificados = comanda.comandaItens.reduce((acc, id) => {
+      acc[id] = (acc[id] || 0) + 1;
+      return acc;
+    }, {});
+
+    // Converte para um array estruturado
+    const itensQuantificados = Object.entries(comandaItensQuantificados).map(([id, quantidade]) => ({
+      id: parseInt(id),
+      quantidade,
+    }));
+
+    console.log(itensQuantificados);
+    // Resultado: [{ id: 1, quantidade: 3 }, { id: 2, quantidade: 2 }, { id: 3, quantidade: 1 }]
+
+
     // Carregar itens da comanda
-    if (comanda.comandaItens && Array.isArray(comanda.comandaItens)) {  
-      for (const item of comanda.comandaItens) {
-        try {
-          const itemId = typeof item === 'object' ? item.id : item;
-          console.log("ID do item:", itemId); // Log para verificar o itemId
-          
-          if (!itemId) {
-            console.error("ID do produto não encontrado:", item);
-            continue; // Pular este item se o ID for inválido
-          }
+    if (comanda.comandaItens && Array.isArray(comanda.comandaItens)) {
+  // Calcular a quantidade de cada produto
+  const comandaItensQuantificados = comanda.comandaItens.reduce((acc, item) => {
+    acc[item.idProduto] = (acc[item.idProduto] || 0) + 1;
+    return acc;
+  }, {});
 
-          const quantidade = item.quantidade || 1;
+  for (const item of comanda.comandaItens) {
+    try {
+      const { idProduto, titulo, preco } = item;
 
-          const res = await fetch(`${baseUrl}/CardapioItems/${itemId}`, {
-            headers: headers,
-          });
-
-          if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-          }
-
-          const produto = await res.json();
-
-          if (!produto || !produto.titulo || !produto.preco) {
-            console.error(`Item inválido recebido para ID ${itemId}:`, produto);
-            continue;
-          }
-
-          const itemIdentifier = `${itemId}e`;
-          listitems.push(itemIdentifier);
-
-          items_comanda.insertAdjacentHTML(
-            'beforeend',
-            `
-              <div class="item item-${itemIdentifier}">
-                  <li>${produto.titulo} - R$${produto.preco} 
-                  <span class="quantidade">${quantidade}</span>x
-                  <button class="remover-item" data-id="${itemIdentifier}">❌</button></li>
-              </div>
-            `
-          );
-        } catch (error) {
-          console.error(`Erro ao carregar item:`, error);
-        }
+      if (!idProduto || !titulo || !preco) {
+        console.error(`Dados do item estão incompletos:`, item);
+        continue;
       }
-    } else {
-      console.warn("comandaItens não é um array ou está vazio:", comanda.comandaItens);
+
+      // // Evitar duplicação no DOM
+      // const existingItem = document.querySelector(`.item-${idProduto}`);
+      // if (existingItem) {
+      //   console.warn(`Item com idProduto ${idProduto} já foi adicionado.`);
+      //   continue;
+      // }
+
+      // Quantidade calculada
+      const quantidade = comandaItensQuantificados[idProduto];
+
+      listitems.push(`${idProduto}e`);
+
+      items_comanda.insertAdjacentHTML(
+        'beforeend',
+        `
+          <div class="item item-${idProduto}">
+              <li>${titulo} - R$${preco} 
+              <span class="quantidade">${quantidade}</span>x
+              <button class="remover-item" data-id="${idProduto}">❌</button></li>
+          </div>
+        `
+      );
+    } catch (error) {
+      console.error(`Erro ao carregar item:`, error);
     }
+  }
+} else {
+  console.warn("comandaItens não é um array ou está vazio:", comanda.comandaItens);
+}
+
+    
 
     const botaoVoltar = document.querySelector(".close-btn");
     if (botaoVoltar) {
