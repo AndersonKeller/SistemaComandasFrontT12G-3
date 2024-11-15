@@ -116,7 +116,7 @@ async function editarComanda(comanda) {
         continue;
       }
 
-      // // Evitar duplicação no DOM
+      // Evitar duplicação no DOM
       // const existingItem = document.querySelector(`.item-${idProduto}`);
       // if (existingItem) {
       //   console.warn(`Item com idProduto ${idProduto} já foi adicionado.`);
