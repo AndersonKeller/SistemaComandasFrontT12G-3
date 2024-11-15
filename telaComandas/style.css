@@ -24,9 +24,7 @@ body {
     justify-content: center;
 }
 
-#input_mesa_comanda, #input_nome_comanda{
-    height: 15px
-}
+
 
 #novaComanda{
     background-color: #e38412;
@@ -41,7 +39,9 @@ body {
     background-color: #ffd080;
     border-radius: 4px;
     padding: 2px;
+    border: 1px solid;
 }
+
 
 .items_comanda button:hover{
     cursor: pointer;
@@ -61,6 +61,8 @@ body {
     justify-content: space-between;
     font-weight: bold;
     flex-direction: column;
+    padding: 0px 10px 0px 10px;
+
 }
 
 #novaComanda label{
@@ -69,19 +71,12 @@ body {
 
 .botoes_comanda{
     display: flex;
-    flex-direction: row-reverse;
-
+    justify-content: space-between;
+    flex-direction: column;
 }
 
-.abrirCardapio{
-    margin-left: 40px;
-    margin-top: 5px;
-    border: 1.5px solid green;
-    background-color: #a9ffa6;
-    padding: 3px;
-    border-radius: 3px;
 
-}
+
 
 .abrirCardapio:hover{
     cursor: pointer;
@@ -96,12 +91,17 @@ body {
     box-shadow: 0 0 0 0 black;
 }
 
-.salvar-btn{
+.salvar-btn, .abrirCardapio{
+    Background-color: #a76413;
+    color: white;
+    padding: 10px 15px;
+    margin: 6px;
     margin-top: 5px;
-    border: 1.5px solid green;
-    background-color: #a9ffa6;
-    padding: 3px;
-    border-radius: 3px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    /* width: 100%; */
+    font-size: 16px;
 }
 
 .salvar-btn:hover{
@@ -121,7 +121,7 @@ body {
 
 
 
-.modal{
+.modal, .modal_editar{
     background-color: #e38412;
     align-items: center;
     justify-content: center;
@@ -153,6 +153,11 @@ body {
     max-height: 90%;
     height: 92%;
 }
+
+ .modal_editar .close-btn{
+    color: #00ff0d;
+    margin: auto;
+ }
 
 .header {
     display: flex;
@@ -195,6 +200,9 @@ body {
     border-radius: 5px;
     border: transparent;
     background-color: #ffd37d;
+    height: 15px;
+    padding: 10px 0px 10px 8px;
+
 }
 
 .item-name {
