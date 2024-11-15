@@ -39,22 +39,23 @@ export async function formarPendentes() {
             aux[findAux].pedidos.push(pedido);
         }
     });
-    console.log(aux, "ordem", PedidoCozinhas);
+    
     items.insertAdjacentHTML("beforeend",`
            <h2>Pendentes</h2>
         `)
     aux.forEach((item) => {
         items.insertAdjacentHTML("beforeend", `
           
-            <li class="modalPedido pedido" id="${item.id}">
+            <li class="modalPedido modal1 pedido" id="${item.id}">
                 <p>Mesa: ${item.mesa} <br> Cliente: ${item.nomeCliente}</p>
             </li>
         `);
     });
 
     // Adicionar evento a cada item criado dinamicamente
-    document.querySelectorAll(".modalPedido").forEach((modalPedidoElement, index) => {
+    document.querySelectorAll(".modal1").forEach((modalPedidoElement, index) => {
         modalPedidoElement.addEventListener("click", () => {
+            console.log("click de abertura do modal",modalPedidoElement, "click 1")
             const body = document.querySelector("body");
             console.log(aux[index],"pedido cozinha no index")
             body.insertAdjacentHTML("beforeend", `
@@ -63,12 +64,11 @@ export async function formarPendentes() {
                         <form id="formItemCardapio" class="formItemCardapio">
                             <button type="button" class="sairDoPedido">X</button>
                             <h1 class="tituloModal">Detalhes do Pedido</h1>
-                            <p>Mesa: ${PedidoCozinhas[index].numeroMesa??""}</p>
-                            <p>Cliente: ${PedidoCozinhas[index].nomeCliente??""}</p>
+                            <p>Mesa: ${PedidoCozinhas[index]?.numeroMesa ?? ""}</p>
+                            <p>Cliente: ${PedidoCozinhas[index]?.nomeCliente ?? ""}</p>
                             
                             <!-- Contêiner para itens do pedido -->
                             <div id="pedidoItensContainer"></div>
-
                             <button type="button" id="btnAvancar" class="btnAvancar">Avançar Pedido</button>
                         </form>
                     </div>
@@ -77,13 +77,27 @@ export async function formarPendentes() {
 
             // Seleciona o contêiner onde os itens do pedido serão adicionados
             const pedidoItensContainer = document.getElementById("pedidoItensContainer");
+            
 
+            // confere se o array não está vazio
+            // if (aux[index] && aux[index].pedidos) {
+            //     aux[index].pedidos.forEach((pedido) => {
+            //         pedidoItensContainer.insertAdjacentHTML("beforeend", `
+            //             <p>Item: ${pedido.titulo}</p>
+            //         `);
+            //     });
+            // } else {
+            //     console.error(`Pedido não encontrado para o índice: ${index}`, aux);
+            // }
+            console.log(aux[index], "ordem");
             // Adiciona cada item do pedido ao contêiner
+            if(aux[index] && aux[index].pedidos){
             aux[index].pedidos.forEach((pedido) => {
                 pedidoItensContainer.insertAdjacentHTML("beforeend", `
                     <p>Item: ${pedido.titulo}</p>
                 `);
             });
+            }
 
             // Botão para fechar o modal
             const btnSairModalEditar = document.querySelector(".sairDoPedido");
@@ -93,10 +107,11 @@ export async function formarPendentes() {
             });
 
             // Botão para avançar o pedidoc
-            console.log(PedidoCozinhas[index],"id aki pedidos")
+            
             const btnAvancar = document.getElementById("btnAvancar");
             btnAvancar.addEventListener("click", async () => {
-                const res = await fetch(`${baseUrl}/PedidoCozinhas/${modalPedidoElement.id}`, {
+                for(let pedido of aux[index].pedidos){
+                const res = await fetch(`${baseUrl}/PedidoCozinhas/${pedido.id}`, {
                     headers: headers,
                     method: "PUT",
                     body: JSON.stringify({
@@ -105,13 +120,16 @@ export async function formarPendentes() {
                 });
                 if (res.ok) {
                     const modal = document.querySelector(".wapper");
-                    modal.remove();
+                    if(modal){
+
+                        modal.remove();
+                    }
                 } else {
                     alert("Erro ao avançar o pedido.");
                 }
                 formarPendentes();
                 formarAndamento();
-                formarConcluido();
+            }
             });
         });
     });
@@ -149,30 +167,29 @@ export async function formarAndamento(params) {
 
     aux.forEach((item) => {
         items.insertAdjacentHTML("beforeend", `
-            <li class="modalPedido pedido" id="${item.id}">
+            <li class="modalPedido modal2 pedido" id="${item.id}">
                 <p>Mesa: ${item.mesa} <br> Cliente: ${item.nomeCliente}</p>
             </li>
         `);
     });
 
         // Adicionar evento a cada item criado dinamicamente
-        document.querySelectorAll(".modalPedido").forEach((modalPedidoElement, index) => {
+        document.querySelectorAll(".modal2").forEach((modalPedidoElement, index) => {
             modalPedidoElement.addEventListener("click", () => {
                 const body = document.querySelector("body");
-                console.log(aux[index],"peddo no index")
+                console.log("click 2")
                 body.insertAdjacentHTML("beforeend", `
                     <div class="wapper">
                         <div class="modalNovoCardapio">
                             <form id="formItemCardapio" class="formItemCardapio">
                                 <button type="button" class="sairDoPedido">X</button>
                                 <h1 class="tituloModal">Detalhes do Pedido</h1>
-                                <p>Mesa: ${PedidoCozinhas[index].numeroMesa??""}</p>
-                                <p>Cliente: ${PedidoCozinhas[index].nomeCliente??""}</p>
-                                
+                                <p>Mesa: ${PedidoCozinhas[index]?.numeroMesa ?? ""}</p>
+                                <p>Cliente: ${PedidoCozinhas[index]?.nomeCliente ?? ""}</p>
                                 <!-- Contêiner para itens do pedido -->
                                 <div id="pedidoItensContainer"></div>
     
-                                <button type="button" id="btnAvancar" class="btnAvancar">Avançar Pedido</button>
+                                <button type="button" id="btnAvancar" class="btnAvancar">Concluir Pedido</button>
                             </form>
                         </div>
                     </div>
@@ -182,11 +199,13 @@ export async function formarAndamento(params) {
                 const pedidoItensContainer = document.getElementById("pedidoItensContainer");
     
                 // Adiciona cada item do pedido ao contêiner
-                aux[index].pedidos.forEach((pedido) => {
-                    pedidoItensContainer.insertAdjacentHTML("beforeend", `
-                        <p>Item: ${pedido.titulo}</p>
-                    `);
-                });
+                if(aux[index]  && aux[index].pedidos){
+                    aux[index].pedidos.forEach((pedido) => {
+                        pedidoItensContainer.insertAdjacentHTML("beforeend", `
+                            <p>Item: ${pedido.titulo}</p>
+                        `);
+                    });
+                }
     
                 // Botão para fechar o modal
                 const btnSairModalEditar = document.querySelector(".sairDoPedido");
@@ -218,8 +237,6 @@ export async function formarAndamento(params) {
                             alert("Erro ao avançar o pedido.");
                         }
                     }
-                  
-                    formarPendentes();
                     formarAndamento();
                     formarConcluido();
              
@@ -262,15 +279,17 @@ export async function formarConcluido() {
 
     aux.forEach((item) => {
         items.insertAdjacentHTML("beforeend", `
-            <li class="modalPedido pedido" id="${item.id}">
+            <li class="modalPedido modal3 pedido" id="${item.id}">
                 <p>Mesa: ${item.mesa} <br> Cliente: ${item.nomeCliente}</p>
             </li>
         `);
     });
 
     // Adicionar evento a cada item criado dinamicamente
-    document.querySelectorAll(".modalPedido").forEach((modalPedidoElement, index) => {
+    document.querySelectorAll(".modal3").forEach((modalPedidoElement, index) => {
+        console.log(modalPedidoElement,"click de abertura do modal")
         modalPedidoElement.addEventListener("click", () => {
+            console.log("click 3")
             const body = document.querySelector("body");
             body.insertAdjacentHTML("beforeend", `
                 <div class="wapper">
@@ -278,13 +297,10 @@ export async function formarConcluido() {
                         <form id="formItemCardapio" class="formItemCardapio">
                             <button type="button" class="sairDoPedido">X</button>
                             <h1 class="tituloModal">Detalhes do Pedido</h1>
-                            <p>Mesa: ${PedidoCozinhas[index].numeroMesa??""}</p>
-                            <p>Cliente: ${PedidoCozinhas[index].nomeCliente??""}</p>
-                            
+                            <p>Mesa: ${PedidoCozinhas[index]?.numeroMesa ?? ""}</p>
+                            <p>Cliente: ${PedidoCozinhas[index]?.nomeCliente ?? ""}</p>
                             <!-- Contêiner para itens do pedido -->
                             <div id="pedidoItensContainer"></div>
-
-                            <button type="button" id="btnAvancar" class="btnAvancar">Avançar Pedido</button>
                         </form>
                     </div>
                 </div>
@@ -294,11 +310,14 @@ export async function formarConcluido() {
             const pedidoItensContainer = document.getElementById("pedidoItensContainer");
 
             // Adiciona cada item do pedido ao contêiner
+            if(aux[index]  && aux[index].pedidos){
             aux[index].pedidos.forEach((pedido) => {
+                console.log(aux)
                 pedidoItensContainer.insertAdjacentHTML("beforeend", `
                     <p>Item: ${pedido.titulo}</p>
                 `);
             });
+        }
 
             // Botão para fechar o modal
             const btnSairModalEditar = document.querySelector(".sairDoPedido");
