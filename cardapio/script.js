@@ -1,10 +1,6 @@
 import {formarProduto,criarProduto} from "./formarProduto.js"
 
 
-
-
-
-
 formarProduto("#items")
 
 

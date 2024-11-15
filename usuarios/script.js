@@ -39,22 +39,148 @@ function renderizarUsuarios(usuarios) {
         grid.appendChild(card);
         const cardUser = document.getElementById(usuario.id)
 
-        cardUser.addEventListener('click', () => mostrarModal(usuario));
+        cardUser.addEventListener('click', () => {mostrarModal(usuario)});
     });
 }
 
 function mostrarModal(usuario) {
     console.log(usuario,"usuario")
+    document.body.insertAdjacentHTML("beforeend",`
+        <div id="userModal" class="modal">
+            <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Informações do Usuário</h2>
+            <div class="form-group">
+                <label>Nome:</label>
+                <input type="text" id="userNome" readonly>
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="text" id="userEmail" readonly>
+            </div>
+            <div class="form-group">
+                <label>Senha:</label>
+                <input type="password" id="userSenha" readonly>
+            </div>
+        </div>
+        </div>
+        `)
     const modal = document.getElementById('userModal');
     document.getElementById('userNome').value = usuario.nome;
     document.getElementById('userEmail').value = usuario.email;
     document.getElementById('userSenha').value = usuario.senha;
     modal.style.display = 'block';
+
+    const btnmodal = document.querySelector(".close-btn") //btn sair do ADICIONAR Usuario
+btnmodal.addEventListener("click", () => {
+        console.log("click")
+        const modal = document.querySelector(".modal")
+        modal .remove()
+    })
+    
 }
-// Fechar modal
-document.querySelector('.close-btn').addEventListener('click', () => {
-    document.getElementById('userModal').style.display = 'none';
-});
+
 
 // Iniciar aplicação
 carregarUsuarios();
+
+//Botao de voltar
+const botaoDeVoltar = document.querySelector(".back-button")
+botaoDeVoltar.addEventListener('click', () => {
+ window.location.href = "../home/index.html"
+   
+});
+
+
+const btnAddUsuario = document.querySelector(".addUsuario")
+btnAddUsuario.addEventListener("click", () => {
+    modalNovoUsuario()
+
+})
+
+
+function modalNovoUsuario(){
+    const body = document.querySelector("body")
+     body.insertAdjacentHTML("beforeend", `    
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Cadastro Novo Usuario</h2>
+            <form id="formNovoUsuario">
+            <div class="form-group">
+                <label>Nome:</label>
+                <input type="text" id="userNome">
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="text" id="userEmail">
+            </div>
+            <div class="form-group">
+                <label>Senha:</label>
+                <input type="password" id="userSenha">
+               <div class="button-container">
+            <button type="submit" class="submit-btn">Cadastrar</button>
+            </form>
+        </div>
+            </div>
+        </div>
+    </div>
+        `
+        
+  
+)
+const botaoAdicionarUsuario = document.querySelector("#formNovoUsuario")
+botaoAdicionarUsuario.addEventListener("submit", (e)=>{
+    e.preventDefault()
+    verificaNovoUsuario()
+})
+
+const btnmodal = document.querySelector(".close-btn") //btn sair do ADICIONAR Usuario
+btnmodal.addEventListener("click", () => {
+        console.log("click")
+        const modal = document.querySelector(".modal")
+        modal .remove()
+    })
+
+
+}
+
+
+
+
+function verificaNovoUsuario(){
+    console.log("entrou no verifica")
+    const nome =  document.getElementById("userNome");
+    const email =  document.getElementById("userEmail");
+    const senha =  document.getElementById("userSenha");
+
+    const nomeUsuario = nome.value.trim(); //trim retira os espacos no inicio e final do input
+    const emailUsuario = email.value.trim(); //trim retira os espacos no inicio e final do input
+    const senhaUsuario = senha.value
+
+    if (nomeUsuario && (senhaUsuario) && emailUsuario) {
+        const novoUsuario = {nome: nomeUsuario, email: emailUsuario, senha: senhaUsuario}
+
+        addUsuario(novoUsuario)
+        nomeUsuario.value = '';
+        emailUsuario.value = '';
+        senhaUsuario.value = '';
+    }
+    else {
+        alert('Por favor, insira um nome, um preço e uma descrição válidos.');
+    }
+}
+
+
+
+
+async function addUsuario(novoUsuario) { //funcao que add o novo usuario (POST)
+    const res = await fetch(`${baseUrl}/Usuarios`, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(novoUsuario)
+    })
+    console.log(res)
+    const resJson = await res.json()
+    console.log(resJson)
+}
