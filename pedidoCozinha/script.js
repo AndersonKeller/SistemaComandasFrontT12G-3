@@ -286,48 +286,49 @@ export async function formarConcluido() {
     });
 
     // Adicionar evento a cada item criado dinamicamente
-    document.querySelectorAll(".modal3").forEach((modalPedidoElement, index) => {
-        console.log(modalPedidoElement,"click de abertura do modal")
+    document.querySelectorAll(".modal3").forEach((modalPedidoElement) => {
+        const pedidoId = modalPedidoElement.id; // Obtém o ID do pedido diretamente
+    
         modalPedidoElement.addEventListener("click", () => {
-            console.log("click 3")
+            console.log("click 3");
             const body = document.querySelector("body");
+            const pedidoSelecionado = aux.find((item) => item.id === parseInt(pedidoId)); // Busca o pedido correto
+    
             body.insertAdjacentHTML("beforeend", `
                 <div class="wapper">
                     <div class="modalNovoCardapio">
                         <form id="formItemCardapio" class="formItemCardapio">
                             <button type="button" class="sairDoPedido">X</button>
                             <h1 class="tituloModal">Detalhes do Pedido</h1>
-                            <p>Mesa: ${PedidoCozinhas[index]?.numeroMesa ?? ""}</p>
-                            <p>Cliente: ${PedidoCozinhas[index]?.nomeCliente ?? ""}</p>
+                            <p>Mesa: ${pedidoSelecionado?.mesa ?? ""}</p>
+                            <p>Cliente: ${pedidoSelecionado?.nomeCliente ?? ""}</p>
                             <!-- Contêiner para itens do pedido -->
                             <div id="pedidoItensContainer"></div>
                         </form>
                     </div>
                 </div>
             `);
-
+    
             // Seleciona o contêiner onde os itens do pedido serão adicionados
             const pedidoItensContainer = document.getElementById("pedidoItensContainer");
-
+    
             // Adiciona cada item do pedido ao contêiner
-            if(aux[index]  && aux[index].pedidos){
-            aux[index].pedidos.forEach((pedido) => {
-                console.log(aux)
-                pedidoItensContainer.insertAdjacentHTML("beforeend", `
-                    <p>Item: ${pedido.titulo}</p>
-                `);
-            });
-        }
-
+            if (pedidoSelecionado && pedidoSelecionado.pedidos) {
+                pedidoSelecionado.pedidos.forEach((pedido) => {
+                    pedidoItensContainer.insertAdjacentHTML("beforeend", `
+                        <p>Item: ${pedido.titulo}</p>
+                    `);
+                });
+            }
+    
             // Botão para fechar o modal
             const btnSairModalEditar = document.querySelector(".sairDoPedido");
             btnSairModalEditar.addEventListener("click", () => {
                 const modal = document.querySelector(".wapper");
                 modal.remove();
             });
-    
-        })
-    })
+        });
+    });
 
 }
 // Chama as funções
