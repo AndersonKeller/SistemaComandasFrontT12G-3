@@ -1,11 +1,11 @@
-/* Estilos Globais */
+/* Estilos globais */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: black;
 }
 
-/* Estilizando o Header */
+/* Estilizando o header da pagina */
 header {
     display: flex;
     justify-content: space-between;
@@ -38,7 +38,7 @@ button.voltar:hover {
     background-color: #e65c00;
 }
 
-/* Container Principal */
+/* estilizando o cacabealho */
 .cabecalho {
     display: flex;
     justify-content: flex-start;
@@ -52,7 +52,7 @@ button.voltar:hover {
     margin: 20px;
 }
 
-/* Seções dos Pedidos */
+/* pedidos (pendentes, andamento e concluidos) */
 .section {
     background-color: orange;
     border-radius: 10px;
@@ -88,6 +88,7 @@ button.voltar:hover {
     cursor: grabbing;
 }
 
+/* css para estilizar a formacao do modal*/
 .formItemCardapio {
     width: 100%;
     display: flex;
@@ -131,6 +132,8 @@ button.voltar:hover {
     max-width: 500px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
+
+/* botao para avancar ou finalizar pedido */
 .btnAvancar {
     background-color: #ff7f00;
     color: white;
@@ -149,6 +152,7 @@ button.voltar:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
+/* botao para fechar o modal */
 .sairDoPedido {
     background-color: #FF4500;
     color: white;

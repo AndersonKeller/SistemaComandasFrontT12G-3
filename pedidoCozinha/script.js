@@ -78,17 +78,6 @@ export async function formarPendentes() {
             // Seleciona o contêiner onde os itens do pedido serão adicionados
             const pedidoItensContainer = document.getElementById("pedidoItensContainer");
             
-
-            // confere se o array não está vazio
-            // if (aux[index] && aux[index].pedidos) {
-            //     aux[index].pedidos.forEach((pedido) => {
-            //         pedidoItensContainer.insertAdjacentHTML("beforeend", `
-            //             <p>Item: ${pedido.titulo}</p>
-            //         `);
-            //     });
-            // } else {
-            //     console.error(`Pedido não encontrado para o índice: ${index}`, aux);
-            // }
             console.log(aux[index], "ordem");
             // Adiciona cada item do pedido ao contêiner
             if(aux[index] && aux[index].pedidos){
