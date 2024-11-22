@@ -62,6 +62,9 @@ function mostrarModal(usuario) {
                 <label>Senha:</label>
                 <input type="password" id="userSenha" readonly>
             </div>
+            <div>
+                <button class="btnExcluirUsuario">Excluir Usuario</button>
+            </div>
         </div>
         </div>
         `)
@@ -72,11 +75,24 @@ function mostrarModal(usuario) {
     modal.style.display = 'block';
 
     const btnmodal = document.querySelector(".close-btn") //btn sair do ADICIONAR Usuario
-btnmodal.addEventListener("click", () => {
+    btnmodal.addEventListener("click", () => {
         console.log("click")
         const modal = document.querySelector(".modal")
         modal .remove()
     })
+
+    const botaoRemover = document.querySelector(".btnExcluirUsuario") //botao remover item do cardapio
+    botaoRemover.addEventListener("click", () => {
+    excluirUsuario(usuario.id)
+    const modal = document.querySelector("#userModal")
+    modal.remove()
+    setTimeout(()=>{
+        location.reload()
+    }
+    ,1000)
+    
+})
+
     
 }
 
@@ -95,6 +111,7 @@ botaoDeVoltar.addEventListener('click', () => {
 const btnAddUsuario = document.querySelector(".addUsuario")
 btnAddUsuario.addEventListener("click", () => {
     modalNovoUsuario()
+   
 
 })
 
@@ -131,8 +148,14 @@ function modalNovoUsuario(){
 )
 const botaoAdicionarUsuario = document.querySelector("#formNovoUsuario")
 botaoAdicionarUsuario.addEventListener("submit", (e)=>{
-    e.preventDefault()
     verificaNovoUsuario()
+    const modal = document.querySelector(".modal")
+    modal .remove()
+    setTimeout(()=>{
+        location.reload()
+    }
+    ,1000)
+    
 })
 
 const btnmodal = document.querySelector(".close-btn") //btn sair do ADICIONAR Usuario
@@ -184,3 +207,17 @@ async function addUsuario(novoUsuario) { //funcao que add o novo usuario (POST)
     const resJson = await res.json()
     console.log(resJson)
 }
+
+
+
+async function excluirUsuario(id) { //funcao que exclui Usuario (DELETE)
+    const res = await fetch(`${baseUrl}/Usuarios/${id}`, {
+        method: "DELETE",
+        headers: headers
+
+    })
+    console.log(res)
+    
+}
+
+
