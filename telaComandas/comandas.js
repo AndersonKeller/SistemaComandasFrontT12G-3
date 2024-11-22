@@ -6,57 +6,64 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-let listitems = []; // Armazena IDs dos itens selecionados
+let listitems = [];
 
-// Primeiro, vamos adicionar o evento de clique nas comandas
 async function formarComanda() {
-  const comanda = await fetch(`${baseUrl}/Comandas`, {
-    headers: headers,
-  });
+  try {
+    const comanda = await fetch(`${baseUrl}/Comandas`, {
+      headers: headers,
+    });
 
-  const Comandas = await comanda.json();
-  const Ordem = document.querySelector(".orders");
+    if (!comanda.ok) {
+      throw new Error(`HTTP error! status: ${comanda.status}`);
+    }
 
-  console.log(Comandas);
-  const btnCriar = document.querySelector("#criar");
-  btnCriar.addEventListener("click", criarComanda);
+    const Comandas = await comanda.json();
+    const Ordem = document.querySelector(".orders");
 
-  Ordem.innerHTML = ''; // Limpa as comandas existentes
-  
-  Comandas.forEach(async (item) => {
-    const orderDiv = document.createElement('div');
-    orderDiv.className = 'order';
-    orderDiv.innerHTML = `
-      <p>
-        <span>${item.id}</span>
-        <span>MESA ${item.numeroMesa}</span>
-      </p>
-      <span>${item.nomeCliente}</span>
-    `;
+    console.log("Comandas carregadas:", Comandas);
+    const btnCriar = document.querySelector("#criar");
+    btnCriar.addEventListener("click", criarComanda);
+
+    Ordem.innerHTML = '';
     
-    // Adiciona evento de clique para editar
-    orderDiv.addEventListener('click', () => editarComanda(item));
-    
-    Ordem.appendChild(orderDiv);
-  });
+    Comandas.forEach(async (item) => {
+      const orderDiv = document.createElement('div');
+      orderDiv.className = 'order';
+      orderDiv.innerHTML = `
+        <p>
+          <span>${item.id}</span>
+          <span>MESA ${item.numeroMesa}</span>
+        </p>
+        <span>${item.nomeCliente}</span>
+      `;
+      
+      orderDiv.addEventListener('click', () => editarComanda(item));
+      Ordem.appendChild(orderDiv);
+    });
+  } catch (error) {
+    console.error("Erro ao carregar comandas:", error);
+    alert("Erro ao carregar comandas. Por favor, tente novamente.");
+  }
 }
 
 async function editarComanda(comanda) {
-  const criar = document.querySelector("body");
-  listitems = []; // Limpa a lista atual de items
+  try {
+    const criar = document.querySelector("body");
+    listitems = []; // Reset items list
 
-  criar.insertAdjacentHTML(
-    "beforeend",
-    `
+    criar.insertAdjacentHTML(
+      "beforeend",
+      `
         <div class="wapper">
-            <div class="modal">
+            <div class="modal_editar">
                 <form id="editarComanda"> 
                     <button type="button" class="close-btn">x</button>
-                    <input id="input_mesa_comanda" type="number" value="${comanda.numeroMesa}">
-                    <label>Mesa:</label>
-                    
-                    <input id="input_nome_comanda" type="text" value="${comanda.nomeCliente}">
                     <label>Nome:</label>
+                    <input id="input_nome_comanda" type="text" value="${comanda.nomeCliente}">
+                    
+                    <label>Mesa:</label>
+                    <input id="input_mesa_comanda" type="number" value="${comanda.numeroMesa}">
                     <input type="hidden" id="comanda_id" value="${comanda.id}">
                 </form>
                 <div class="items_comanda"></div>
@@ -68,56 +75,109 @@ async function editarComanda(comanda) {
                 </div>
             </div>
         </div>
-    `
-  );
-
-  // Carrega os itens da comanda
-  const items_comanda = document.querySelector(".items_comanda");
-  for (let itemId of comanda.cardapioItems) {
-    const res = await fetch(`${baseUrl}/CardapioItems/${itemId}`, {
-      headers: headers,
-    });
-    const item = await res.json();
-    
-    listitems.push(`${itemId}e`); // Mantém o formato original dos IDs
-    
-    items_comanda.insertAdjacentHTML(
-      'beforeend',
-      `
-        <div class="item item-${itemId}e">
-            <li>${item.titulo} - R$${item.preco} 
-            <span class="quantidade">1</span>x
-            <button class="remover-item" data-id="${itemId}e">❌</button></li>
-        </div>
       `
     );
+
+    const items_comanda = document.querySelector(".items_comanda");
+
+    // Verificar estrutura de comandaItens
+    console.log("Itens da comanda:", comanda.comandaItens);
+
+        // Processa os IDs para calcular a quantidade
+    const comandaItensQuantificados = comanda.comandaItens.reduce((acc, id) => {
+      acc[id] = (acc[id] || 0) + 1;
+      return acc;
+    }, {});
+
+    // Converte para um array estruturado
+    const itensQuantificados = Object.entries(comandaItensQuantificados).map(([id, quantidade]) => ({
+      id: parseInt(id),
+      quantidade,
+    }));
+
+    console.log(itensQuantificados);
+    // Resultado: [{ id: 1, quantidade: 3 }, { id: 2, quantidade: 2 }, { id: 3, quantidade: 1 }]
+
+
+    // Carregar itens da comanda
+    if (comanda.comandaItens && Array.isArray(comanda.comandaItens)) {
+  // Calcular a quantidade de cada produto
+  const comandaItensQuantificados = comanda.comandaItens.reduce((acc, item) => {
+    acc[item.idProduto] = (acc[item.idProduto] || 0) + 1;
+    return acc;
+  }, {});
+
+  for (const item of comanda.comandaItens) {
+    try {
+      const { idProduto, titulo, preco } = item;
+
+      if (!idProduto || !titulo || !preco) {
+        console.error(`Dados do item estão incompletos:`, item);
+        continue;
+      }
+
+      // Evitar duplicação no DOM
+      // const existingItem = document.querySelector(`.item-${idProduto}`);
+      // if (existingItem) {
+      //   console.warn(`Item com idProduto ${idProduto} já foi adicionado.`);
+      //   continue;
+      // }
+
+      // Quantidade calculada
+      const quantidade = comandaItensQuantificados[idProduto];
+
+      listitems.push(`${idProduto}e`);
+
+      items_comanda.insertAdjacentHTML(
+        'beforeend',
+        `
+          <div class="item item-${idProduto}">
+              <li>${titulo} - R$${preco} 
+              <span class="quantidade">${quantidade}</span>x
+              <button class="remover-item" data-id="${idProduto}">❌</button></li>
+          </div>
+        `
+      );
+    } catch (error) {
+      console.error(`Erro ao carregar item:`, error);
+    }
   }
-
-  // Adiciona os event listeners
-  const botaoVoltar = document.querySelector(".close-btn");
-  if (botaoVoltar) {
-    botaoVoltar.addEventListener("click", () => {
-      const modal = document.querySelector(".wapper");
-      modal.remove();
-    });
-  }
-
-  const BtnAbrirCardapio = document.querySelector(".abrirCardapio");
-  if (BtnAbrirCardapio) {
-    BtnAbrirCardapio.addEventListener("click", toggleCardapio);
-  }
-
-  // Adiciona event listener para remover itens
-  document.querySelectorAll('.remover-item').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const id = e.target.dataset.id;
-      removerUnidadeItemComanda(id);
-    });
-  });
-
-  const btnSalvar = document.querySelector(".salvar-btn");
-  btnSalvar.addEventListener("click", atualizarComanda);
+} else {
+  console.warn("comandaItens não é um array ou está vazio:", comanda.comandaItens);
 }
+
+    
+
+    const botaoVoltar = document.querySelector(".close-btn");
+    if (botaoVoltar) {
+      botaoVoltar.addEventListener("click", () => {
+        const modal = document.querySelector(".wapper");
+        modal.remove();
+      });
+    }
+
+    const BtnAbrirCardapio = document.querySelector(".abrirCardapio");
+    if (BtnAbrirCardapio) {
+      BtnAbrirCardapio.addEventListener("click", toggleCardapio);
+    }
+
+    document.querySelectorAll('.remover-item').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = e.target.dataset.id;
+        removerUnidadeItemComanda(id);
+      });
+    });
+
+    const btnSalvar = document.querySelector(".salvar-btn");
+    btnSalvar.addEventListener("click", atualizarComanda);
+    
+  } catch (error) {
+    console.error("Erro ao editar comanda:", error);
+    alert("Erro ao editar comanda. Por favor, tente novamente.");
+  }
+}
+
+
 
 async function atualizarComanda() {
   const inputNomeCliente = document.getElementById("input_nome_comanda");
