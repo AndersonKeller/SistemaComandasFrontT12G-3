@@ -171,3 +171,31 @@ button.voltar:hover {
     transform: scale(1.1);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
+
+button.btnAvancar {
+    color: rgb(0, 0, 0);
+    background-color: #f5a623;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 1em 2em;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid black;
+    box-shadow: 0 0 0 0 black;
+  }
+  
+  button.btnAvancar:hover {
+    transform: translateY(-4px) translateX(+2px);
+    box-shadow: 2px 5px 0 0 rgb(105, 70, 4);
+  }
+  
+  button.btnAvancar:active {
+    transform: translateY(2px) translateX(1px);
+    box-shadow: 0 0 0 0 black;
+  }
+
+
+
+
+  
