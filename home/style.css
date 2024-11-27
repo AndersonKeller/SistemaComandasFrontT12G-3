@@ -91,10 +91,11 @@
 
 /* Estilizando a DIV que contem todos os botões */
 .menu-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     gap: 20px;
     width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .menu-button {
@@ -106,7 +107,9 @@
     font-size: 18px;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: 40%;
 }
+
 
 .menu-button:hover {
     background-color: #c74209;
@@ -115,7 +118,7 @@
 /* Estilizando as letras miúdas abaixo dos botões de ação */
 footer {
     margin-top: 30px;
-    font-size: 12px;
+    font-size: 18px;
     color: #000;
 }
 
@@ -141,3 +144,5 @@ button.menu-button {
     transform: translateY(2px) translateX(1px);
     box-shadow: 0 0 0 0 black;
   }
+
+
