@@ -4,8 +4,7 @@ const headers = {
     'Content-Type': 'application/json'
 }
 
-
-        
+   
 async function carregarUsuarios() {
     console.log('logison')
     try {
@@ -59,42 +58,46 @@ function mostrarModal(usuario) {
                 <input type="text" id="userEmail" readonly>
             </div>
             <div class="form-group">
-                <label>Senha:</label>
-                <input type="password" id="userSenha" readonly>
-            </div>
-            <div>
-                <button class="btnExcluirUsuario">Excluir Usuario</button>
+                    <label>Senha:</label>
+                    <input type="password" id="userSenha" readonly>
+                </div>
+                ${usuario.email !== 'admin@admin.com' ? `
+                    <div>
+                        <button class="btnExcluirUsuario">Excluir Usuario</button>
+                    </div>
+                ` : ''}
             </div>
         </div>
-        </div>
-        `)
+    `)
+    
     const modal = document.getElementById('userModal');
     document.getElementById('userNome').value = usuario.nome;
     document.getElementById('userEmail').value = usuario.email;
     document.getElementById('userSenha').value = usuario.senha;
     modal.style.display = 'block';
 
-    const btnmodal = document.querySelector(".close-btn") //btn sair do ADICIONAR Usuario
+    const btnmodal = document.querySelector(".close-btn")
     btnmodal.addEventListener("click", () => {
         console.log("click")
         const modal = document.querySelector(".modal")
-        modal .remove()
+        modal.remove()
     })
 
-    const botaoRemover = document.querySelector(".btnExcluirUsuario") //botao remover item do cardapio
-    botaoRemover.addEventListener("click", () => {
-    excluirUsuario(usuario.id)
-    const modal = document.querySelector("#userModal")
-    modal.remove()
-    setTimeout(()=>{
-        location.reload()
+    // Só adiciona o evento de excluir se não for admin
+    if (usuario.email !== 'admin@admin.com') {
+        const botaoRemover = document.querySelector(".btnExcluirUsuario")
+        botaoRemover.addEventListener("click", () => {
+            excluirUsuario(usuario.id)
+            const modal = document.querySelector("#userModal")
+            modal.remove()
+            setTimeout(() => {
+                location.reload()
+            }, 1000)
+        })
     }
-    ,1000)
-    
-})
-
-    
 }
+
+
 
 
 // Iniciar aplicação
@@ -142,12 +145,10 @@ function modalNovoUsuario(){
             </div>
         </div>
     </div>
-        `
-        
-  
-)
+        ` )
 const botaoAdicionarUsuario = document.querySelector("#formNovoUsuario")
 botaoAdicionarUsuario.addEventListener("submit", (e)=>{
+    e.preventDefault()
     verificaNovoUsuario()
     const modal = document.querySelector(".modal")
     modal .remove()
@@ -155,8 +156,8 @@ botaoAdicionarUsuario.addEventListener("submit", (e)=>{
         location.reload()
     }
     ,1000)
-    
 })
+
 
 const btnmodal = document.querySelector(".close-btn") //btn sair do ADICIONAR Usuario
 btnmodal.addEventListener("click", () => {
@@ -164,11 +165,7 @@ btnmodal.addEventListener("click", () => {
         const modal = document.querySelector(".modal")
         modal .remove()
     })
-
-
 }
-
-
 
 
 function verificaNovoUsuario(){
@@ -177,24 +174,22 @@ function verificaNovoUsuario(){
     const email =  document.getElementById("userEmail");
     const senha =  document.getElementById("userSenha");
 
-    const nomeUsuario = nome.value.trim(); //trim retira os espacos no inicio e final do input
-    const emailUsuario = email.value.trim(); //trim retira os espacos no inicio e final do input
-    const senhaUsuario = senha.value
+    let nomeUsuario = nome.value.trim(); //trim retira os espacos no inicio e final do input
+    let emailUsuario = email.value.trim(); //trim retira os espacos no inicio e final do input
+    let senhaUsuario = senha.value
 
     if (nomeUsuario && (senhaUsuario) && emailUsuario) {
         const novoUsuario = {nome: nomeUsuario, email: emailUsuario, senha: senhaUsuario}
 
         addUsuario(novoUsuario)
-        nomeUsuario.value = '';
-        emailUsuario.value = '';
-        senhaUsuario.value = '';
+        nomeUsuario = '';
+        emailUsuario = '';
+        senhaUsuario = '';
     }
     else {
         alert('Por favor, insira um nome, um preço e uma descrição válidos.');
     }
 }
-
-
 
 
 async function addUsuario(novoUsuario) { //funcao que add o novo usuario (POST)
@@ -208,8 +203,6 @@ async function addUsuario(novoUsuario) { //funcao que add o novo usuario (POST)
     console.log(resJson)
 }
 
-
-
 async function excluirUsuario(id) { //funcao que exclui Usuario (DELETE)
     const res = await fetch(`${baseUrl}/Usuarios/${id}`, {
         method: "DELETE",
@@ -219,5 +212,4 @@ async function excluirUsuario(id) { //funcao que exclui Usuario (DELETE)
     console.log(res)
     
 }
-
 
