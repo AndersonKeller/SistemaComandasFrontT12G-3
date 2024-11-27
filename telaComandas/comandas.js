@@ -117,11 +117,11 @@ async function editarComanda(comanda) {
       }
 
       // Evitar duplicação no DOM
-      // const existingItem = document.querySelector(`.item-${idProduto}`);
-      // if (existingItem) {
-      //   console.warn(`Item com idProduto ${idProduto} já foi adicionado.`);
-      //   continue;
-      // }
+      // // const existingItem = document.querySelector(`.item-${idProduto}`);
+      // // if (existingItem) {
+      // //   console.warn(`Item com idProduto ${idProduto} já foi adicionado.`);
+      // //   continue;
+      // // }
 
       // Quantidade calculada
       const quantidade = comandaItensQuantificados[idProduto];
@@ -313,44 +313,41 @@ async function toggleCardapio(isckick) {
 
 
 async function inserirItemComanda(id) {
-  const res = await fetch(`${baseUrl}/CardapioItems/${id.split("e")[0]}`, {
-    headers: headers,
-  });
-  const resJson = await res.json();
-  console.log(resJson);
+  try {
+    // Buscando os dados do item
+    const res = await fetch(`${baseUrl}/CardapioItems/${id.split("e")[0]}`, {
+      headers: headers,
+    });
+    const resJson = await res.json();
+    console.log(resJson);
 
-  const items_comanda = document.querySelector(".items_comanda");
-  let itemExistente = items_comanda.querySelector(`.item-${id}`);
-  listitems.push(id);
+    const items_comanda = document.querySelector(".items_comanda");
 
-  if (itemExistente) {
-    let quantidadeSpan = itemExistente.querySelector(".quantidade");  
-    let quantidadeAtual = parseInt(quantidadeSpan.textContent);
-    quantidadeSpan.textContent = quantidadeAtual + 1;
-
-    // Atualizar quantidade no banco (PUT)
-    // await atualizarQuantidadeItemComanda(id, quantidadeAtual + 1);
-  } else {
-    // Caso o item não exista, adiciona no DOM e na API (POST)
+    // Adicionando o item individualmente no DOM
     items_comanda.insertAdjacentHTML(
       `beforeend`,
       `
         <div class="item item-${id}">
-            <li>${resJson.titulo} - R$${resJson.preco} 
-            <span class="quantidade">1</span>x
-            <button class="remover-item" data-id="${id}">❌</button></li>
+            <li>${resJson.titulo} - R$${resJson.preco}
+              <button class="remover-item" data-id="${id}">❌</button>
+            </li>
         </div>
       `
     );
 
+    // Adicionando o evento de remoção para o botão recém-criado
     document.querySelector(`.item-${id} .remover-item`).addEventListener("click", () => {
       removerUnidadeItemComanda(id);
     });
 
-    // Envia o item ao banco como nova entrada (POST)
-    // await adicionarItemComanda(id, 1);
+    // Adicionando o ID do item à lista para salvar posteriormente
+    listitems.push(id);
+  } catch (error) {
+    console.error("Erro ao inserir item na comanda:", error);
+    alert("Erro ao adicionar item à comanda.");
   }
 }
+
 
 async function removerUnidadeItemComanda(id) {
   const itemElement = document.querySelector(`.item-${id}`);
@@ -385,7 +382,18 @@ async function atualizarQuantidadeItemComanda(id, quantidade) {
   const body = {
     idProduto: id.split("e")[0],
     quantidade: quantidade,
-  };
+    id: id,
+    numeroMesa: 0,
+    nomeCliente: "string",
+    comandaItens: [
+      {
+        cardapioItemId: 0,
+        id: 0,
+        excluir: true,
+        incluir: true
+      }
+    ]
+  }
 
   await fetch(`${baseUrl}/Comandas/${id.split("e")[0]}`, {
     headers: headers,
@@ -394,12 +402,12 @@ async function atualizarQuantidadeItemComanda(id, quantidade) {
   });
 }
 
-async function deletarItemComanda(id) {
-  await fetch(`${baseUrl}/Comandas/${id.split("e")[0]}`, {
-    headers: headers,
-    method: "DELETE",
-  });
-}
+// async function deletarItemComanda(id) {
+//   await fetch(`${baseUrl}/Comandas/${id.split("e")[0]}`, {
+//     headers: headers,
+//     method: "DELETE",
+//   });
+// }
 
 
 
