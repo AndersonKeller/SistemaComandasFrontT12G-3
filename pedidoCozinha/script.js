@@ -11,6 +11,7 @@ botaoVoltar.addEventListener("click", () => {
     window.location.href = "/home/index.html";
 });
 
+
 // Requisição para buscar os pedidos que vão para a cozinha (Pendentes)
 export async function formarPendentes() {
 

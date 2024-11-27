@@ -18,25 +18,38 @@ header {
 
 header h1 {
     margin: 0;
-    font-size: 24px;
-    font-weight: bold;
+    font-family: "Chicle", serif;
+    font-size: 38px;
+    color: #1f1e1e;
     width: 100%;
     text-align: center;
 }
 
 button.voltar {
-    background-color: #ff6600;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    font-size: 16px;
+    color: rgb(0, 0, 0);
+    background-color: #f5a623;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 1em 2em;
     cursor: pointer;
-    border-radius: 5px;
-}
+    transition: all 0.3s ease-in-out;
+    border: 1px solid black;
+    box-shadow: 0 0 0 0 black;
+  }
+  
+  button.voltar:hover {
+    transform: translateY(-4px) translateX(+2px);
+    box-shadow: 2px 5px 0 0 rgb(105, 70, 4);
+  }
+  
+  button.voltar:active {
+    transform: translateY(2px) translateX(1px);
+    box-shadow: 0 0 0 0 black;
+  }
 
-button.voltar:hover {
-    background-color: #e65c00;
-}
+
+
 
 /* estilizando o cacabealho */
 .cabecalho {
@@ -66,6 +79,9 @@ button.voltar:hover {
 .section h2 {
     margin: 0 0 10px 0;
     color: #333;
+    font-family: "Chicle", serif;
+    font-size: 38px;
+    color: #1f1e1e;
 }
 
 /* Pedidos */
@@ -196,6 +212,3 @@ button.btnAvancar {
   }
 
 
-
-
-  
