@@ -18,6 +18,7 @@ async function login(){
     console.log(res)
     const resJson = await res.json()
     console.log(resJson)
+    localStorage.setItem("adminusuario",resJson.email)
 }
 
 const form = document.querySelector("form")
