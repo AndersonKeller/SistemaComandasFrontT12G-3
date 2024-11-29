@@ -187,7 +187,6 @@ export function criarProduto() {
                     <div class="slider-card-face slider-card-back"></div>
                     </div>
                     </label>
-                    <label>Sim</label> 
                 </div>
                     <button type="submit">Salvar</button>
                 </form>

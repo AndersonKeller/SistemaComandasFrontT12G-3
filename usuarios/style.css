@@ -4,12 +4,14 @@
     --text: #333;
     --background: #ffd8ab;
 }
-
+body{
+    background-color: #161616;
+}
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background: var(--background);
+    background: #252525;
 }
 
 .users-grid {
@@ -29,8 +31,14 @@
 }
 
 .user-card:hover {
-    transform: translateY(-5px);
-}
+    transform: translateY(-4px) translateX(+2px);
+    box-shadow: 2px 5px 0 0 rgb(105, 70, 4);
+  }
+  
+.user-card:active {
+    transform: translateY(2px) translateX(1px);
+    box-shadow: 0 0 0 0 black;
+  }
 
 .user-icon {
     width: 64px;
