@@ -109,12 +109,14 @@ async function editarComanda(comanda) {
 
   for (const item of comanda.comandaItens) {
     try {
-      const { idProduto, titulo, preco } = item;
+      const { id, titulo, preco } = item;
 
-      if (!idProduto || !titulo || !preco) {
-        console.error(`Dados do item estão incompletos:`, item);
-        continue;
-      }
+      console.log(comanda,"comanda")
+
+      // if (!id || !titulo || !preco) {
+      //   console.error(`Dados do item estão incompletos:`, item);
+      //   continue;
+      // }
 
       // Evitar duplicação no DOM
       // // const existingItem = document.querySelector(`.item-${idProduto}`);
@@ -124,17 +126,16 @@ async function editarComanda(comanda) {
       // // }
 
       // Quantidade calculada
-      const quantidade = comandaItensQuantificados[idProduto];
+      const quantidade = comandaItensQuantificados[id];
 
-      listitems.push(`${idProduto}e`);
+      listitems.push(`${id}e`);
 
       items_comanda.insertAdjacentHTML(
         'beforeend',
         `
-          <div class="item item-${idProduto}">
-              <li>${titulo} - R$${preco} 
-              <span class="quantidade">${quantidade}</span>x
-              <button class="remover-item" data-id="${idProduto}">❌</button></li>
+          <div class="item item-${id}" data-id=${id}>
+              <li>${titulo}
+              <button class="remover-item" data-id="${id}">❌</button></li>
           </div>
         `
       );
@@ -164,7 +165,10 @@ async function editarComanda(comanda) {
     document.querySelectorAll('.remover-item').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const id = e.target.dataset.id;
-        removerUnidadeItemComanda(id);
+        
+
+          removerUnidadeItemComanda(id);
+        
       });
     });
 
@@ -179,7 +183,7 @@ async function editarComanda(comanda) {
 
 
 
-async function atualizarComanda() {
+async function atualizarComanda(idItem) {
   const inputNomeCliente = document.getElementById("input_nome_comanda");
   const inputNumeroMesa = document.getElementById("input_mesa_comanda");
   const comandaId = document.getElementById("comanda_id");
@@ -193,11 +197,41 @@ async function atualizarComanda() {
     return;
   }
 
+  const items = document.querySelectorAll(".item");
+  const comandaItens = [];
+  console.log(items,"items li")
+  items.forEach((item) => {
+   
+    const itemId = parseInt(item.dataset.id); // ID do item vindo do atributo data-id
+    console.log(itemId)
+    const isAddItem = item.classList.contains("additem") && !item.getAttribute("style");
+    const isHidden = item.getAttribute("style") && !Array.from(item.classList).includes("additem")
+    console.log(isHidden,isAddItem)
+    if (isHidden) {
+      // Item está marcado para exclusão
+      comandaItens.push({
+        id: itemId,
+        incluir: false,
+        excluir: true,
+      });
+    } else if (isAddItem) {
+      // Item está marcado para inclusão
+      comandaItens.push({
+        cardapioItemId:itemId,
+        id: 0,
+        incluir: true,
+        excluir: false,
+      });
+    }
+  });
+
   const body = {
-    numeroMesa: mesa,
+    id:id,
+    numeroMesa: 0,
     nomeCliente: nome,
-    cardapioItems: listitems.map((item) => parseInt(item.split("e")[0])),
+    comandaItens: comandaItens,
   };
+ 
 
   console.log("Atualizando comanda:", body);
 
@@ -209,24 +243,24 @@ async function atualizarComanda() {
     });
 
     if (!atualizarRes.ok) {
-      throw new Error("Erro ao atualizar a comanda no banco.");
+      // throw new Error("Erro ao atualizar a comanda no banco.");
     }
 
-    const atualizarJson = await atualizarRes.json();
-    console.log("Resposta do servidor:", atualizarJson);
     
+
     const modal = document.querySelector(".wapper");
     modal.remove();
-    
+
     // Atualiza a lista de comandas
     formarComanda();
-    
-    alert("Comanda atualizada com sucesso!");
+
+    // alert("Comanda atualizada com sucesso!");
   } catch (error) {
     console.error("Erro ao atualizar comanda:", error);
-    alert("Erro ao atualizar a comanda");
+    // alert("Erro ao atualizar a comanda");
   }
 }
+
 
 formarComanda();
 
@@ -308,10 +342,6 @@ async function toggleCardapio(isckick) {
 }
 
 
-
-
-
-
 async function inserirItemComanda(id) {
   try {
     // Buscando os dados do item
@@ -327,7 +357,7 @@ async function inserirItemComanda(id) {
     items_comanda.insertAdjacentHTML(
       `beforeend`,
       `
-        <div class="item item-${id}">
+        <div class="item item-${id} additem" data-id=${id}  >
             <li>${resJson.titulo} - R$${resJson.preco}
               <button class="remover-item" data-id="${id}">❌</button>
             </li>
@@ -336,9 +366,13 @@ async function inserirItemComanda(id) {
     );
 
     // Adicionando o evento de remoção para o botão recém-criado
-    document.querySelector(`.item-${id} .remover-item`).addEventListener("click", () => {
-      removerUnidadeItemComanda(id);
-    });
+    const btns = document.querySelectorAll(`.item-${id} .remover-item`)
+    
+    btns.forEach((btn)=>{
+      btn.addEventListener("click", () => {
+        removerUnidadeItemComanda(id);
+      });
+    })
 
     // Adicionando o ID do item à lista para salvar posteriormente
     listitems.push(id);
@@ -350,47 +384,62 @@ async function inserirItemComanda(id) {
 
 
 async function removerUnidadeItemComanda(id) {
-  const itemElement = document.querySelector(`.item-${id}`);
-  let quantidadeSpan = itemElement.querySelector(".quantidade");
-  let quantidadeAtual = parseInt(quantidadeSpan.textContent);
+  const itemElement = document.querySelectorAll(`.item-${id}`);
+  const edit = document.querySelector(`.remover-item`);
+  // let idComanda = document.querySelector('#comanda_id').value;
+  //let quantidadeSpan = itemElement.querySelector(".quantidade");
+  //let quantidadeAtual = parseInt(quantidadeSpan.textContent);
+  console.log(itemElement,edit,"edit")
+   if (edit == null) {
+    //quantidadeSpan.textContent = quantidadeAtual - 1;
+    await excluirItemComanda(idComanda, quantidadeAtual - 1, id); // Atualiza a quantidade no banco (PUT)
 
-  if (quantidadeAtual > 1) {
-    quantidadeSpan.textContent = quantidadeAtual - 1;
-    await atualizarQuantidadeItemComanda(id, quantidadeAtual - 1); // Atualiza a quantidade no banco (PUT)
-  } else {
-    itemElement.remove();
-    listitems = listitems.filter(itemId => itemId !== id);
-    await deletarItemComanda(id); // Remove o item do banco (DELETE)
+   }
+    else {
+    //  itemElement.remove();
+      let aux= []
+    itemElement.forEach((item)=>{
+      if(!item.getAttribute("style")){
+
+        aux.push(item)
+        
+        return
+      }
+    })
+    aux[0].setAttribute("style","display:none;")
+    //  listitems = listitems.filter(itemId => itemId !== id);
+  //   await deletarItemComanda(id); // Remove o item do banco (DELETE)
   }
 }
+// codigo de remover item 
+// function removerItem(itemId, preco) {
+//   console.log(itemId,"itemId")
+//   const id = itemId.includes("-")?itemId.split("-")[1]:itemId
+//   console.log(id,"id")
+//   const item =Array.from( document.querySelectorAll("#item-${id}"))
+//   const findNone = item.find((li)=>!li.getAttribute("style"))
+//   console.log(findNone,"item com o id")
+//   findNone.setAttribute("style","display:none;");
+//   atualizarTotal(-preco);
+// }
 
-async function adicionarItemComanda(id, quantidade) {
+
+
+
+
+async function excluirItemComanda(id, quantidade, idItem) {
   const body = {
-    idProduto: id.split("e")[0],
-    quantidade: quantidade,
-    cardapioItems: []
-  };
-
-  await fetch(`${baseUrl}/Comandas`, {
-    headers: headers,
-    body: JSON.stringify(body),
-    method: "POST",
-  });
-}
-
-async function atualizarQuantidadeItemComanda(id, quantidade) {
-  const body = {
-    idProduto: id.split("e")[0],
-    quantidade: quantidade,
-    id: id,
+    id: id.split("e")[0],
+    //quantidade: quantidade,
+    //id: id,
     numeroMesa: 0,
-    nomeCliente: "string",
+    nomeCliente: "",
     comandaItens: [
       {
         cardapioItemId: 0,
-        id: 0,
+        id: idItem,
         excluir: true,
-        incluir: true
+        incluir: false
       }
     ]
   }
@@ -421,7 +470,7 @@ async function salvarComanda() {
 
   // Verifica se os dados de nome e mesa foram preenchidos
   if (!nome || isNaN(mesa)) {
-    alert("Preencha o nome do cliente e o número da mesa corretamente.");
+    //alert("Preencha o nome do cliente e o número da mesa corretamente.");
     return;
   }
 
