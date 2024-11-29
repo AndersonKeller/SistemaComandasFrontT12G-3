@@ -25,19 +25,39 @@ const user = localStorage.getItem("adminusuario")
         window.location.href = "/cardapio/index.html"
     })
     
-    mesas.addEventListener("click", () => {
+    mesas.addEventListener("click", () => {    
         window.location.href = "/mesas/index.html"
     })
     
-    perfil.addEventListener("click", () => {
-        botaoSair.classList.toggle("botao-sair")
-    })
-    
-    botaoSair.addEventListener("click", () => {
-        window.location.href = "/telaLogin/index.html"
-    })
-    
     usuarios.addEventListener("click", () => {
-        window.location.href = "/usuarios/index.html"
+        const usuarioSalvo = localStorage.getItem("usuario");
+        if(usuarioSalvo === "admin@admin.com"){
+            window.location.href = "/usuarios/index.html"
+        }
+        else{
+            const body = document.querySelector("body");
+            body.insertAdjacentHTML("beforeend", `
+                <div class="wapper">
+                    <div class="modalErroDePermissao">
+                        <button class="fecharModalPermissao" id="fecharModalPermissao">X</button>
+                        <h1>Erro!</h1>
+                        <h2>Permissão negada</h2>
+                    </div>
+                </div>
+                `);
+
+            const btnSairModalEditar = document.getElementById("fecharModalPermissao");
+            btnSairModalEditar.addEventListener("click", () => {
+                const modal = document.querySelector(".wapper");
+                modal.remove();
+            });
+        }
     })
 
+    botaoSair.addEventListener("click", () => {
+        localStorage.clear();
+        window.location.href = "/telaLogin/index.html"
+    })
+        
+
+    
