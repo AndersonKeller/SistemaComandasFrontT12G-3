@@ -72,6 +72,8 @@ async function editarComanda(comanda) {
                   <button class="salvar-btn">Atualizar comanda 
                       <span style="transform: none;">✔️</span>
                   </button>
+                  <button class="btnExluirComanda">Excluir comanda</button>
+
                 </div>
             </div>
         </div>
@@ -179,7 +181,20 @@ async function editarComanda(comanda) {
     console.error("Erro ao editar comanda:", error);
     alert("Erro ao editar comanda. Por favor, tente novamente.");
   }
+
+  const btnExcluirComanda = document.querySelector(".btnExluirComanda")
+  btnExcluirComanda.addEventListener("click",()=>
+  {
+    excluirComanda(comanda.id)
+    const modal = document.querySelector("modal_editar")
+    setTimeout(()=>{
+      location.reload()
+      modal.remove()
+  }
+  ,1000)
+  })
 }
+
 
 
 
@@ -516,6 +531,17 @@ async function salvarComanda() {
     console.error("Erro ao salvar comanda:", error);
     alert("Erro ao salvar a comanda");
   }
+}
+
+
+
+async function excluirComanda(id) { //funcao que exclui item do cardapio (DELETE)
+  const res = await fetch(`${baseUrl}/Comandas/${id}`, {
+      method: "DELETE",
+      headers: headers
+
+  })
+  formarComanda()
 }
 
 
