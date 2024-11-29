@@ -17,22 +17,18 @@ async function carregarMesas() {
 }
 
 function renderizarMesas(mesas) {
+    console.log(mesas , "console")
     const grid = document.querySelector('#mesas-grid');
     grid.innerHTML = '';
-    
     mesas.forEach(mesa => {
         const card = document.createElement('div');
         card.className = 'mesa-card';
         card.insertAdjacentHTML("beforeend", `
             <div id=${mesa.id} class="mesa-icon">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="white" stroke="black">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                    <line x1="3" y1="9" x2="21" y2="9" />
-                    <line x1="9" y1="21" x2="9" y2="9" />
-                </svg>
+            <img src="../mesa-de-jantar.png" alt="">
             </div>
             <div class="mesa-name">Mesa ${mesa.numeroMesa}</div>
-            <div class="mesa-status">Status: ${mesa.situacaoMesa}</div>
+            <div class="mesa-status">${mesa.situacaoMesa == 0 ? 'Disponível': 'Ocupada' }</div>
         `);
         
         grid.appendChild(card);
@@ -43,31 +39,31 @@ function renderizarMesas(mesas) {
 }
 
 function mostrarModal(mesa) {
+    console.log(mesa)
     document.body.insertAdjacentHTML("beforeend",`
         <div id="mesaModal" class="modal">
             <div class="modal-content">
             <span class="close-btn">&times;</span>
             <h2>Informações da Mesa</h2>
             <div class="form-group">
-                <label>Número:${mesa.numeroMesa}</label>
+                <label>Número: ${mesa.numeroMesa}</label>
             </div>
             <div class="form-group">
-                <label>Capacidade</label>
-                <input type="text" id="mesaCapacidade" readonly>
+                <div class="mesa-status"> Situacao atual: ${mesa.situacaoMesa == 0 ? 'Disponível': 'Ocupada' }</div>
+                <select id="mesaStatus" required>
+                    <option value="0">Disponível</option>
+                    <option value="1">Ocupada</option>
+                </select>
             </div>
-            <div class="form-group">
-                <label>Status:</label>
-                <input type="text" id="mesaStatus" readonly>
-            </div>
-            <div>
+            <div class:"botoesSalvarExcluir">
                 <button class="btnExcluirMesa">Excluir Mesa</button>
+                <button class="btnSalvarMesa">Salvar Alteração</button>
             </div>
             </div>
         </div>
     `)
     
     const modal = document.getElementById('mesaModal');
-    document.getElementById('mesaCapacidade').value = mesa.capacidade;
     document.getElementById('mesaStatus').value = mesa.status;
     modal.style.display = 'block';
 
@@ -76,7 +72,7 @@ function mostrarModal(mesa) {
         const modal = document.querySelector(".modal")
         modal.remove()
     })
-
+  
     const botaoRemover = document.querySelector(".btnExcluirMesa")
     botaoRemover.addEventListener("click", () => {
         excluirMesa(mesa.id)
@@ -86,6 +82,22 @@ function mostrarModal(mesa) {
             location.reload()
         }, 1000)
     })
+
+    const btnSalvarMesa = document.querySelector(".btnSalvarMesa")
+    btnSalvarMesa.addEventListener("click", (e) => {
+        e.preventDefault()
+        const statusMesa = document.getElementById('mesaStatus')
+        
+        const obj = {id:mesa.id, numeroMesa:mesa.numeroMesa, situacaoMesa: statusMesa.value}
+
+        EditarStatusMesa(obj)
+        let modalMesa = document.querySelector("#mesaModal")
+        modalMesa.remove()
+        setTimeout(() => {
+            carregarMesas()
+        }, 1500);
+    })
+
 }
 
 // Iniciar aplicação
@@ -112,19 +124,14 @@ function modalNovaMesa(){
             <h2>Cadastro Nova Mesa</h2>
             <form id="formNovaMesa">
             <div class="form-group">
-                <label>Número:</label>
-                <input type="number" id="mesaNumero" required>
-            </div>
-            <div class="form-group">
-                <label>Capacidade:</label>
-                <input type="number" id="mesaCapacidade" required>
+                <label>Numero:</label>
+                <input type="number" id="numeroMesa" required>
             </div>
             <div class="form-group">
                 <label>Status:</label>
                 <select id="mesaStatus" required>
-                    <option value="Disponível">Disponível</option>
-                    <option value="Ocupada">Ocupada</option>
-                    <option value="Reservada">Reservada</option>
+                    <option value="0">Disponível</option>
+                    <option value="1">Ocupada</option>
                 </select>
             </div>
             <div class="button-container">
@@ -142,7 +149,7 @@ function modalNovaMesa(){
         const modal = document.querySelector(".modal")
         modal.remove()
         setTimeout(() => {
-            location.reload()
+             location.reload()
         }, 1000)
     })
 
@@ -155,17 +162,17 @@ function modalNovaMesa(){
 
 function verificaNovaMesa(){
   
-    const capacidade = document.getElementById("mesaCapacidade");
+    const numeroMesa = document.getElementById("numeroMesa");
     const status = document.getElementById("mesaStatus");
 
   
-    let capacidadeMesa = capacidade.value.trim();
+ 
     let statusMesa = status.value;
 
-    if ( capacidadeMesa && statusMesa) {
+    if ( statusMesa && numeroMesa) {
         const novaMesa = {
-            capacidade: capacidadeMesa, 
-            status: statusMesa
+            numeroMesa:numeroMesa.value,
+            situacaoMesa: parseInt(statusMesa)
         }
 
         addMesa(novaMesa)
@@ -176,6 +183,8 @@ function verificaNovaMesa(){
 }
 
 async function addMesa(novaMesa) {
+    console.log(novaMesa,"aqui add")
+
     const res = await fetch(`${baseUrl}/Mesas`, {
         method: "POST",
         headers: headers,
@@ -190,6 +199,15 @@ async function excluirMesa(id) {
     const res = await fetch(`${baseUrl}/Mesas/${id}`, {
         method: "DELETE",
         headers: headers
+    })
+    console.log(res)
+}
+
+async function EditarStatusMesa(mesa) { // funcao que edita a situacao da mesa (ocupada e disponivel) (PUT)
+    const res = await fetch(`${baseUrl}/Mesas/${mesa.id}`, {
+        method: "PUT",
+        headers: headers,
+        body: JSON.stringify(mesa)
     })
     console.log(res)
 }

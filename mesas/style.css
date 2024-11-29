@@ -6,6 +6,7 @@ body {
 }
 
 header {
+    height: 60px;
     background-color: #333;
     color: white;
     padding: 15px;
@@ -15,16 +16,20 @@ header {
 }
 
 .back-button, .addMesa {
-    background-color: #4CAF50;
+    background-color: #e38412;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 17px 28px;
     cursor: pointer;
     border-radius: 4px;
 }
+select{
+    height: 23px;
+    width: 23%;
+}
 
 .back-button:hover, .addMesa:hover {
-    background-color: #45a049;
+    background-color: #b3690e;
 }
 
 .container {
@@ -35,6 +40,17 @@ header {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
+}
+.btnSalvarMesa{
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.btnSalvarMesa:hover{
+    background-color: #369139;
 }
 
 .mesa-card {
@@ -57,9 +73,19 @@ header {
     align-items: center;
     margin-bottom: 10px;
 }
+.botoesSalvarExcluir{
+display: flex;
+}
+img{
+    width: 48%;
+}
+.mesa-status{
+    padding-top: 12px;
+    font-size: larger;
+}
 
 .modal {
-    display: none;
+  
     position: fixed;
     z-index: 1;
     left: 0;
@@ -115,7 +141,7 @@ header {
 }
 
 .submit-btn, .btnExcluirMesa {
-    background-color: #4CAF50;
+    background-color: #cf5300;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -124,5 +150,5 @@ header {
 }
 
 .submit-btn:hover, .btnExcluirMesa:hover {
-    background-color: #45a049;
+    background-color: #9e3200;
 }
