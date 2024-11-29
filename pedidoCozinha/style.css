@@ -23,6 +23,7 @@ header h1 {
     color: #1f1e1e;
     width: 100%;
     text-align: center;
+    padding-right: 65px;
 }
 
 button.voltar {
