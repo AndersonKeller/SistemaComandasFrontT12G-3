@@ -11,6 +11,7 @@ botaoVoltar.addEventListener("click", () => {
     window.location.href = "../home/index.html";
 });
 
+const usuarioSalvo = localStorage.getItem("usuario")
 
 // Requisição para buscar os pedidos que vão para a cozinha (Pendentes)
 export async function formarPendentes() {
@@ -54,26 +55,32 @@ export async function formarPendentes() {
     });
 
     // Adicionar evento a cada item criado dinamicamente
-    document.querySelectorAll(".modal1").forEach((modalPedidoElement, index) => {
-        modalPedidoElement.addEventListener("click", () => {
-            console.log("click de abertura do modal",modalPedidoElement, "click 1")
-            const body = document.querySelector("body");
-            console.log(aux[index],"pedido cozinha no index")
-            body.insertAdjacentHTML("beforeend", `
-                <div class="wapper">
-                    <div class="modalNovoCardapio">
-                        <form id="formItemCardapio" class="formItemCardapio">
-                            <button type="button" class="sairDoPedido">X</button>
-                            <h1 class="tituloModal">Detalhes do Pedido</h1>
-                            <p>Mesa: ${PedidoCozinhas[index]?.numeroMesa ?? ""}</p>
-                            <p>Cliente: ${PedidoCozinhas[index]?.nomeCliente ?? ""}</p>
-                            
-                            <!-- Contêiner para itens do pedido -->
-                            <div id="pedidoItensContainer"></div>
-                            <button type="button" id="btnAvancar" class="btnAvancar">Avançar Pedido</button>
-                        </form>
-                    </div>
+document.querySelectorAll(".modal1").forEach((modalPedidoElement, index) => {
+    modalPedidoElement.addEventListener("click", () => {
+        // Verificar se o usuário tem permissão
+        if (usuarioSalvo !== "admin@admin.com" && usuarioSalvo !== "cozinha@gmail.com") {
+            return; // Impede a execução do restante do código
+        }
+
+        console.log("click de abertura do modal", modalPedidoElement, "click 1");
+        const body = document.querySelector("body");
+        console.log(aux[index], "pedido cozinha no index");
+        
+        body.insertAdjacentHTML("beforeend", `
+            <div class="wapper">
+                <div class="modalNovoCardapio">
+                    <form id="formItemCardapio" class="formItemCardapio">
+                        <button type="button" class="sairDoPedido">X</button>
+                        <h1 class="tituloModal">Detalhes do Pedido</h1>
+                        <p>Mesa: ${PedidoCozinhas[index]?.numeroMesa ?? ""}</p>
+                        <p>Cliente: ${PedidoCozinhas[index]?.nomeCliente ?? ""}</p>
+                        
+                        <!-- Contêiner para itens do pedido -->
+                        <div id="pedidoItensContainer"></div>
+                        <button type="button" id="btnAvancar" class="btnAvancar">Avançar Pedido</button>
+                    </form>
                 </div>
+            </div>
             `);
 
             // Seleciona o contêiner onde os itens do pedido serão adicionados
@@ -96,8 +103,7 @@ export async function formarPendentes() {
                 modal.remove();
             });
 
-            // Botão para avançar o pedidoc
-            
+            // Botão para avançar o pedido
             const btnAvancar = document.getElementById("btnAvancar");
             btnAvancar.addEventListener("click", async () => {
                 for(let pedido of aux[index].pedidos){
@@ -166,6 +172,9 @@ export async function formarAndamento(params) {
         // Adicionar evento a cada item criado dinamicamente
         document.querySelectorAll(".modal2").forEach((modalPedidoElement, index) => {
             modalPedidoElement.addEventListener("click", () => {
+                if (usuarioSalvo !== "admin@admin.com" && usuarioSalvo !== "cozinha@gmail.com") {
+                    return; // Impede a execução do restante do código
+                }
                 const body = document.querySelector("body");
                 console.log("click 2")
                 body.insertAdjacentHTML("beforeend", `
@@ -278,8 +287,10 @@ export async function formarConcluido() {
     // Adicionar evento a cada item criado dinamicamente
     document.querySelectorAll(".modal3").forEach((modalPedidoElement) => {
         const pedidoId = modalPedidoElement.id; // Obtém o ID do pedido diretamente
-    
         modalPedidoElement.addEventListener("click", () => {
+            if (usuarioSalvo !== "admin@admin.com" && usuarioSalvo !== "cozinha@gmail.com") {
+                return; // Impede a execução do restante do código
+            }
             console.log("click 3");
             const body = document.querySelector("body");
             const pedidoSelecionado = aux.find((item) => item.id === parseInt(pedidoId)); // Busca o pedido correto

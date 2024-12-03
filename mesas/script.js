@@ -5,6 +5,8 @@ const headers = {
     'Content-Type': 'application/json'
 }
 
+const usuarioSalvo = localStorage.getItem("usuario")
+
 async function carregarMesas() {
     try {
         const response = await fetch(`${baseUrl}/Mesas`);
@@ -17,7 +19,7 @@ async function carregarMesas() {
 }
 
 function renderizarMesas(mesas) {
-    console.log(mesas , "console")
+    console.log(mesas, "console")
     const grid = document.querySelector('#mesas-grid');
     grid.innerHTML = '';
     mesas.forEach(mesa => {
@@ -28,19 +30,21 @@ function renderizarMesas(mesas) {
             <img src="../mesa-de-jantar.png" alt="">
             </div>
             <div class="mesa-name">Mesa ${mesa.numeroMesa}</div>
-            <div class="mesa-status">${mesa.situacaoMesa == 0 ? 'Disponível': 'Ocupada' }</div>
+            <div class="mesa-status">${mesa.situacaoMesa == 0 ? 'Disponível' : 'Ocupada'}</div>
         `);
-        
+
         grid.appendChild(card);
         const cardMesa = document.getElementById(mesa.id)
+        if (usuarioSalvo === "admin@admin.com") {
+            cardMesa.addEventListener('click', () => { mostrarModal(mesa) });
+        }
 
-        cardMesa.addEventListener('click', () => {mostrarModal(mesa)});
     });
 }
 
 function mostrarModal(mesa) {
     console.log(mesa)
-    document.body.insertAdjacentHTML("beforeend",`
+    document.body.insertAdjacentHTML("beforeend", `
         <div id="mesaModal" class="modal">
             <div class="modal-content">
             <span class="close-btn">&times;</span>
@@ -49,7 +53,7 @@ function mostrarModal(mesa) {
                 <label class="numeroMesa">Número: ${mesa.numeroMesa}</label>
             </div>
             <div class="form-group">
-                <div class="mesa-status"> Situacao atual: ${mesa.situacaoMesa == 0 ? 'Disponível': 'Ocupada' }</div>
+                <div class="mesa-status"> Situacao atual: ${mesa.situacaoMesa == 0 ? 'Disponível' : 'Ocupada'}</div>
                 <select id="mesaStatus" required>
                     <option value="0">Disponível</option>
                     <option value="1">Ocupada</option>
@@ -62,7 +66,7 @@ function mostrarModal(mesa) {
             </div>
         </div>
     `)
-    
+
     const modal = document.getElementById('mesaModal');
     document.getElementById('mesaStatus').value = mesa.status;
     modal.style.display = 'block';
@@ -72,7 +76,7 @@ function mostrarModal(mesa) {
         const modal = document.querySelector(".modal")
         modal.remove()
     })
-  
+
     const botaoRemover = document.querySelector(".btnExcluirMesa")
     botaoRemover.addEventListener("click", () => {
         excluirMesa(mesa.id)
@@ -87,8 +91,8 @@ function mostrarModal(mesa) {
     btnSalvarMesa.addEventListener("click", (e) => {
         e.preventDefault()
         const statusMesa = document.getElementById('mesaStatus')
-        
-        const obj = {id:mesa.id, numeroMesa:mesa.numeroMesa, situacaoMesa: statusMesa.value}
+
+        const obj = { id: mesa.id, numeroMesa: mesa.numeroMesa, situacaoMesa: statusMesa.value }
 
         EditarStatusMesa(obj)
         let modalMesa = document.querySelector("#mesaModal")
@@ -115,63 +119,91 @@ btnAddMesa.addEventListener("click", () => {
     modalNovaMesa()
 })
 
-function modalNovaMesa(){
-    const body = document.querySelector("body")
-    body.insertAdjacentHTML("beforeend", `    
-    <div id="mesaModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h2>Cadastro Nova Mesa</h2>
-            <form id="formNovaMesa">
-            <div class="form-group">
-                <label>Numero:</label>
-                <input type="number" id="numeroMesa" required>
-            </div>
-            <div class="form-group">
-                <label>Status:</label>
-                <select id="mesaStatus" required>
-                    <option value="0">Disponível</option>
-                    <option value="1">Ocupada</option>
-                </select>
-            </div>
-            <div class="button-container">
-                <button type="submit" class="submit-btn">Cadastrar</button>
-            </div>
-            </form>
-        </div>
-    </div>
-    `)
 
-    const botaoAdicionarMesa = document.querySelector("#formNovaMesa")
-    botaoAdicionarMesa.addEventListener("submit", (e) => {
-        e.preventDefault()
-        verificaNovaMesa()
-        const modal = document.querySelector(".modal")
-        modal.remove()
-        setTimeout(() => {
-             location.reload()
-        }, 1000)
-    })
+function modalNovaMesa() {
+    const body = document.querySelector("body");
 
-    const btnmodal = document.querySelector(".close-btn")
-    btnmodal.addEventListener("click", () => {
-        const modal = document.querySelector(".modal")
-        modal.remove()
-    })
+    if (usuarioSalvo !== "admin@admin.com") {
+        body.insertAdjacentHTML("beforeend", `
+            <div class="wapper">
+                <div class="modalErroDePermissao">
+                    <button class="fecharModalPermissao" id="fecharModalPermissao">X</button>
+                    <h1>Atenção!</h1>
+                    <h2>Usuário sem permissão</h2>
+                </div>
+            </div>
+        `);
+
+        const btnSairModalEditar = document.getElementById("fecharModalPermissao");
+        btnSairModalEditar.addEventListener("click", () => {
+            const modal = document.querySelector(".wapper");
+                modal.remove();
+        });
+
+    } else {
+        body.insertAdjacentHTML("beforeend", `    
+            <div id="mesaModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn">&times;</span>
+                    <h2>Cadastro Nova Mesa</h2>
+                    <form id="formNovaMesa">
+                        <div class="form-group">
+                            <label>Numero:</label>
+                            <input type="number" id="numeroMesa" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Status:</label>
+                            <select id="mesaStatus" required>
+                                <option value="0">Disponível</option>
+                                <option value="1">Ocupada</option>
+                            </select>
+                        </div>
+                        <div class="button-container">
+                            <button type="submit" class="submit-btn">Cadastrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        `);
+
+        // Adiciona evento de submit ao formulário
+        const botaoAdicionarMesa = document.querySelector("#formNovaMesa");
+        botaoAdicionarMesa.addEventListener("submit", (e) => {
+            e.preventDefault();
+            verificaNovaMesa();
+
+            const modal = document.querySelector(".modal");
+            modal.remove();
+
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        });
+
+        // Adiciona evento para fechar o modal
+        const btnmodal = document.querySelector(".close-btn");
+        btnmodal.addEventListener("click", () => {
+            const modal = document.querySelector(".modal");
+            modal.remove();
+        });
+    }
 }
 
-function verificaNovaMesa(){
-  
+
+
+
+function verificaNovaMesa() {
+
     const numeroMesa = document.getElementById("numeroMesa");
     const status = document.getElementById("mesaStatus");
 
-  
- 
+
+
     let statusMesa = status.value;
 
-    if ( statusMesa && numeroMesa) {
+    if (statusMesa && numeroMesa) {
         const novaMesa = {
-            numeroMesa:numeroMesa.value,
+            numeroMesa: numeroMesa.value,
             situacaoMesa: parseInt(statusMesa)
         }
 
@@ -183,7 +215,7 @@ function verificaNovaMesa(){
 }
 
 async function addMesa(novaMesa) {
-    console.log(novaMesa,"aqui add")
+    console.log(novaMesa, "aqui add")
 
     const res = await fetch(`${baseUrl}/Mesas`, {
         method: "POST",

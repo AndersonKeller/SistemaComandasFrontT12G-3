@@ -91,7 +91,7 @@ button.voltar {
     border-radius: 5px;
     padding: 10px;
     margin: 10px 0;
-    cursor: grab;
+    cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     color: white;
     font-weight: bold;
@@ -102,7 +102,7 @@ button.voltar {
 }
 
 .pedido:active {
-    cursor: grabbing;
+    cursor: pointer;
 }
 
 /* css para estilizar a formacao do modal*/
