@@ -201,13 +201,13 @@ button.botao-sair {
 }
 
 .fecharModalPermissao {
-    padding: 10px 20px;
+    padding: 5px 10px; /* Reduzi o padding */
     background-color: #c0392b;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px; /* Diminuí o tamanho da fonte */
     transition: background-color 0.3s ease;
 }
 
