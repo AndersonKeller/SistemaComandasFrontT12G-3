@@ -46,7 +46,7 @@ function mostrarModal(mesa) {
             <span class="close-btn">&times;</span>
             <h2>Informações da Mesa</h2>
             <div class="form-group">
-                <label>Número: ${mesa.numeroMesa}</label>
+                <label class="numeroMesa">Número: ${mesa.numeroMesa}</label>
             </div>
             <div class="form-group">
                 <div class="mesa-status"> Situacao atual: ${mesa.situacaoMesa == 0 ? 'Disponível': 'Ocupada' }</div>
@@ -55,7 +55,7 @@ function mostrarModal(mesa) {
                     <option value="1">Ocupada</option>
                 </select>
             </div>
-            <div class:"botoesSalvarExcluir">
+            <div class="botoesSalvarExcluir">
                 <button class="btnExcluirMesa">Excluir Mesa</button>
                 <button class="btnSalvarMesa">Salvar Alteração</button>
             </div>

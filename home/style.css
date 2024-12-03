@@ -174,10 +174,9 @@ button.botao-sair {
 
 /* Estilo do modal de erro */
 .modalErroDePermissao {
-    width: 300px; /* Modal com largura fixada */
     background-color: #e38412;
-    color: white;
-    border-radius: 10px; /* Borda arredondada */
+    color: black;
+    border-radius: 10px; 
     padding: 20px;
     display: flex;
     flex-direction: column; /* Organiza os itens em coluna */
@@ -201,13 +200,13 @@ button.botao-sair {
 }
 
 .fecharModalPermissao {
-    padding: 5px 10px; /* Reduzi o padding */
+    padding: 10px 20px;
     background-color: #c0392b;
-    color: white;
+    color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 14px; /* Diminuí o tamanho da fonte */
+    font-size: 11px;
     transition: background-color 0.3s ease;
 }
 

@@ -40,11 +40,11 @@ const user = localStorage.getItem("adminusuario")
                 <div class="wapper">
                     <div class="modalErroDePermissao">
                         <button class="fecharModalPermissao" id="fecharModalPermissao">X</button>
-                        <h1>Erro!</h1>
-                        <h2>Permissão negada</h2>
+                        <h1>Atenção!</h1>
+                        <h2>Usuário sem permissão</h2>
                     </div>
                 </div>
-                `);
+            `);
 
             const btnSairModalEditar = document.getElementById("fecharModalPermissao");
             btnSairModalEditar.addEventListener("click", () => {

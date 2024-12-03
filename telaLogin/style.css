@@ -3,7 +3,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #555555;
+    background-color: rgb(17, 17, 17);
     margin: 0;
     font-family: Arial, sans-serif;
 }
@@ -11,7 +11,7 @@ body {
 .login-container {
     width: 300px;
     padding: 20px;
-    background-color: white;
+    background-color: #FFA500;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
@@ -58,16 +58,26 @@ input[type="password"] {
     text-decoration: none;
 }
 
-button {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
+button.botao-entrar {
+    color: rgb(0, 0, 0);
+    background-color: #f5a623;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 1em 2em;
     cursor: pointer;
-    font-size: 16px;
-}
+    transition: all 0.3s ease-in-out;
+    border: 1px solid black;
+    box-shadow: 0 0 0 0 black;
+  }
+  
+  button.botao-entrar:hover {
+    transform: translateY(-4px) translateX(+2px);
+    box-shadow: 2px 5px 0 0 rgb(105, 70, 4);
+  }
+  
+  button.botao-entrar:active {
+    transform: translateY(2px) translateX(1px);
+    box-shadow: 0 0 0 0 black;
+  }
 
-button:hover {
-    background-color: #0056b3;
-}

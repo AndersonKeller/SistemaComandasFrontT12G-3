@@ -15,6 +15,7 @@ header {
     align-items: center;
 }
 
+
 .back-button, .addMesa {
     background-color: #e38412;
     color: white;
@@ -26,6 +27,8 @@ header {
 select{
     height: 23px;
     width: 23%;
+    border-radius: 8px;
+    margin-top: 8px;
 }
 
 .back-button:hover, .addMesa:hover {
@@ -34,6 +37,9 @@ select{
 
 .container {
     padding: 20px;
+}
+.numeroMesa{
+    font-size: x-large;
 }
 
 .mesas-grid {
@@ -74,7 +80,10 @@ select{
     margin-bottom: 10px;
 }
 .botoesSalvarExcluir{
-display: flex;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: row-reverse
 }
 img{
     width: 48%;

@@ -8,43 +8,47 @@ const headers = {
  * parametro é um seletor html para montar os itens
  * @params {seleter html}
  */
-export async function formarProduto(seletor,isclick) {
+export async function formarProduto(seletor, isclick) {
     const cardapio = await fetch(`${baseUrl}/CardapioItems`, {
         headers: headers
-        
+
     })
     console.log(cardapio)
     const ItensCardapio = await cardapio.json()
-    localStorage.setItem("cardapio",JSON.stringify(ItensCardapio))
+    localStorage.setItem("cardapio", JSON.stringify(ItensCardapio))
     const items = document.querySelector(seletor)
     items.innerHTML = ""
-    
+
     console.log(ItensCardapio, "response await")
     console.log(ItensCardapio)
     const input = document.querySelector(".inputPesquisa")
-    if(input){
-        input.addEventListener("input",(e)=>{
-        pesquisaItens(e.target.value)
-    })}
-   
-    renderizaLista(seletor,ItensCardapio,isclick)
+    if (input) {
+        input.addEventListener("input", (e) => {
+            pesquisaItens(e.target.value)
+        })
+    }
+
+    renderizaLista(seletor, ItensCardapio, isclick)
 }
 
-function pesquisaItens(text){ //funcao que faz o  filtro de pesquisa
+const usuarioSalvo = localStorage.getItem("usuario");
+
+function pesquisaItens(text) { //funcao que faz o  filtro de pesquisa
 
     const listaInicial = JSON.parse(localStorage.getItem("cardapio")) // pego os produtos do local storage
 
-    const listaFiltrada = listaInicial.filter((produto)=>{
-        console.log(produto,"produto")
-        return  produto.titulo.toLowerCase().includes(text.toLowerCase())||
-        produto.descricao.toLowerCase().includes(text.toLowerCase())
+    const listaFiltrada = listaInicial.filter((produto) => {
+        console.log(produto, "produto")
+        return produto.titulo.toLowerCase().includes(text.toLowerCase()) ||
+            produto.descricao.toLowerCase().includes(text.toLowerCase())
 
-        
+
     })
-    console.log(listaFiltrada,"lista filtrada")
-    renderizaLista("#items",listaFiltrada)
+    console.log(listaFiltrada, "lista filtrada")
+    renderizaLista("#items", listaFiltrada)
 }
-function renderizaLista(seletor,lista=[],isclick=false){ // funcao que renderiza os itens
+
+function renderizaLista(seletor, lista = [], isclick = false) { // funcao que renderiza os itens
     // lista.forEach(())
     const items = document.querySelector(seletor)
     items.innerHTML = ""
@@ -55,64 +59,20 @@ function renderizaLista(seletor,lista=[],isclick=false){ // funcao que renderiza
                 <p class="item-name">${item.titulo}</p>
                 <p class="item-desc">${item.descricao}</p>
                 <p class="item-price">R$${item.preco}</p>
-                ${!isclick ? 
-                    `<button class="editar-item" id=${item.id}>Excluir</button>
-                <button class="editar-item add-item" id="${item.id}edit">Editar</button>`
-                    : `
-                    <button class="editar-item add-item" id="${item.id}edit">Adicionar</button>`
-                }
+                ${usuarioSalvo === "admin@admin.com" && !isclick ?
+                `<button class="editar-item" id=${item.id}>Excluir</button>
+                     <button class="editar-item add-item" id="${item.id}edit">Editar</button>`
+                :
+                ``
+            }
             </li>
             `)
 
-        const btnEditar = document.getElementById(`${item.id}edit`) //btn editar item
-       if(!isclick){
-           btnEditar.addEventListener("click", () => {
-               console.log(item, "item")
-               const body = document.querySelector("body")
-               body.insertAdjacentHTML("beforeend", `
-           <div class="wapper">
-               <div class="modalNovoCardapio">
-                   <form id="formItemCardapio">
-                       <h1>Editar Item</h1>
-                       <button type="button" class="sairDoCriarItem">X</button>
-                       <label>Nome</label>
-                       <input type="text" value='${item.titulo}' id="addItemInput"/>
-                       <label>Preço</label>
-                       <input type="number" value='${item.preco}' id="addItemPrice"/>
-                       <label>Descrição</label>
-                       <input type="text" value='${item.descricao}' id="descriptionInput"/>
-                       <button type="submit">Salvar</button>
-                   </form>
-               </div>
-                   `)
-   
-               const btnSairModalEditar = document.querySelector(".sairDoCriarItem")
-               btnSairModalEditar.addEventListener("click", () => {
-                   const modal = document.querySelector(".wapper")
-                   modal.remove()
-               })
-            
-               const form = document.querySelector("form")
-               form.addEventListener("submit", (e) => {
-                   e.preventDefault()
-   
-                   const tituloProduto = document.getElementById("addItemInput")
-   
-                   const precoProduto = document.getElementById("addItemPrice")
-   
-                   const descricaoProduto = document.getElementById("descriptionInput")
-   
-                   const obj = { id: item.id, titulo: tituloProduto.value, preco: precoProduto.value, descricao: descricaoProduto.value }
-                   EditarProdutoCardapio(obj)
-               })
-
-           })
-       }
         const btnExcluir = document.getElementById(item.id) //abr o modal que exclui item do cardapio
-        if(btnExcluir){
+        if (btnExcluir) {
             btnExcluir.addEventListener("click", () => {
                 const body = document.querySelector("body")
-    
+
                 body.insertAdjacentHTML("beforeend", `
                     <div class="wapper">
                         <div class="modalRemoverItem">
@@ -121,32 +81,31 @@ function renderizaLista(seletor,lista=[],isclick=false){ // funcao que renderiza
                             <button class="removerItem_sim">sim</button>
                             <button class="removerItem_nao">não</button>
                     </div>`)
-    
+
                 const btnSairModalEditar = document.querySelector(".sairDoCriarItem") //sair do modal editar item
                 btnSairModalEditar.addEventListener("click", () => {
                     const modal = document.querySelector(".wapper")
                     modal.remove()
                 })
-    
+
                 const btnNaoDesejoExcluir = document.querySelector(".removerItem_nao") //btn nao desejo excluir item
                 btnNaoDesejoExcluir.addEventListener("click", () => {
                     const modal = document.querySelector(".wapper")
                     modal.remove()
                 })
-    
+
                 const botaoRemover = document.querySelector(".removerItem_sim") //botao remover item do cardapio
                 botaoRemover.addEventListener("click", () => {
                     excluirCardapioItemApi(item.id)
                     const modal = document.querySelector(".wapper")
                     modal.remove()
-    
+
                 })
             })
         }
     }
     )
 }
-
 
 const botaoVoltar = document.querySelector(".back") //botao de voltar do cardapio, volta pra home
 if (botaoVoltar) {
@@ -156,11 +115,14 @@ if (botaoVoltar) {
     )
 }
 
+if (usuarioSalvo === "admin@admin.com") {
+    const btnCriarProduto = document.querySelector(".add") //btn que chama a funcao de criar produto
+    btnCriarProduto.addEventListener("click", () => {
+        criarProduto
+    })
+}
 
-const btnCriarProduto = document.querySelector(".add") //btn que chama a funcao de criar produto
-btnCriarProduto.addEventListener("click", () => {
-    criarProduto
-})
+
 
 export function criarProduto() {
     const body = document.querySelector("body")
@@ -215,7 +177,7 @@ function verificarNovoProduto() { //funcao que verifica se os campos estao valid
     const priceInput = document.getElementById('addItemPrice');
     const descriptionInput = document.getElementById('descriptionInput');
     const possuiPreparoInput = document.getElementById('PossuiPreparo');
-    
+
     const name = nameInput.value.trim(); //trim retira os espacos no inicio e final do input
     const price = parseFloat(priceInput.value);
     const description = descriptionInput.value.trim(); //trim retira os espacos no inicio e final do input
