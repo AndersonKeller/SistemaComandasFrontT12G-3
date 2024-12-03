@@ -8,13 +8,34 @@ const perfil = document.getElementById("perfil")
 const botaoSair = document.getElementById("botao-sair")
 
 // puxando do local store
-const user = localStorage.getItem("adminusuario")
-
+const usuarioSalvo = localStorage.getItem("usuario");
 
 // comandos para adicionar eventos de click, aonde ao clicar, uma ação acontecerá
 
     comandas.addEventListener("click", () => {
-        window.location.href ="/telaComandas/index.html"
+        if(usuarioSalvo === "admin@admin.com" || usuarioSalvo === "garçom@gmail.com"){
+            window.location.href ="/telaComandas/index.html"
+        }
+        
+        else{
+            const body = document.querySelector("body");
+            body.insertAdjacentHTML("beforeend", `
+                <div class="wapper">
+                    <div class="modalErroDePermissao">
+                        <button class="fecharModalPermissao" id="fecharModalPermissao">X</button>
+                        <h1>Atenção!</h1>
+                        <h2>Usuário sem permissão</h2>
+                    </div>
+                </div>
+            `);
+
+            const btnSairModalEditar = document.getElementById("fecharModalPermissao");
+            btnSairModalEditar.addEventListener("click", () => {
+                const modal = document.querySelector(".wapper");
+                modal.remove();
+            });
+        }
+        
     })
     
     pedidoCozinha.addEventListener("click", () => {
@@ -26,11 +47,31 @@ const user = localStorage.getItem("adminusuario")
     })
     
     mesas.addEventListener("click", () => {    
-        window.location.href = "/mesas/index.html"
+        if(usuarioSalvo === "admin@admin.com" || usuarioSalvo === "garçom@gmail.com"){
+            window.location.href ="/mesas/index.html"
+        }
+        
+        else{
+            const body = document.querySelector("body");
+            body.insertAdjacentHTML("beforeend", `
+                <div class="wapper">
+                    <div class="modalErroDePermissao">
+                        <button class="fecharModalPermissao" id="fecharModalPermissao">X</button>
+                        <h1>Atenção!</h1>
+                        <h2>Usuário sem permissão</h2>
+                    </div>
+                </div>
+            `);
+
+            const btnSairModalEditar = document.getElementById("fecharModalPermissao");
+            btnSairModalEditar.addEventListener("click", () => {
+                const modal = document.querySelector(".wapper");
+                modal.remove();
+            });
+        }
     })
     
     usuarios.addEventListener("click", () => {
-        const usuarioSalvo = localStorage.getItem("usuario");
         if(usuarioSalvo === "admin@admin.com"){
             window.location.href = "/usuarios/index.html"
         }
