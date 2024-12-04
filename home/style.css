@@ -170,10 +170,10 @@ button.botao-sair {
     top: 0;
     left: 0;
     z-index: 1000; /* Garante que o modal ficará por cima */
-}
-
-/* Estilo do modal de erro */
-.modalErroDePermissao {
+  }
+  
+  /* Estilo do modal de erro */
+  .modalErroDePermissao {
     width: 300px; /* Modal com largura fixada */
     background-color: #e38412;
     color: white;
@@ -183,24 +183,25 @@ button.botao-sair {
     flex-direction: column; /* Organiza os itens em coluna */
     align-items: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Adiciona uma sombra */
-}
-
-/* Título de erro */
-.modalErroDePermissao h2 {
+  }
+  
+  /* Título de erro */
+  .modalErroDePermissao h2 {
     font-size: 18px;
     margin-bottom: 10px;
     font-weight: bold;
-    text-align: center;
-}
-
-/* Texto do modal */
-.modalErroDePermissao p {
-    font-size: 16px;
+    text-align: left;
+    color: #000;
+  }
+  
+  /* Texto do modal */
+  .modalErroDePermissao p {
+    font-size: 19px;
     margin-bottom: 20px;
-    text-align: center;
-}
-
-.fecharModalPermissao {
+    text-align: left;
+  }
+  
+  .fecharModalPermissao {
     padding: 10px 20px;
     background-color: #c0392b;
     color: white;
@@ -209,8 +210,8 @@ button.botao-sair {
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
-}
-
-.fecharModalPermissao:hover {
+  }
+  
+  .fecharModalPermissao:hover {
     background-color: #e74c3c; /* Altera a cor do botão ao passar o mouse */
-}
+  }
