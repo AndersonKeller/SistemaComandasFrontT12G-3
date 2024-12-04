@@ -43,7 +43,7 @@ async function formarComanda() {
     });
   } catch (error) {
     console.error("Erro ao carregar comandas:", error);
-    alert("Erro ao carregar comandas. Por favor, tente novamente.");
+    //alert("Erro ao carregar comandas. Por favor, tente novamente.");
   }
 }
 
@@ -72,7 +72,7 @@ async function editarComanda(comanda) {
                   <button class="salvar-btn">Atualizar comanda 
                       <span style="transform: none;">✔️</span>
                   </button>
-                  <button class="btnExluirComanda">Excluir comanda</button>
+                  <button class="btnExluirComanda">Finalizar comanda</button>
 
                 </div>
             </div>
@@ -179,19 +179,18 @@ async function editarComanda(comanda) {
     
   } catch (error) {
     console.error("Erro ao editar comanda:", error);
-    alert("Erro ao editar comanda. Por favor, tente novamente.");
+    //alert("Erro ao editar comanda. Por favor, tente novamente.");
   }
 
   const btnExcluirComanda = document.querySelector(".btnExluirComanda")
   btnExcluirComanda.addEventListener("click",()=>
   {
     excluirComanda(comanda.id)
-    const modal = document.querySelector("modal_editar")
-    setTimeout(()=>{
-      location.reload()
-      modal.remove()
-  }
-  ,1000)
+    const modal = document.querySelector(".wapper")
+      formarComanda();
+      modal.remove();
+  
+  
   })
 }
 
@@ -297,6 +296,8 @@ async function criarComanda() {
                     <label>Nome:</label>
                 </form>
                 <div class="items_comanda"></div>
+                <div class="valorTotal"><div>
+
                 <div class="botoes_comanda">
                   <button class="abrirCardapio" type="button">Abrir Cardápio</button>
                   <button class="salvar-btn">Finalizar comanda 
@@ -308,6 +309,36 @@ async function criarComanda() {
     `
   );
   
+  
+  
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const totalPriceElement = document.getElementById('valorTotal ');
+    let total = 0;
+  
+    // Função para somar o preço de um item ao total
+    function updateTotal(event) {
+      const itemElement = event.target.closest('.item');
+      if (itemElement) {
+        const priceElement = itemElement.querySelector('.item-price');
+        const price = parseFloat(priceElement.textContent);
+        total += price;
+        totalPriceElement.textContent = total.toFixed(2);
+      }
+    }
+    const valorTotal = document.querySelector(".valorTotal")
+    valorTotal.insertAdjacentHTML(
+    "beforeend",
+    `
+      ${totalPriceElement}
+    `
+  );
+  
+    // Adicionar listeners aos botões de editar e adicionar
+    const buttons = document.querySelectorAll('.editar-item add-item');
+    buttons.forEach(button => button.addEventListener('click', updateTotal));
+  });
+
   const botaoVoltar = document.querySelector(".close-btn");
   if (botaoVoltar) {
     botaoVoltar.addEventListener("click", () => {
@@ -393,7 +424,7 @@ async function inserirItemComanda(id) {
     listitems.push(id);
   } catch (error) {
     console.error("Erro ao inserir item na comanda:", error);
-    alert("Erro ao adicionar item à comanda.");
+    //alert("Erro ao adicionar item à comanda.");
   }
 }
 
@@ -485,7 +516,22 @@ async function salvarComanda() {
 
   // Verifica se os dados de nome e mesa foram preenchidos
   if (!nome || isNaN(mesa)) {
-    //alert("Preencha o nome do cliente e o número da mesa corretamente.");
+    const body = document.querySelector("body");
+        body.insertAdjacentHTML("beforeend", `
+            <div class="wapperErro">
+                <div class="modalErroDePermissao">
+                    <button class="fecharModalPermissao" id="fecharModalPermissao">X</button>
+                    <h2>Erro!</h1>
+                    <h2>Preencha todos os campos</h2>
+                </div>
+            </div>
+            `);
+
+        const btnSairModalEditar = document.getElementById("fecharModalPermissao");
+        btnSairModalEditar.addEventListener("click", () => {
+            const modal = document.querySelector(".wapperErro");
+            modal.remove();
+        });
     return;
   }
 
@@ -529,7 +575,7 @@ async function salvarComanda() {
     // listitems = []; // Limpa a lista de itens
   } catch (error) {
     console.error("Erro ao salvar comanda:", error);
-    alert("Erro ao salvar a comanda");
+    //alert("Erro ao salvar a comanda");
   }
 }
 
