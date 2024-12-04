@@ -522,3 +522,62 @@ margin: 0;
 .fecharModalPermissao:hover {
   background-color: #e74c3c; /* Altera a cor do botão ao passar o mouse */
 }
+
+
+/* Overlay de fundo */
+.wapperValidarUsuario {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(32, 32, 32, 0.6); /* Fundo mais suave */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Garante que o modal ficará por cima */
+}
+
+/* Estilo do modal de erro */
+.modalErroValidarUsuario {
+  width: 300px; /* Modal com largura fixada */
+  background-color: #e38412;
+  color: black;
+  border-radius: 10px; 
+  padding: 20px;
+  display: flex;
+  flex-direction: column; /* Organiza os itens em coluna */
+  align-items: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Adiciona uma sombra */
+}
+
+/* Título de erro */
+.modalErroValidarUsuario h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: left;
+  color: #000;
+}
+
+/* Texto do modal */
+.modalErroValidarUsuario p {
+  font-size: 19px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.fecharErroValidarUsuario {
+  padding: 10px 20px;
+  background-color: #c0392b;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 11px;
+  transition: background-color 0.3s ease;
+}
+
+.fecharErroValidarUsuario:hover {
+  background-color: #e74c3c; /* Altera a cor do botão ao passar o mouse */
+}

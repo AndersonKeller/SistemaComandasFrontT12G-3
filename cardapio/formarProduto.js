@@ -115,13 +115,40 @@ if (botaoVoltar) {
     )
 }
 
-if (usuarioSalvo === "admin@admin.com") {
-    const btnCriarProduto = document.querySelector(".add") //btn que chama a funcao de criar produto
-    btnCriarProduto.addEventListener("click", () => {
-        criarProduto
-    })
-}
 
+const btnCriarProduto = document.querySelector(".add"); // Botão que chama a função de criar produto
+
+btnCriarProduto.addEventListener("click", () => {
+    if (!validarUsuario()) return; // Interrompe a execução se a validação falhar
+    criarProduto(); // Apenas chama criarProduto se a validação for bem-sucedida
+});
+
+function validarUsuario() {
+    const usuarioSalvo = localStorage.getItem("usuario");
+
+    if (usuarioSalvo !== "admin@admin.com") {
+        const body = document.querySelector("body");
+            body.insertAdjacentHTML("beforeend", `
+                <div class="wapperValidarUsuario">
+                    <div class="modalErroValidarUsuario">
+                        <button class="fecharErroValidarUsuario" id="fecharModalPermissao">X</button>
+                        <h1>Atenção!</h1>
+                        <h2>Usuário sem permissão</h2>
+                    </div>
+                </div>
+            `);
+
+            const btnSairModalValidarUsuario = document.getElementById("fecharModalPermissao");
+            btnSairModalValidarUsuario.addEventListener("click", () => {
+                const modal = document.querySelector(".wapperValidarUsuario");
+                modal.remove();
+            });
+        btnCriarProduto.removeEventListener("click", criarProduto);
+        return false; // Retorna false para indicar falha na validação
+    }
+
+    return true; // Retorna true se a validação for bem-sucedida
+}
 
 
 export function criarProduto() {
@@ -164,12 +191,12 @@ export function criarProduto() {
 
     })
 
-    const btnmodal = document.querySelector(".sairDoCriarItem") //btn sair do ADICIONAR item
-    btnmodal.addEventListener("click", () => {
-        console.log("click")
-        const modal = document.querySelector(".wapper")
-        modal.remove()
-    })
+    document.body.addEventListener("click", (e) => {
+        if (e.target.classList.contains("sairDoCriarItem")) {
+            const modal = document.querySelector(".wapper");
+            if (modal) modal.remove();
+        }
+    });
 }
 
 function verificarNovoProduto() { //funcao que verifica se os campos estao validos para adicionar o novo item
