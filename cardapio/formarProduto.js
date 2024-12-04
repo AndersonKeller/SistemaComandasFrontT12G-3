@@ -50,6 +50,8 @@ function pesquisaItens(text) { //funcao que faz o  filtro de pesquisa
 
 function renderizaLista(seletor, lista = [], isclick = false) { // funcao que renderiza os itens
     // lista.forEach(())
+    console.log(window.location,"location")
+    const isComanda = window.location.pathname.includes("telaComandas")
     const items = document.querySelector(seletor)
     items.innerHTML = ""
     lista.forEach(async (item, index) => {
@@ -60,11 +62,16 @@ function renderizaLista(seletor, lista = [], isclick = false) { // funcao que re
                 <p class="item-desc">${item.descricao}</p>
                 <p class="item-price">R$${item.preco}</p>
                 ${usuarioSalvo === "admin@admin.com" && !isclick ?
-                `<button class="editar-item" id=${item.id}>Excluir</button>
-                     <button class="editar-item add-item" id="${item.id}edit">Editar</button>`
-                :
-                ``
-            }
+                    `
+                    <button class="editar-item" id="${item.id}">Excluir</button>
+                    <button class="editar-item add-item" id="${item.id}edit">Editar</button>
+                    `:""
+                    
+                }
+                ${isComanda ? 
+                    `
+                    <button class="editar-item add-item" id="${item.id}edit">Adicionar</button>
+                    `:""}
             </li>
             `)
 
@@ -74,13 +81,13 @@ function renderizaLista(seletor, lista = [], isclick = false) { // funcao que re
                 const body = document.querySelector("body")
 
                 body.insertAdjacentHTML("beforeend", `
-                    <div class="wapper">
-                        <div class="modalRemoverItem">
-                            <button type="button" class="sairDoCriarItem">X</button>
-                            <p>deseja remover este item?</p>
-                            <button class="removerItem_sim">sim</button>
-                            <button class="removerItem_nao">não</button>
-                    </div>`)
+            < div class= "wapper" >
+            <div class="modalRemoverItem">
+                <button type="button" class="sairDoCriarItem">X</button>
+                <p>deseja remover este item?</p>
+                <button class="removerItem_sim">sim</button>
+                <button class="removerItem_nao">não</button>
+            </div>`)
 
                 const btnSairModalEditar = document.querySelector(".sairDoCriarItem") //sair do modal editar item
                 btnSairModalEditar.addEventListener("click", () => {
@@ -126,16 +133,16 @@ btnCriarProduto.addEventListener("click", () => {
 function validarUsuario() {
     const usuarioSalvo = localStorage.getItem("usuario");
 
-    if (usuarioSalvo !== "admin@admin.com") {
+    if (usuarioSalvo !== "admin@admin.com" && !window.location.pathname.includes("telaComandas")) {
         const body = document.querySelector("body");
             body.insertAdjacentHTML("beforeend", `
-                <div class="wapperValidarUsuario">
+                <div div class= "wapperValidarUsuario" >
                     <div class="modalErroValidarUsuario">
                         <button class="fecharErroValidarUsuario" id="fecharModalPermissao">X</button>
                         <h1>Atenção!</h1>
                         <h2>Usuário sem permissão</h2>
                     </div>
-                </div>
+                </div >
             `);
 
             const btnSairModalValidarUsuario = document.getElementById("fecharModalPermissao");
@@ -154,49 +161,51 @@ function validarUsuario() {
 export function criarProduto() {
     const body = document.querySelector("body")
 
+  if(window.location.pathname.includes("cardapio")){
     body.insertAdjacentHTML("beforeend", `
-        <div class="wapper">
-            <div class="modalNovoCardapio">
-                <form id="formItemCardapio">
-                    <h1>Adicionar Novo Item</h1>
-                    <button type="button" class="sairDoCriarItem">X</button>
-                    <label>Nome</label>
-                        <input type="text" id="addItemInput"/>
-                    <label>Preço</label>
-                        <input type="number" step=".01" id="addItemPrice"/>
-                    <label>Descrição</label>
-                        <input type="text" id="descriptionInput"/>
-                    <label>Possui Preparo</label>
+        < div class= "wapper" >
+        <div class="modalNovoCardapio">
+            <form id="formItemCardapio">
+                <h1>Adicionar Novo Item</h1>
+                <button type="button" class="sairDoCriarItem">X</button>
+                <label>Nome</label>
+                <input type="text" id="addItemInput" />
+                <label>Preço</label>
+                <input type="number" step=".01" id="addItemPrice" />
+                <label>Descrição</label>
+                <input type="text" id="descriptionInput" />
+                <label>Possui Preparo</label>
                 <div class="possuiPreparoDiv">
                     <label class="switch">
                         <input type="checkbox" value="true" id="PossuiPreparo">
-                    <div class="slider"></div>
-                    <div class="slider-card">
-                    <div class="slider-card-face slider-card-front"></div>
-                    <div class="slider-card-face slider-card-back"></div>
-                    </div>
+                            <div class="slider"></div>
+                            <div class="slider-card">
+                                <div class="slider-card-face slider-card-front"></div>
+                                <div class="slider-card-face slider-card-back"></div>
+                            </div>
                     </label>
                 </div>
-                    <button type="submit">Salvar</button>
-                </form>
+                <button type="submit">Salvar</button>
+            </form>
         </div>
-                `
-    )
-    const formNovoProduto = document.querySelector("#formItemCardapio") //form do ADICIONAR (ele que tem o click do botao salvar item)
-    formNovoProduto.addEventListener("submit", (e) => {
-        console.log("submit")
-        e.preventDefault()
-        verificarNovoProduto() //esta funcao chama a funcao que faz o POST
+            `
+)
+const formNovoProduto = document.querySelector("#formItemCardapio") //form do ADICIONAR (ele que tem o click do botao salvar item)
+formNovoProduto.addEventListener("submit", (e) => {
+    console.log("submit")
+    e.preventDefault()
+    verificarNovoProduto() //esta funcao chama a funcao que faz o POST
 
 
-    })
+})
 
-    document.body.addEventListener("click", (e) => {
-        if (e.target.classList.contains("sairDoCriarItem")) {
-            const modal = document.querySelector(".wapper");
-            if (modal) modal.remove();
-        }
-    });
+document.body.addEventListener("click", (e) => {
+    if (e.target.classList.contains("sairDoCriarItem")) {
+        const modal = document.querySelector(".wapper");
+        if (modal) modal.remove();
+    }
+});
+  }
 }
 
 function verificarNovoProduto() { //funcao que verifica se os campos estao validos para adicionar o novo item
@@ -220,13 +229,13 @@ function verificarNovoProduto() { //funcao que verifica se os campos estao valid
     else {
         const body = document.querySelector("body");
         body.insertAdjacentHTML("beforeend", `
-            <div class="wapperErro">
-                <div class="modalErroDePermissao">
-                    <button class="fecharModalPermissao" id="fecharModalPermissao">X</button>
-                    <h2>Erro!</h1>
-                    <h2>Preencha todos os campos corretamente</h2>
-                </div>
+            < div class= "wapperErro" >
+            <div class="modalErroDePermissao">
+                <button class="fecharModalPermissao" id="fecharModalPermissao">X</button>
+                <h2>Erro!</h1>
+                <h2>Preencha todos os campos corretamente</h2>
             </div>
+            </div >
             `);
 
         const btnSairModalEditar = document.getElementById("fecharModalPermissao");
@@ -240,7 +249,7 @@ function verificarNovoProduto() { //funcao que verifica se os campos estao valid
 }
 
 async function addCardapioItemApi(item) { //funcao que add o novo item no cardapio (POST)
-    const res = await fetch(`${baseUrl}/CardapioItems`, {
+    const res = await fetch(`${ baseUrl } / CardapioItems`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify(item)
@@ -254,7 +263,7 @@ async function addCardapioItemApi(item) { //funcao que add o novo item no cardap
 }
 
 async function excluirCardapioItemApi(id) { //funcao que exclui item do cardapio (DELETE)
-    const res = await fetch(`${baseUrl}/CardapioItems/${id}`, {
+    const res = await fetch(`${ baseUrl } / CardapioItems / ${ id }`, {
         method: "DELETE",
         headers: headers
 
@@ -265,7 +274,7 @@ async function excluirCardapioItemApi(id) { //funcao que exclui item do cardapio
 }
 
 async function EditarProdutoCardapio(item) { // funcao que edita item (PUT)
-    const res = await fetch(`${baseUrl}/CardapioItems/${item.id}`, {
+    const res = await fetch(`${ baseUrl } / CardapioItems / ${ item.id }`, {
         method: "PUT",
         headers: headers,
         body: JSON.stringify(item)
