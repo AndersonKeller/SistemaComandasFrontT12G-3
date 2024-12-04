@@ -31,7 +31,6 @@ body {
     display: flex;
     text-align: left;
     flex-direction: column-reverse;
-    position: relative;
 }
     
 
@@ -91,18 +90,51 @@ body {
     box-shadow: 0 0 0 0 black;
 }
 
-.salvar-btn, .abrirCardapio{
+.btnExluirComanda:hover{
+    cursor: pointer;
+    transform: translateY(-1px) translateX(-1px);
+    box-shadow: 2px 4px 0 0 #694604;
+    transition: 0.4s;
+    
+}
+
+.btnExluirComanda:active {
+    transform: translateY(2px) translateX(1px);
+    box-shadow: 0 0 0 0 black;
+}
+
+.salvar-btn, .abrirCardapio, .btnExluirComanda{
     Background-color: #a76413;
     color: white;
     padding: 10px 15px;
     margin: 6px;
     margin-top: 5px;
-    border: none;
-    border-radius: 5px;
+    border-radius: 12px;
     cursor: pointer;
+    border: 1px solid black;
+    /* border: none; */
     /* width: 100%; */
     font-size: 16px;
 }
+
+
+.order p span:first-child {
+    color: rgb(75, 49, 0);
+    margin-right: 85px;
+
+}
+
+.items li {
+    border-bottom: 1px dashed;
+    border-top: 1px dashed;
+    margin: -1px;
+    padding: 4px;
+}
+
+.items li p {
+    padding: 5px
+}
+
 
 .salvar-btn:hover{
     cursor: pointer;
@@ -127,6 +159,7 @@ body {
     justify-content: center;
     padding: 40px;    
     border-radius: 8px;
+    position: relative;
     border: 1px dashed #a04c00;
     align-items: flex-start;
     flex-wrap: wrap;
@@ -155,7 +188,6 @@ body {
 }
 
  .modal_editar .close-btn{
-    color: #00ff0d;
     margin: auto;
  }
 
@@ -178,9 +210,9 @@ body {
     font-size: 24px;
     cursor: pointer;
     position: absolute;
-    right: 0;
-    top: 0;
-    margin: -44px -36px 7px -1px;
+    right: 16px;
+    top: 12px;
+    /* margin: -44px -36px 7px -1px;*/
     
 }
 
@@ -220,7 +252,7 @@ body {
 
 .item-price {
     font-size: 20px;
-    text-align: center;
+    text-align: left;
     font-weight: bold;
     color: #fff;
 }
@@ -332,4 +364,64 @@ p{
     justify-content: space-between;
     align-items: center;
     font-weight: bold;
+}
+
+
+/*style do modal de alert*/
+
+.wapperErro {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(32, 32, 32, 0.6); /* Fundo mais suave */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Garante que o modal ficará por cima */
+}
+
+/* Estilo do modal de erro */
+.modalErroDePermissao {
+  width: 300px; /* Modal com largura fixada */
+  background-color: #e38412;
+  color: white;
+  border-radius: 10px; /* Borda arredondada */
+  padding: 20px;
+  display: flex;
+  flex-direction: column; /* Organiza os itens em coluna */
+  align-items: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Adiciona uma sombra */
+}
+
+/* Título de erro */
+.modalErroDePermissao h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+}
+
+/* Texto do modal */
+.modalErroDePermissao p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.fecharModalPermissao {
+  padding: 10px 20px;
+  background-color: #c0392b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.fecharModalPermissao:hover {
+  background-color: #e74c3c; /* Altera a cor do botão ao passar o mouse */
 }
