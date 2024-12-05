@@ -11,6 +11,7 @@ botaoVoltar.addEventListener("click", () => {
     window.location.href = "../home/index.html";
 });
 
+const usuarioSalvo = localStorage.getItem("usuario")
 
 // Requisição para buscar os pedidos que vão para a cozinha (Pendentes)
 export async function formarPendentes() {
@@ -22,13 +23,13 @@ export async function formarPendentes() {
     // Convertendo a resposta para JSON
     const PedidoCozinhas = await resposta.json();
     const items = document.getElementById("pendentes");
-    items.innerHTML =""
+    items.innerHTML = ""
     console.log(PedidoCozinhas, "pedidos cozinha");
 
-    
+
     let aux = [];
     PedidoCozinhas.forEach((pedido) => {
-    const findAux = aux.findIndex((item) => item.mesa === pedido.numeroMesa);
+        const findAux = aux.findIndex((item) => item.mesa === pedido.numeroMesa);
         if (findAux == -1) {
             aux.push({
                 id: pedido.id,
@@ -40,8 +41,8 @@ export async function formarPendentes() {
             aux[findAux].pedidos.push(pedido);
         }
     });
-    
-    items.insertAdjacentHTML("beforeend",`
+
+    items.insertAdjacentHTML("beforeend", `
            <h2>Pendentes</h2>
         `)
     aux.forEach((item) => {
@@ -56,38 +57,50 @@ export async function formarPendentes() {
     // Adicionar evento a cada item criado dinamicamente
     document.querySelectorAll(".modal1").forEach((modalPedidoElement, index) => {
         modalPedidoElement.addEventListener("click", () => {
-            console.log("click de abertura do modal",modalPedidoElement, "click 1")
+            // Verificar se o usuário tem permissão
+            if (usuarioSalvo !== "admin@admin.com" && usuarioSalvo !== "cozinha@gmail.com") {
+                return; // Impede a execução do restante do código
+            }
+
+            console.log("click de abertura do modal", modalPedidoElement, "click 1");
             const body = document.querySelector("body");
-            console.log(aux[index],"pedido cozinha no index")
+            console.log(aux[index], "pedido cozinha no index");
+
             body.insertAdjacentHTML("beforeend", `
-                <div class="wapper">
-                    <div class="modalNovoCardapio">
-                        <form id="formItemCardapio" class="formItemCardapio">
-                            <button type="button" class="sairDoPedido">X</button>
-                            <h1 class="tituloModal">Detalhes do Pedido</h1>
-                            <p>Mesa: ${PedidoCozinhas[index]?.numeroMesa ?? ""}</p>
-                            <p>Cliente: ${PedidoCozinhas[index]?.nomeCliente ?? ""}</p>
-                            
-                            <!-- Contêiner para itens do pedido -->
-                            <div id="pedidoItensContainer"></div>
-                            <button type="button" id="btnAvancar" class="btnAvancar">Avançar Pedido</button>
-                        </form>
-                    </div>
+            <div class="wapper">
+                <div class="modalNovoCardapio">
+                    <form id="formItemCardapio" class="formItemCardapio">
+                        <button type="button" class="sairDoPedido">X</button>
+                        <h1 class="tituloModal">Detalhes do Pedido</h1>
+                        <p>Mesa: ${aux[index]?.mesa ?? ""}</p>
+                        <p>Cliente: ${aux[index]?.nomeCliente ?? ""}</p>
+                        
+                        <!-- Contêiner para itens do pedido -->
+                        <div id="pedidoItensContainer"></div>
+                        <button type="button" id="btnAvancar" class="btnAvancar">Avançar Pedido</button>
+                        <button type="button" id="imprimirItem" class="btnImprimir">Imprimir Pedido</button>
+                    </form>
                 </div>
+            </div>
             `);
 
             // Seleciona o contêiner onde os itens do pedido serão adicionados
             const pedidoItensContainer = document.getElementById("pedidoItensContainer");
-            
+
             console.log(aux[index], "ordem");
             // Adiciona cada item do pedido ao contêiner
-            if(aux[index] && aux[index].pedidos){
-            aux[index].pedidos.forEach((pedido) => {
-                pedidoItensContainer.insertAdjacentHTML("beforeend", `
+            if (aux[index] && aux[index].pedidos) {
+                aux[index].pedidos.forEach((pedido) => {
+                    pedidoItensContainer.insertAdjacentHTML("beforeend", `
                     <p>Item: ${pedido.titulo}</p>
                 `);
-            });
+                });
             }
+
+            const btnPrint = document.querySelector("#imprimirItem")
+            btnPrint.addEventListener("click", () => {
+                imprimir(aux[index])
+            })
 
             // Botão para fechar o modal
             const btnSairModalEditar = document.querySelector(".sairDoPedido");
@@ -96,34 +109,33 @@ export async function formarPendentes() {
                 modal.remove();
             });
 
-            // Botão para avançar o pedidoc
-            
+            // Botão para avançar o pedido
             const btnAvancar = document.getElementById("btnAvancar");
             btnAvancar.addEventListener("click", async () => {
-                for(let pedido of aux[index].pedidos){
-                const res = await fetch(`${baseUrl}/PedidoCozinhas/${pedido.id}`, {
-                    headers: headers,
-                    method: "PUT",
-                    body: JSON.stringify({
-                        novoStatusId: 2
-                    })
-                });
-                if (res.ok) {
-                    const modal = document.querySelector(".wapper");
-                    if(modal){
+                for (let pedido of aux[index].pedidos) {
+                    const res = await fetch(`${baseUrl}/PedidoCozinhas/${pedido.id}`, {
+                        headers: headers,
+                        method: "PUT",
+                        body: JSON.stringify({
+                            novoStatusId: 2
+                        })
+                    });
+                    if (res.ok) {
+                        const modal = document.querySelector(".wapper");
+                        if (modal) {
 
-                        modal.remove();
+                            modal.remove();
+                        }
+                    } else {
+                        alert("Erro ao avançar o pedido.");
                     }
-                } else {
-                    alert("Erro ao avançar o pedido.");
+                    formarPendentes();
+                    formarAndamento();
                 }
-                formarPendentes();
-                formarAndamento();
-            }
             });
         });
     });
-    
+
 }
 
 // Função para formar os pedidos que vão para a cozinha (Em andamento)
@@ -133,7 +145,7 @@ export async function formarAndamento(params) {
     });
     const PedidoCozinhas = await resposta.json();
     const items = document.getElementById("andamento");
-    items.innerHTML =""
+    items.innerHTML = ""
     console.log(PedidoCozinhas, "pedidos cozinha");
 
     let aux = [];
@@ -151,7 +163,7 @@ export async function formarAndamento(params) {
         }
     });
     console.log(aux, "ordem", PedidoCozinhas);
-    items.insertAdjacentHTML("beforeend",`
+    items.insertAdjacentHTML("beforeend", `
         <h2>Em Andamento</h2>
      `)
 
@@ -163,76 +175,79 @@ export async function formarAndamento(params) {
         `);
     });
 
-        // Adicionar evento a cada item criado dinamicamente
-        document.querySelectorAll(".modal2").forEach((modalPedidoElement, index) => {
-            modalPedidoElement.addEventListener("click", () => {
-                const body = document.querySelector("body");
-                console.log("click 2")
-                body.insertAdjacentHTML("beforeend", `
+    // Adicionar evento a cada item criado dinamicamente
+    document.querySelectorAll(".modal2").forEach((modalPedidoElement, index) => {
+        modalPedidoElement.addEventListener("click", () => {
+            if (usuarioSalvo !== "admin@admin.com" && usuarioSalvo !== "cozinha@gmail.com") {
+                return; // Impede a execução do restante do código
+            }
+            const body = document.querySelector("body");
+            console.log("click 2")
+            body.insertAdjacentHTML("beforeend", `
                     <div class="wapper">
                         <div class="modalNovoCardapio">
                             <form id="formItemCardapio" class="formItemCardapio">
                                 <button type="button" class="sairDoPedido">X</button>
                                 <h1 class="tituloModal">Detalhes do Pedido</h1>
-                                <p>Mesa: ${PedidoCozinhas[index]?.numeroMesa ?? ""}</p>
-                                <p>Cliente: ${PedidoCozinhas[index]?.nomeCliente ?? ""}</p>
+                                <p>Mesa: ${aux[index]?.mesa ?? ""}</p>
+                                <p>Cliente: ${aux[index]?.nomeCliente ?? ""}</p>
+                                
                                 <!-- Contêiner para itens do pedido -->
                                 <div id="pedidoItensContainer"></div>
-    
                                 <button type="button" id="btnAvancar" class="btnAvancar">Concluir Pedido</button>
                             </form>
                         </div>
                     </div>
                 `);
-    
-                // Seleciona o contêiner onde os itens do pedido serão adicionados
-                const pedidoItensContainer = document.getElementById("pedidoItensContainer");
-    
-                // Adiciona cada item do pedido ao contêiner
-                if(aux[index]  && aux[index].pedidos){
-                    aux[index].pedidos.forEach((pedido) => {
-                        pedidoItensContainer.insertAdjacentHTML("beforeend", `
+
+            // Seleciona o contêiner onde os itens do pedido serão adicionados
+            const pedidoItensContainer = document.getElementById("pedidoItensContainer");
+
+            // Adiciona cada item do pedido ao contêiner
+            if (aux[index] && aux[index].pedidos) {
+                aux[index].pedidos.forEach((pedido) => {
+                    pedidoItensContainer.insertAdjacentHTML("beforeend", `
                             <p>Item: ${pedido.titulo}</p>
                         `);
-                    });
-                }
-    
-                // Botão para fechar o modal
-                const btnSairModalEditar = document.querySelector(".sairDoPedido");
-                btnSairModalEditar.addEventListener("click", () => {
-                    const modal = document.querySelector(".wapper");
-                    modal.remove();
                 });
-    
-                // Botão para avançar o pedido
-                console.log(aux[index],"id pedidos aki")
-                const btnAvancar = document.getElementById("btnAvancar");
-                btnAvancar.addEventListener("click",  async() => {
-                    for(let pedido of aux[index].pedidos){
-                        const res = await fetch(`${baseUrl}/PedidoCozinhas/${pedido.id}`, {
-                            headers: headers,
-                            method: "PUT",
-                            body: JSON.stringify({
-                                novoStatusId: 3
-                            })
-                        });
-                        if (res.ok) {
-                            const modal = document.querySelector(".wapper");
-                            console.log(modal,"modal judas")
-                            if(modal){
+            }
 
-                                modal.remove();
-                            }
-                        } else {
-                            alert("Erro ao avançar o pedido.");
+            // Botão para fechar o modal
+            const btnSairModalEditar = document.querySelector(".sairDoPedido");
+            btnSairModalEditar.addEventListener("click", () => {
+                const modal = document.querySelector(".wapper");
+                modal.remove();
+            });
+
+            // Botão para avançar o pedido
+            console.log(aux[index], "id pedidos aki")
+            const btnAvancar = document.getElementById("btnAvancar");
+            btnAvancar.addEventListener("click", async () => {
+                for (let pedido of aux[index].pedidos) {
+                    const res = await fetch(`${baseUrl}/PedidoCozinhas/${pedido.id}`, {
+                        headers: headers,
+                        method: "PUT",
+                        body: JSON.stringify({
+                            novoStatusId: 3
+                        })
+                    });
+                    if (res.ok) {
+                        const modal = document.querySelector(".wapper");
+                        console.log(modal, "modal judas")
+                        if (modal) {
+
+                            modal.remove();
                         }
+                    } else {
+                        alert("Erro ao avançar o pedido.");
                     }
-                    formarAndamento();
-                    formarConcluido();
-             
-                });
+                }
+                formarAndamento();
+                formarConcluido();
+
             });
         });
+    });
 }
 
 // Requisição para buscar os pedidos que vão para a cozinha (Concluidos)
@@ -245,7 +260,7 @@ export async function formarConcluido() {
     // Convertendo a resposta para JSON
     const PedidoCozinhas = await resposta.json();
     const items = document.getElementById("concluidos");
-    items.innerHTML= ""
+    items.innerHTML = ""
     console.log(PedidoCozinhas, "pedidos cozinha");
 
     let aux = [];
@@ -263,7 +278,7 @@ export async function formarConcluido() {
         }
     });
     console.log(aux, "ordem", PedidoCozinhas);
-    items.insertAdjacentHTML("beforeend",`
+    items.insertAdjacentHTML("beforeend", `
         <h2>Concluídos</h2>
      `)
 
@@ -278,12 +293,14 @@ export async function formarConcluido() {
     // Adicionar evento a cada item criado dinamicamente
     document.querySelectorAll(".modal3").forEach((modalPedidoElement) => {
         const pedidoId = modalPedidoElement.id; // Obtém o ID do pedido diretamente
-    
         modalPedidoElement.addEventListener("click", () => {
+            if (usuarioSalvo !== "admin@admin.com" && usuarioSalvo !== "cozinha@gmail.com") {
+                return; // Impede a execução do restante do código
+            }
             console.log("click 3");
             const body = document.querySelector("body");
             const pedidoSelecionado = aux.find((item) => item.id === parseInt(pedidoId)); // Busca o pedido correto
-    
+
             body.insertAdjacentHTML("beforeend", `
                 <div class="wapper">
                     <div class="modalNovoCardapio">
@@ -298,10 +315,10 @@ export async function formarConcluido() {
                     </div>
                 </div>
             `);
-    
+
             // Seleciona o contêiner onde os itens do pedido serão adicionados
             const pedidoItensContainer = document.getElementById("pedidoItensContainer");
-    
+
             // Adiciona cada item do pedido ao contêiner
             if (pedidoSelecionado && pedidoSelecionado.pedidos) {
                 pedidoSelecionado.pedidos.forEach((pedido) => {
@@ -310,7 +327,7 @@ export async function formarConcluido() {
                     `);
                 });
             }
-    
+
             // Botão para fechar o modal
             const btnSairModalEditar = document.querySelector(".sairDoPedido");
             btnSairModalEditar.addEventListener("click", () => {
@@ -321,6 +338,39 @@ export async function formarConcluido() {
     });
 
 }
+
+/**
+ * 
+ * @param {nome do cliente, mesa, lista de produtos com seus titulos} pedido 
+ */
+export function imprimir(pedido) {
+
+    let texto = `Pedido --- ${pedido.nomeCliente}<br>`
+    let itens = "Itens do pedido: <br><br>"
+    let mesa = `<br><p> Mesa: ${pedido.mesa}</p><br>`
+    pedido.pedidos.forEach((produto) => {
+        itens += `*${produto.titulo}<br>`;
+
+    })
+    texto += mesa + itens
+    const win = window.open('', '', 'width=800,height=600');
+    win.document.write('<html><head ><title>Pedido</title>');
+    win.document.write('</head><body>');
+    win.document.write(texto);
+    win.document.write('</body></html>');
+    win.document.close(); // necessary for IE >= 10
+    win.focus(); // necessary for IE >= 10*/
+
+    // Adiciona um pequeno atraso antes de disparar a impressão
+    setTimeout(function () {
+        win.print();
+        win.close();
+    }, 1000);
+}
+
+
+
+
 // Chama as funções
 formarPendentes();
 formarAndamento();

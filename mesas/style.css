@@ -6,6 +6,7 @@ body {
 }
 
 header {
+    height: 60px;
     background-color: #333;
     color: white;
     padding: 15px;
@@ -14,27 +15,48 @@ header {
     align-items: center;
 }
 
+
 .back-button, .addMesa {
-    background-color: #4CAF50;
+    background-color: #e38412;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 17px 28px;
     cursor: pointer;
     border-radius: 4px;
 }
+select{
+    height: 23px;
+    width: 23%;
+    border-radius: 8px;
+    margin-top: 8px;
+}
 
 .back-button:hover, .addMesa:hover {
-    background-color: #45a049;
+    background-color: #b3690e;
 }
 
 .container {
     padding: 20px;
+}
+.numeroMesa{
+    font-size: x-large;
 }
 
 .mesas-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
+}
+.btnSalvarMesa{
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.btnSalvarMesa:hover{
+    background-color: #369139;
 }
 
 .mesa-card {
@@ -57,9 +79,22 @@ header {
     align-items: center;
     margin-bottom: 10px;
 }
+.botoesSalvarExcluir{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: row-reverse
+}
+img{
+    width: 48%;
+}
+.mesa-status{
+    padding-top: 12px;
+    font-size: larger;
+}
 
 .modal {
-    display: none;
+  
     position: fixed;
     z-index: 1;
     left: 0;
@@ -115,7 +150,7 @@ header {
 }
 
 .submit-btn, .btnExcluirMesa {
-    background-color: #4CAF50;
+    background-color: #cf5300;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -124,5 +159,61 @@ header {
 }
 
 .submit-btn:hover, .btnExcluirMesa:hover {
-    background-color: #45a049;
+    background-color: #9e3200;
+}
+
+
+.wapper {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(32, 32, 32, 0.6); /* Fundo mais suave */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Garante que o modal ficará por cima */
+}
+
+/* Estilo do modal de erro */
+.modalErroDePermissao {
+    background-color: #e38412;
+    color: black;
+    border-radius: 10px; 
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Organiza os itens em coluna */
+    align-items: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Adiciona uma sombra */
+}
+
+/* Título de erro */
+.modalErroDePermissao h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Texto do modal */
+.modalErroDePermissao p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.fecharModalPermissao {
+    padding: 10px 20px;
+    background-color: #c0392b;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: background-color 0.3s ease;
+}
+
+.fecharModalPermissao:hover {
+    background-color: #e74c3c; /* Altera a cor do botão ao passar o mouse */
 }

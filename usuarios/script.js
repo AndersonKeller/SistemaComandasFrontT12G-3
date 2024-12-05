@@ -169,7 +169,6 @@ btnmodal.addEventListener("click", () => {
 
 
 function verificaNovoUsuario(){
-    console.log("entrou no verifica")
     const nome =  document.getElementById("userNome");
     const email =  document.getElementById("userEmail");
     const senha =  document.getElementById("userSenha");
@@ -187,7 +186,22 @@ function verificaNovoUsuario(){
         senhaUsuario = '';
     }
     else {
-        alert('Por favor, insira um nome, um preço e uma descrição válidos.');
+        const body = document.querySelector("body");
+        body.insertAdjacentHTML("beforeend", `
+            <div class="wapperErro">
+                <div class="modalErroDePermissao">
+                    <button class="fecharModalPermissao" id="fecharModalPermissao">X</button>
+                    <h2>Erro!</h1>
+                    <h2>Preencha todos os campos corretamente</h2>
+                </div>
+            </div>
+            `);
+
+        const btnSairModalEditar = document.getElementById("fecharModalPermissao");
+        btnSairModalEditar.addEventListener("click", () => {
+            const modal = document.querySelector(".wapperErro");
+            modal.remove();
+        });
     }
 }
 
