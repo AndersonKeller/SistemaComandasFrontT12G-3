@@ -6,7 +6,6 @@ const headers = {
 
    
 async function carregarUsuarios() {
-    console.log('logison')
     try {
         const response = await fetch(`${baseUrl}/Usuarios`);
         const usuarios = await response.json();
@@ -43,7 +42,6 @@ function renderizarUsuarios(usuarios) {
 }
 
 function mostrarModal(usuario) {
-    console.log(usuario,"usuario")
     document.body.insertAdjacentHTML("beforeend",`
         <div id="userModal" class="modal">
             <div class="modal-content">
@@ -78,7 +76,6 @@ function mostrarModal(usuario) {
 
     const btnmodal = document.querySelector(".close-btn")
     btnmodal.addEventListener("click", () => {
-        console.log("click")
         const modal = document.querySelector(".modal")
         modal.remove()
     })
@@ -162,10 +159,9 @@ botaoAdicionarUsuario.addEventListener("submit", (e)=>{
 
 
 const btnmodal = document.querySelector(".close-btn") //btn sair do ADICIONAR Usuario
-btnmodal.addEventListener("click", () => {
-        console.log("click")
+    btnmodal.addEventListener("click", ()=>{
         const modal = document.querySelector(".modal")
-        modal .remove()
+        modal.remove()
     })
 
 
@@ -214,9 +210,7 @@ async function addUsuario(novoUsuario) { //funcao que add o novo usuario (POST)
         headers: headers,
         body: JSON.stringify(novoUsuario)
     })
-    console.log(res)
     const resJson = await res.json()
-    console.log(resJson)
 }
 
 async function excluirUsuario(id) { //funcao que exclui Usuario (DELETE)
@@ -225,7 +219,6 @@ async function excluirUsuario(id) { //funcao que exclui Usuario (DELETE)
         headers: headers
 
     })
-    console.log(res)
     
 }
 
