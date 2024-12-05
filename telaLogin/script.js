@@ -9,7 +9,6 @@ const headers = {
 // Função de login assíncrona
 async function login() {
   // Captura os elementos de input
-  console.log("aqui")
   const email = document.getElementById("username");
   const pass = document.getElementById("password");
 
@@ -43,7 +42,22 @@ async function login() {
         
         });
         if(!usuario){
-          alert('Credenciais inválidas. Tente novamente.');
+          const body = document.querySelector("body");
+          body.insertAdjacentHTML("beforeend", `
+              <div class="wapper">
+                  <div class="modalErroDePermissao">
+                      <button class="fecharModalPermissao" id="fecharModalPermissao">X</button>
+                      <h1>Erro!</h1>
+                      <h2>Usuário não encontrado</h2>
+                  </div>
+              </div>
+          `);
+
+          const btnSairModalEditar = document.getElementById("fecharModalPermissao");
+          btnSairModalEditar.addEventListener("click", () => {
+              const modal = document.querySelector(".wapper");
+              modal.remove();
+          });
           return
         }
         // Verificação específica para o email admin
@@ -56,14 +70,43 @@ async function login() {
         
       } else {
         // Usuário não encontrado
-        console.log("Nenhum usuário encontrado com essas credenciais");
-        alert('Credenciais inválidas. Tente novamente.');
+        const body = document.querySelector("body");
+        body.insertAdjacentHTML("beforeend", `
+            <div class="wapper">
+                <div class="modalErroDePermissao">
+                    <button class="fecharModalPermissao" id="fecharModalPermissao">X</button>
+                    <h1>Erro!</h1>
+                    <h2>Usuário não encontrado</h2>
+                </div>
+            </div>
+        `);
+
+        const btnSairModalEditar = document.getElementById("fecharModalPermissao");
+        btnSairModalEditar.addEventListener("click", () => {
+            const modal = document.querySelector(".wapper");
+            modal.remove();
+        });
       }
 
   } catch (error) {
-      console.error('Erro no login:', error);
+      
       // Tratamento de erro
-      alert('Falha no login. Verifique suas credenciais.');
+      const body = document.querySelector("body");
+      body.insertAdjacentHTML("beforeend", `
+          <div class="wapper">
+              <div class="modalErroDePermissao">
+                  <button class="fecharModalPermissao" id="fecharModalPermissao">X</button>
+                  <h1>Erro!</h1>
+                  <h2>Usuário não encontrado</h2>
+              </div>
+          </div>
+      `);
+
+      const btnSairModalEditar = document.getElementById("fecharModalPermissao");
+      btnSairModalEditar.addEventListener("click", () => {
+          const modal = document.querySelector(".wapper");
+          modal.remove();
+      });
   }
 }
 

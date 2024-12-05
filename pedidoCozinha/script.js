@@ -24,7 +24,7 @@ export async function formarPendentes() {
     const PedidoCozinhas = await resposta.json();
     const items = document.getElementById("pendentes");
     items.innerHTML = ""
-    console.log(PedidoCozinhas, "pedidos cozinha");
+
 
 
     let aux = [];
@@ -62,9 +62,9 @@ export async function formarPendentes() {
                 return; // Impede a execução do restante do código
             }
 
-            console.log("click de abertura do modal", modalPedidoElement, "click 1");
+            
             const body = document.querySelector("body");
-            console.log(aux[index], "pedido cozinha no index");
+            
 
             body.insertAdjacentHTML("beforeend", `
             <div class="wapper">
@@ -87,7 +87,7 @@ export async function formarPendentes() {
             // Seleciona o contêiner onde os itens do pedido serão adicionados
             const pedidoItensContainer = document.getElementById("pedidoItensContainer");
 
-            console.log(aux[index], "ordem");
+            
             // Adiciona cada item do pedido ao contêiner
             if (aux[index] && aux[index].pedidos) {
                 aux[index].pedidos.forEach((pedido) => {
@@ -127,7 +127,7 @@ export async function formarPendentes() {
                             modal.remove();
                         }
                     } else {
-                        alert("Erro ao avançar o pedido.");
+                        console.log("Erro ao avançar o pedido.");
                     }
                     formarPendentes();
                     formarAndamento();
@@ -146,7 +146,7 @@ export async function formarAndamento(params) {
     const PedidoCozinhas = await resposta.json();
     const items = document.getElementById("andamento");
     items.innerHTML = ""
-    console.log(PedidoCozinhas, "pedidos cozinha");
+    
 
     let aux = [];
     PedidoCozinhas.forEach((pedido) => {
@@ -162,7 +162,7 @@ export async function formarAndamento(params) {
             aux[findAux].pedidos.push(pedido);
         }
     });
-    console.log(aux, "ordem", PedidoCozinhas);
+    
     items.insertAdjacentHTML("beforeend", `
         <h2>Em Andamento</h2>
      `)
@@ -182,7 +182,7 @@ export async function formarAndamento(params) {
                 return; // Impede a execução do restante do código
             }
             const body = document.querySelector("body");
-            console.log("click 2")
+            
             body.insertAdjacentHTML("beforeend", `
                     <div class="wapper">
                         <div class="modalNovoCardapio">
@@ -220,7 +220,7 @@ export async function formarAndamento(params) {
             });
 
             // Botão para avançar o pedido
-            console.log(aux[index], "id pedidos aki")
+            
             const btnAvancar = document.getElementById("btnAvancar");
             btnAvancar.addEventListener("click", async () => {
                 for (let pedido of aux[index].pedidos) {
@@ -233,13 +233,13 @@ export async function formarAndamento(params) {
                     });
                     if (res.ok) {
                         const modal = document.querySelector(".wapper");
-                        console.log(modal, "modal judas")
+                        
                         if (modal) {
 
                             modal.remove();
                         }
                     } else {
-                        alert("Erro ao avançar o pedido.");
+                        console.log("Erro ao avançar o pedido.");
                     }
                 }
                 formarAndamento();
@@ -261,7 +261,7 @@ export async function formarConcluido() {
     const PedidoCozinhas = await resposta.json();
     const items = document.getElementById("concluidos");
     items.innerHTML = ""
-    console.log(PedidoCozinhas, "pedidos cozinha");
+    
 
     let aux = [];
     PedidoCozinhas.forEach((pedido) => {
@@ -277,7 +277,7 @@ export async function formarConcluido() {
             aux[findAux].pedidos.push(pedido);
         }
     });
-    console.log(aux, "ordem", PedidoCozinhas);
+    
     items.insertAdjacentHTML("beforeend", `
         <h2>Concluídos</h2>
      `)
@@ -297,7 +297,7 @@ export async function formarConcluido() {
             if (usuarioSalvo !== "admin@admin.com" && usuarioSalvo !== "cozinha@gmail.com") {
                 return; // Impede a execução do restante do código
             }
-            console.log("click 3");
+            
             const body = document.querySelector("body");
             const pedidoSelecionado = aux.find((item) => item.id === parseInt(pedidoId)); // Busca o pedido correto
 
