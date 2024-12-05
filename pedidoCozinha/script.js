@@ -191,9 +191,9 @@ export async function formarAndamento(params) {
                                 <h1 class="tituloModal">Detalhes do Pedido</h1>
                                 <p>Mesa: ${aux[index]?.mesa ?? ""}</p>
                                 <p>Cliente: ${aux[index]?.nomeCliente ?? ""}</p>
+                                
                                 <!-- Contêiner para itens do pedido -->
                                 <div id="pedidoItensContainer"></div>
-    
                                 <button type="button" id="btnAvancar" class="btnAvancar">Concluir Pedido</button>
                             </form>
                         </div>
@@ -345,11 +345,11 @@ export async function formarConcluido() {
  */
 export function imprimir(pedido) {
 
-    let texto = `Pedido --- ${pedido.nomeCliente}<br>`
-    let itens = "Itens do pedido: <br><br>"
-    let mesa = `<br><p> Mesa: ${pedido.mesa}</p><br>`
+    let texto = `<br><p style="text-align: center; line-height: 1.8;">Cliente: ${pedido.nomeCliente}</p><br>`;
+    let mesa = `<br><p style="text-align: center; line-height: 1.8;">Mesa: ${pedido.mesa}</p><br>`;
+    let itens = `<br><p style="text-align: center; line-height: 1.8;">Itens do pedido:</p><br>`;
     pedido.pedidos.forEach((produto) => {
-        itens += `*${produto.titulo}<br>`;
+        itens += `${produto.titulo}<br>`;
 
     })
     texto += mesa + itens
