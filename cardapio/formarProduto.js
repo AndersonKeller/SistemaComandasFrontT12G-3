@@ -50,7 +50,7 @@ function pesquisaItens(text) { //funcao que faz o  filtro de pesquisa
 
 function renderizaLista(seletor, lista = [], isclick = false) { // funcao que renderiza os itens
     // lista.forEach(())
-    console.log(window.location,"location")
+    console.log(window.location, "location")
     const isComanda = window.location.pathname.includes("telaComandas")
     const items = document.querySelector(seletor)
     items.innerHTML = ""
@@ -62,16 +62,16 @@ function renderizaLista(seletor, lista = [], isclick = false) { // funcao que re
                 <p class="item-desc">${item.descricao}</p>
                 <p class="item-price">R$${item.preco}</p>
                 ${usuarioSalvo === "admin@admin.com" && !isclick ?
-                    `
+                `
                     <button class="editar-item" id="${item.id}">Excluir</button>
                     <button class="editar-item add-item" id="${item.id}edit">Editar</button>
-                    `:""
-                    
-                }
-                ${isComanda ? 
-                    `
+                    `: ""
+
+            }
+                ${isComanda ?
+                `
                     <button class="editar-item add-item" id="${item.id}edit">Adicionar</button>
-                    `:""}
+                    `: ""}
             </li>
             `)
 
@@ -135,7 +135,7 @@ function validarUsuario() {
 
     if (usuarioSalvo !== "admin@admin.com" && !window.location.pathname.includes("telaComandas")) {
         const body = document.querySelector("body");
-            body.insertAdjacentHTML("beforeend", `
+        body.insertAdjacentHTML("beforeend", `
                 <div div class= "wapperValidarUsuario" >
                     <div class="modalErroValidarUsuario">
                         <button class="fecharErroValidarUsuario" id="fecharModalPermissao">X</button>
@@ -145,11 +145,11 @@ function validarUsuario() {
                 </div >
             `);
 
-            const btnSairModalValidarUsuario = document.getElementById("fecharModalPermissao");
-            btnSairModalValidarUsuario.addEventListener("click", () => {
-                const modal = document.querySelector(".wapperValidarUsuario");
-                modal.remove();
-            });
+        const btnSairModalValidarUsuario = document.getElementById("fecharModalPermissao");
+        btnSairModalValidarUsuario.addEventListener("click", () => {
+            const modal = document.querySelector(".wapperValidarUsuario");
+            modal.remove();
+        });
         btnCriarProduto.removeEventListener("click", criarProduto);
         return false; // Retorna false para indicar falha na validação
     }
@@ -161,8 +161,8 @@ function validarUsuario() {
 export function criarProduto() {
     const body = document.querySelector("body")
 
-  if(window.location.pathname.includes("cardapio")){
-    body.insertAdjacentHTML("beforeend", `
+    if (window.location.pathname.includes("cardapio")) {
+        body.insertAdjacentHTML("beforeend", `
         < div class= "wapper" >
         <div class="modalNovoCardapio">
             <form id="formItemCardapio">
@@ -189,23 +189,23 @@ export function criarProduto() {
             </form>
         </div>
             `
-)
-const formNovoProduto = document.querySelector("#formItemCardapio") //form do ADICIONAR (ele que tem o click do botao salvar item)
-formNovoProduto.addEventListener("submit", (e) => {
-    console.log("submit")
-    e.preventDefault()
-    verificarNovoProduto() //esta funcao chama a funcao que faz o POST
+        )
+        const formNovoProduto = document.querySelector("#formItemCardapio") //form do ADICIONAR (ele que tem o click do botao salvar item)
+        formNovoProduto.addEventListener("submit", (e) => {
+            console.log("submit")
+            e.preventDefault()
+            verificarNovoProduto() //esta funcao chama a funcao que faz o POST
 
 
-})
+        })
 
-document.body.addEventListener("click", (e) => {
-    if (e.target.classList.contains("sairDoCriarItem")) {
-        const modal = document.querySelector(".wapper");
-        if (modal) modal.remove();
+        document.body.addEventListener("click", (e) => {
+            if (e.target.classList.contains("sairDoCriarItem")) {
+                const modal = document.querySelector(".wapper");
+                if (modal) modal.remove();
+            }
+        });
     }
-});
-  }
 }
 
 function verificarNovoProduto() { //funcao que verifica se os campos estao validos para adicionar o novo item
@@ -243,13 +243,13 @@ function verificarNovoProduto() { //funcao que verifica se os campos estao valid
             const modal = document.querySelector(".wapperErro");
             modal.remove();
         });
-    
-      
+
+
     }
 }
 
 async function addCardapioItemApi(item) { //funcao que add o novo item no cardapio (POST)
-    const res = await fetch(`${ baseUrl } / CardapioItems`, {
+    const res = await fetch(`${baseUrl} / CardapioItems`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify(item)
@@ -263,7 +263,7 @@ async function addCardapioItemApi(item) { //funcao que add o novo item no cardap
 }
 
 async function excluirCardapioItemApi(id) { //funcao que exclui item do cardapio (DELETE)
-    const res = await fetch(`${ baseUrl } / CardapioItems / ${ id }`, {
+    const res = await fetch(`${baseUrl} / CardapioItems / ${id}`, {
         method: "DELETE",
         headers: headers
 
@@ -274,7 +274,7 @@ async function excluirCardapioItemApi(id) { //funcao que exclui item do cardapio
 }
 
 async function EditarProdutoCardapio(item) { // funcao que edita item (PUT)
-    const res = await fetch(`${ baseUrl } / CardapioItems / ${ item.id }`, {
+    const res = await fetch(`${baseUrl} / CardapioItems / ${item.id}`, {
         method: "PUT",
         headers: headers,
         body: JSON.stringify(item)

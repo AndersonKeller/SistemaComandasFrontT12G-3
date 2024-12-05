@@ -191,9 +191,9 @@ export async function formarAndamento(params) {
                                 <h1 class="tituloModal">Detalhes do Pedido</h1>
                                 <p>Mesa: ${aux[index]?.mesa ?? ""}</p>
                                 <p>Cliente: ${aux[index]?.nomeCliente ?? ""}</p>
+                                
                                 <!-- Contêiner para itens do pedido -->
                                 <div id="pedidoItensContainer"></div>
-    
                                 <button type="button" id="btnAvancar" class="btnAvancar">Concluir Pedido</button>
                             </form>
                         </div>
