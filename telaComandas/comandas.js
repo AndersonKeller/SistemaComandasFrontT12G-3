@@ -68,11 +68,11 @@ async function editarComanda(comanda) {
                 </form>
                 <div class="items_comanda"></div>
                 <div class="botoes_comanda">
-                  <button class="abrirCardapio" type="button">Abrir Cardápio</button>
+                  <button class="abrirCardapio" type="button">Abrir Cardápio 📋</button>
                   <button class="salvar-btn">Atualizar comanda 
                       <span style="transform: none;">✔️</span>
                   </button>
-                  <button class="btnExluirComanda">Finalizar comanda</button>
+                  <button class="btnExluirComanda">Finalizar comanda 📌</button>
 
                 </div>
             </div>
@@ -299,8 +299,8 @@ async function criarComanda() {
                 <div class="valorTotal"><div>
 
                 <div class="botoes_comanda">
-                  <button class="abrirCardapio" type="button">Abrir Cardápio</button>
-                  <button class="salvar-btn">Finalizar comanda 
+                  <button class="abrirCardapio" type="button">Abrir Cardápio 📋</button>
+                  <button class="salvar-btn">Finalizar comanda  
                       <span style="transform: none;">✔️</span>
                   </button>
                 </div>
@@ -364,7 +364,7 @@ async function toggleCardapio(isckick) {
   if (existingCardapio) {
     // Fecha o cardápio se já estiver aberto
     existingCardapio.remove();
-    BtnAbrirCardapio.textContent = "Abrir Cardápio";
+    BtnAbrirCardapio.textContent = "Abrir Cardápio 📋";
   } else {
     // Abre o cardápio se ainda não estiver aberto
     console.log("criarCardapio");
@@ -373,7 +373,7 @@ async function toggleCardapio(isckick) {
     
 
     // Atualiza o texto do botão
-    BtnAbrirCardapio.textContent = "Fechar Cardápio";
+    BtnAbrirCardapio.textContent = "Fechar Cardápio 📋";
 
     // Adiciona eventos aos botões de adicionar item
     const btnsAdd = document.querySelectorAll(".add-item");
@@ -534,11 +534,24 @@ async function salvarComanda() {
         });
     return;
   }
+  const divItems = document.querySelector(".items_comanda")
+  const list = Array.from(divItems.children)
 
+  console.log(list,"listitems")
+  const listAdd = list.filter((item)=>!item.getAttribute("style"))
+  console.log(listAdd,"listadd")
+  const mapped = listAdd.map((add)=>{
+    const classe = add.classList[1]
+    const id = classe.split("-")[1]
+    console.log(id)
+    return id.split("e")[0]
+  })
+  console.log(mapped,"mapped")
+  //getAttribute = 
   const body = {
     numeroMesa: mesa,
     nomeCliente: nome,
-    cardapioItems: listitems.map((item) => parseInt(item.split("e")[0])),
+    cardapioItems: mapped.map((item) => parseInt(item)),
   };
 
   console.log("Salvando comanda:", body);
