@@ -19,7 +19,6 @@ async function carregarMesas() {
 }
 
 function renderizarMesas(mesas) {
-    console.log(mesas, "console")
     const grid = document.querySelector('#mesas-grid');
     grid.innerHTML = '';
     mesas.forEach(mesa => {
@@ -43,7 +42,6 @@ function renderizarMesas(mesas) {
 }
 
 function mostrarModal(mesa) {
-    console.log(mesa)
     document.body.insertAdjacentHTML("beforeend", `
         <div id="mesaModal" class="modal">
             <div class="modal-content">
@@ -215,16 +213,13 @@ function verificaNovaMesa() {
 }
 
 async function addMesa(novaMesa) {
-    console.log(novaMesa, "aqui add")
 
     const res = await fetch(`${baseUrl}/Mesas`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify(novaMesa)
     })
-    console.log(res)
     const resJson = await res.json()
-    console.log(resJson)
 }
 
 async function excluirMesa(id) {
@@ -232,7 +227,7 @@ async function excluirMesa(id) {
         method: "DELETE",
         headers: headers
     })
-    console.log(res)
+
 }
 
 async function EditarStatusMesa(mesa) { // funcao que edita a situacao da mesa (ocupada e disponivel) (PUT)
@@ -241,5 +236,4 @@ async function EditarStatusMesa(mesa) { // funcao que edita a situacao da mesa (
         headers: headers,
         body: JSON.stringify(mesa)
     })
-    console.log(res)
 }
