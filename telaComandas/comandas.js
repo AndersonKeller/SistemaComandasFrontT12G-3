@@ -207,7 +207,7 @@ async function atualizarComanda(idItem) {
   const id = comandaId.value;
 
   if (!nome || isNaN(mesa)) {
-    alert("Preencha o nome do cliente e o número da mesa corretamente.");
+    //alert("Preencha o nome do cliente e o número da mesa corretamente.");
     return;
   }
 
