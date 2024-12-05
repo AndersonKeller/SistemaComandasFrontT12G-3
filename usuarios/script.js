@@ -151,12 +151,14 @@ botaoAdicionarUsuario.addEventListener("submit", (e)=>{
     e.preventDefault()
     verificaNovoUsuario()
     const modal = document.querySelector(".modal")
-    modal .remove()
-    setTimeout(()=>{
+    modal.remove()
+    setTimeout(() => {
         location.reload()
-    }
-    ,1000)
+    }, 1000)
+
+
 })
+}
 
 
 const btnmodal = document.querySelector(".close-btn") //btn sair do ADICIONAR Usuario
@@ -165,7 +167,7 @@ btnmodal.addEventListener("click", () => {
         const modal = document.querySelector(".modal")
         modal .remove()
     })
-}
+
 
 
 function verificaNovoUsuario(){

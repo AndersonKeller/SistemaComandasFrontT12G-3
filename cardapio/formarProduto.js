@@ -74,6 +74,52 @@ function renderizaLista(seletor, lista = [], isclick = false) { // funcao que re
                     `:""}
             </li>
             `)
+            const btnEditar = document.getElementById(`${item.id}edit`) //btn editar item
+       if(!isclick){
+           btnEditar.addEventListener("click", () => {
+               console.log(item, "item")
+               const body = document.querySelector("body")
+               body.insertAdjacentHTML("beforeend", `
+           <div class="wapper">
+               <div class="modalNovoCardapio">
+                   <form id="formItemCardapio">
+                       <h1>Editar Item</h1>
+                       <button type="button" class="sairDoCriarItem">X</button>
+                       <label>Nome</label>
+                       <input type="text" value='${item.titulo}' id="addItemInput"/>
+                       <label>Preço</label>
+                       <input type="number" value='${item.preco}' id="addItemPrice"/>
+                       <label>Descrição</label>
+                       <input type="text" value='${item.descricao}' id="descriptionInput"/>
+                       <button type="submit">Salvar</button>
+                   </form>
+               </div>
+                   `)
+
+               const btnSairModalEditar = document.querySelector(".sairDoCriarItem")
+               btnSairModalEditar.addEventListener("click", () => {
+                   const modal = document.querySelector(".wapper")
+                   modal.remove()
+               })
+
+               const form = document.querySelector("form")
+               form.addEventListener("submit", (e) => {
+                   e.preventDefault()
+
+                   const tituloProduto = document.getElementById("addItemInput")
+
+                   const precoProduto = document.getElementById("addItemPrice")
+
+                   const descricaoProduto = document.getElementById("descriptionInput")
+
+                   const obj = { id: item.id, titulo: tituloProduto.value, preco: precoProduto.value, descricao: descricaoProduto.value }
+                   EditarProdutoCardapio(obj)
+               })
+
+           })
+       }
+            
+            
 
         const btnExcluir = document.getElementById(item.id) //abr o modal que exclui item do cardapio
         if (btnExcluir) {
@@ -81,12 +127,13 @@ function renderizaLista(seletor, lista = [], isclick = false) { // funcao que re
                 const body = document.querySelector("body")
 
                 body.insertAdjacentHTML("beforeend", `
-            < div class= "wapper" >
+            <div class= "wapper" >
             <div class="modalRemoverItem">
                 <button type="button" class="sairDoCriarItem">X</button>
                 <p>deseja remover este item?</p>
                 <button class="removerItem_sim">sim</button>
                 <button class="removerItem_nao">não</button>
+            </div>
             </div>`)
 
                 const btnSairModalEditar = document.querySelector(".sairDoCriarItem") //sair do modal editar item
@@ -127,6 +174,7 @@ const btnCriarProduto = document.querySelector(".add"); // Botão que chama a fu
 
 btnCriarProduto.addEventListener("click", () => {
     if (!validarUsuario()) return; // Interrompe a execução se a validação falhar
+    
     criarProduto(); // Apenas chama criarProduto se a validação for bem-sucedida
 });
 
@@ -163,17 +211,17 @@ export function criarProduto() {
 
   if(window.location.pathname.includes("cardapio")){
     body.insertAdjacentHTML("beforeend", `
-        < div class= "wapper" >
+        <div class= "wapper">
         <div class="modalNovoCardapio">
             <form id="formItemCardapio">
                 <h1>Adicionar Novo Item</h1>
                 <button type="button" class="sairDoCriarItem">X</button>
                 <label>Nome</label>
-                <input type="text" id="addItemInput" />
+                    <input type="text" id="addItemInput" />
                 <label>Preço</label>
-                <input type="number" step=".01" id="addItemPrice" />
+                    <input type="number" step=".01" id="addItemPrice" />
                 <label>Descrição</label>
-                <input type="text" id="descriptionInput" />
+                    <input type="text" id="descriptionInput" />
                 <label>Possui Preparo</label>
                 <div class="possuiPreparoDiv">
                     <label class="switch">
@@ -263,7 +311,7 @@ async function addCardapioItemApi(item) { //funcao que add o novo item no cardap
 }
 
 async function excluirCardapioItemApi(id) { //funcao que exclui item do cardapio (DELETE)
-    const res = await fetch(`${ baseUrl } / CardapioItems / ${ id }`, {
+    const res = await fetch(`${ baseUrl }/CardapioItems/${ id }`, {
         method: "DELETE",
         headers: headers
 
@@ -274,7 +322,7 @@ async function excluirCardapioItemApi(id) { //funcao que exclui item do cardapio
 }
 
 async function EditarProdutoCardapio(item) { // funcao que edita item (PUT)
-    const res = await fetch(`${ baseUrl } / CardapioItems / ${ item.id }`, {
+    const res = await fetch(`${ baseUrl }/CardapioItems/${ item.id }`, {
         method: "PUT",
         headers: headers,
         body: JSON.stringify(item)
